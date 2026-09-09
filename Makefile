@@ -39,7 +39,8 @@ style:
 build:
 	uv run python -m src.build $(ARGS)
 
-# keyless check: recompute every report number from the committed evidence
+# keyless check: recheck report arithmetic over the committed evidence
+# (replays recorded verdicts; fresh judgments need keys — see --live)
 verify:
 	uv run python -m src.eval.verify
 

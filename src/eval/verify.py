@@ -1,9 +1,11 @@
-"""Keyless verification of every report number derived from LLM evidence.
+"""Keyless arithmetic check over committed LLM evidence (NOT a re-run).
 
 Reads the committed bundle (data/eval/drafts.json + verdicts.json) and the
 filled rater sheets, recomputes judge-vs-rater agreement, fail-recall, and
-rater kappas, and asserts they match docs/report.md. Zero LLM calls, zero
-network: a grader with no keys gets the same numbers. Run: make verify.
+rater kappas, and asserts they match docs/report.md. It replays recorded
+verdicts — it does not re-judge anything. Fresh judgments need API keys
+(see --live and the rejudge path); this checks our math, not the model.
+Zero LLM calls, zero network. Run: make verify.
 """
 
 import csv
