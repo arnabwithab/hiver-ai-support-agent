@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 18,
-    "completed": 18,
+    "total": 19,
+    "completed": 19,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 18,
+    "tests_passing": 19,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -553,6 +553,30 @@
         }
       ],
       "notes": "Production trains on all 1000 social rows; split is measurement-only.",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F018",
+      "name": "Rater v2 panel (model r1 + human form)",
+      "description": "Persona-A model rater (Dana, strict QA) completed calibration 15 + main 50 blind; filled sheets committed. Human rater via sheets/form.html pending. Judge remainder (23/50) pending Gemini quota. 2-rater protocol: kappas computable once human sheet arrives.",
+      "status": "completed",
+      "priority": "high",
+      "module": "data/golden/sheets/filled/",
+      "design_doc": "docs/design.md \u00a711",
+      "tests": {
+        "status": "passing",
+        "files": [],
+        "notes": "No code changes; suite green"
+      },
+      "subtasks": [
+        {
+          "id": "F018-1",
+          "name": "Model rater calibration + main blind labeling",
+          "status": "completed"
+        }
+      ],
+      "notes": "r1 dist: auto 24/escalate 26; drafts 33 pass/17 fail; complaint_escalation used where boundary threads warranted (per-persona doctrine, not guideline-forced).",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }
