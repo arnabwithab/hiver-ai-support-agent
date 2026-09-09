@@ -3,12 +3,14 @@
 # Thin wrappers only — no business logic. All targets must run green on an
 # empty repo (before F001..F012 are built).
 
-.PHONY: setup dev test style build clean data subsample train verify
+.PHONY: setup dev test style build clean data
 
-# uv sync (idempotent; bootstraps uv itself when missing)
+# uv sync (idempotent; bootstraps uv itself when missing) + cache the
+# sentence encoder now so the first test run doesn't pay the download
 setup:
 	@command -v uv >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
 	@export PATH="$$HOME/.local/bin:$$HOME/.cargo/bin:$$PATH"; uv sync
+	@uv run python -c "from src.intent import EMBEDDING_MODEL; from sentence_transformers import SentenceTransformer; SentenceTransformer(EMBEDDING_MODEL)"
 
 # raw Kaggle dumps (skipped when present; needs the kaggle CLI + credentials)
 data:
@@ -16,15 +18,7 @@ data:
 	@test -f data/raw/banking77/train.csv || kaggle datasets download sssonnn/banking77 -p data/raw/banking77 --unzip
 	@test -f data/raw/twcs/twcs/twcs.csv || kaggle datasets download thoughtvector/customer-support-on-twitter -p data/raw/twcs --unzip
 
-# Chase thread extraction + cross-brand social mining (needs: data)
-subsample:
-	uv run python -m src.subsample
-
-# Phase-A training + ceiling (needs: data, subsample for social rows)
-train:
-	uv run python -m src.intent
-
-# offline pipeline demo: one golden thread, fake LLM clients, no keys
+# offline pipeline demo: one golden thread, fake LLMs
 dev:
 	uv run python -m src.orchestrate
 
@@ -35,14 +29,9 @@ style:
 	uv run black src tests
 	uv run ruff check src tests
 
-# F011: cache-first repro — headlines from cache, live smoke only with keys
+# Headline eval: baselines + shipped head on the locked holdout, live only with --live
 build:
 	uv run python -m src.build $(ARGS)
-
-# keyless check: recheck report arithmetic over the committed evidence
-# (replays recorded verdicts; fresh judgments need keys — see --live)
-verify:
-	uv run python -m src.eval.verify
 
 clean:
 	rm -rf .pytest_cache
