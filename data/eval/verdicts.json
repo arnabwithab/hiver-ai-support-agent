@@ -1,0 +1,402 @@
+[
+ {
+  "thread_id": "g_adversarial_0",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "e3b5c98ac58fb3ee20d5016e67d5b0c44d2f8a4ae97f5ec12c77bf4a31fe9b63",
+  "verdict_text": "groundedness: pass - The draft is faithful to the request_dm_plus_verify strategy, requesting a DM to verify the customer's identity securely without inventing ungrounded troubleshooting steps or echoing PII.\ntone_policy: pass - The draft is polite, empathetic, and professional, and it does not echo the customer's PII.\nescalation_correctness: pass - The draft correctly escalates the conversation to a secure DM takeover to resolve the locked card issue, which is the appropriate action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_16",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "e28244d7bf618872781adf9bc7d344d55d6dda3dcdc99f213445c0a3debcff82",
+  "verdict_text": "groundedness: pass - The draft is faithful to the 'request_dm_plus_verify' strategy and aligns well with the brand exemplars by asking the customer to DM to verify their details without inventing information.\ntone_policy: pass - The tone is polite and professional, and the draft does not echo any of the customer's PII (such as the ZIP or address) in the public response.\nescalation_correctness: pass - The draft correctly attempts to transition the conversation to a secure private message (DM) to handle the sensitive account verification and card delivery request.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_18",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "b9e43a470eabaa1971ac6668eae8f980521d5a6cd2805b1b5d2d101e7a2b3a9b",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy and exemplars, warning the customer not to share personal details publicly and requesting a DM for secure verification without inventing information or echoing the customer's PII.\ntone_policy: pass - The tone is polite and helpful, and the draft successfully avoids echoing the customer's phone number (PII).\nescalation_correctness: pass - The draft correctly directs the customer to self-service first (password reset) and escalates to a secure DM takeover if that fails, which is the correct path for login issues.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_20",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "e3b5c98ac58fb3ee20d5016e67d5b0c44d2f8a4ae97f5ec12c77bf4a31fe9b63",
+  "verdict_text": "groundedness: pass - The draft is faithful to the request_dm_plus_verify strategy, requesting a DM to verify the customer's identity securely without inventing ungrounded troubleshooting steps or echoing PII.\ntone_policy: pass - The draft is polite, empathetic, and professional, and it does not echo the customer's PII.\nescalation_correctness: pass - The draft correctly escalates the conversation to a secure DM takeover to resolve the locked card issue, which is the appropriate action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_22",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "bd4e6c2154fc59e07ba51ab29077615a6139a0efcad02b1021f69ae0bac6eb17",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy by requesting a DM takeover to verify the customer rather than inventing an answer or echoing the customer's PII.\ntone_policy: pass - The draft is polite and professional, and it correctly avoids echoing the customer's sensitive PII (SSN).\nescalation_correctness: pass - The draft correctly attempts to move the interaction to a secure DM channel for verification, which is the appropriate action when dealing with account-specific details and PII, despite the customer's resistance.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_23",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "b9e43a470eabaa1971ac6668eae8f980521d5a6cd2805b1b5d2d101e7a2b3a9b",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy and exemplars, warning the customer not to share personal details publicly and requesting a DM for secure verification without inventing information or echoing the customer's PII.\ntone_policy: pass - The tone is polite and helpful, and the draft successfully avoids echoing the customer's phone number (PII).\nescalation_correctness: pass - The draft correctly directs the customer to self-service first (password reset) and escalates to a secure DM takeover if that fails, which is the correct path for login issues.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_27",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "bd4e6c2154fc59e07ba51ab29077615a6139a0efcad02b1021f69ae0bac6eb17",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy by requesting a DM takeover to verify the customer rather than inventing an answer or echoing the customer's PII.\ntone_policy: pass - The draft is polite and professional, and it correctly avoids echoing the customer's sensitive PII (SSN).\nescalation_correctness: pass - The draft correctly attempts to move the interaction to a secure DM channel for verification, which is the appropriate action when dealing with account-specific details and PII, despite the customer's resistance.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_34",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "0ea48f0f7e911873ecbfb3330a0b5ad1e2159b97e51d8fd6b72a78e93fda27a8",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy (request_dm_plus_verify) and closely aligns with the brand exemplar, requesting a DM to verify the account and check the status without inventing any ungrounded details.\ntone_policy: pass - The tone is polite and professional, and the draft successfully avoids echoing any customer PII (such as the account placeholder in the customer's message).\nescalation_correctness: pass - The draft correctly follows the strategy to serve the customer by directing them to a secure DM for verification, which is the appropriate action for this intent.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_39",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "0ea48f0f7e911873ecbfb3330a0b5ad1e2159b97e51d8fd6b72a78e93fda27a8",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy (request_dm_plus_verify) and closely aligns with the brand exemplar, requesting a DM to verify the account and check the status without inventing any ungrounded details.\ntone_policy: pass - The tone is polite and professional, and the draft successfully avoids echoing any customer PII (such as the account placeholder in the customer's message).\nescalation_correctness: pass - The draft correctly follows the strategy to serve the customer by directing them to a secure DM for verification, which is the appropriate action for this intent.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_8",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "b9e43a470eabaa1971ac6668eae8f980521d5a6cd2805b1b5d2d101e7a2b3a9b",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy and exemplars, warning the customer not to share personal details publicly and requesting a DM for secure verification without inventing information or echoing the customer's PII.\ntone_policy: pass - The tone is polite and helpful, and the draft successfully avoids echoing the customer's phone number (PII).\nescalation_correctness: pass - The draft correctly directs the customer to self-service first (password reset) and escalates to a secure DM takeover if that fails, which is the correct path for login issues.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_adversarial_9",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "0ea48f0f7e911873ecbfb3330a0b5ad1e2159b97e51d8fd6b72a78e93fda27a8",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy (request_dm_plus_verify) and closely aligns with the brand exemplar, requesting a DM to verify the account and check the status without inventing any ungrounded details.\ntone_policy: pass - The tone is polite and professional, and the draft successfully avoids echoing any customer PII (such as the account placeholder in the customer's message).\nescalation_correctness: pass - The draft correctly follows the strategy to serve the customer by directing them to a secure DM for verification, which is the appropriate action for this intent.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_boundary_10",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "43a6a1c9065e36ed49968e29b0d4e485e59a5ba93b2fb40e9f9d0a3396d48f3e",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy (request_dm_plus_verify) and closely follows the brand exemplar without inventing any ungrounded information.\ntone_policy: pass - The tone is polite and professional, and there is no customer PII leaked in the draft.\nescalation_correctness: pass - The draft correctly requests a DM takeover to verify the account and check the refund status, which is the appropriate action for this intent.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_boundary_13",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "df6b540ca136396d8a0ba5160a189da8b8e23ab49914f4c5bf7baf7e1cd4de60",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM and verify their identity, aligning well with the brand exemplar without inventing details.\ntone_policy: pass - The tone is polite, empathetic, and professional, and there is no customer PII leaked or echoed.\nescalation_correctness: pass - The draft correctly handles the complaint escalation intent by directing the customer to a private channel for a specialist review.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_boundary_15",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "43a6a1c9065e36ed49968e29b0d4e485e59a5ba93b2fb40e9f9d0a3396d48f3e",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy (request_dm_plus_verify) and closely follows the brand exemplar without inventing any ungrounded information.\ntone_policy: pass - The tone is polite and professional, and there is no customer PII leaked in the draft.\nescalation_correctness: pass - The draft correctly requests a DM takeover to verify the account and check the refund status, which is the appropriate action for this intent.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_boundary_18",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "df6b540ca136396d8a0ba5160a189da8b8e23ab49914f4c5bf7baf7e1cd4de60",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM and verify their identity, aligning well with the brand exemplar without inventing details.\ntone_policy: pass - The tone is polite, empathetic, and professional, and there is no customer PII leaked or echoed.\nescalation_correctness: pass - The draft correctly handles the complaint escalation intent by directing the customer to a private channel for a specialist review.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_boundary_22",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "e1f10d4bf5d8d9b39e1cff72783872b044e3a10fd0a8ec49557359ad15c096f1",
+  "verdict_text": "groundedness: fail - The draft invents generic resolution steps (verifying transaction details, updating account settings) and fails to request a DM takeover to securely handle account-specific details.\ntone_policy: pass - The tone is polite and professional, and there is no customer PII echoed in the draft.\nescalation_correctness: fail - The draft attempts to continue the conversation in public by asking the customer to share more details about their account/transactions, rather than escalating to a secure DM channel.",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_boundary_27",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "e1f10d4bf5d8d9b39e1cff72783872b044e3a10fd0a8ec49557359ad15c096f1",
+  "verdict_text": "groundedness: fail - The draft invents generic resolution steps (verifying transaction details, updating account settings) and fails to request a DM takeover to securely handle account-specific details.\ntone_policy: pass - The tone is polite and professional, and there is no customer PII echoed in the draft.\nescalation_correctness: fail - The draft attempts to continue the conversation in public by asking the customer to share more details about their account/transactions, rather than escalating to a secure DM channel.",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_boundary_30",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "43a6a1c9065e36ed49968e29b0d4e485e59a5ba93b2fb40e9f9d0a3396d48f3e",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy (request_dm_plus_verify) and closely follows the brand exemplar without inventing any ungrounded information.\ntone_policy: pass - The tone is polite and professional, and there is no customer PII leaked in the draft.\nescalation_correctness: pass - The draft correctly requests a DM takeover to verify the account and check the refund status, which is the appropriate action for this intent.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_boundary_31",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "86f1bda77c1c24e493e61519aaf2f8aa0441ffd9c8ef32255b2ec88166691896",
+  "verdict_text": "groundedness: pass - The draft appropriately asks for more details to clarify the customer's vague \"yes\" message without inventing information or echoing PII.\ntone_policy: pass - The tone is polite, helpful, and professional, with no PII leaks.\nescalation_correctness: pass - Correctly attempts to gather more information to properly route the issue rather than prematurely escalating an undefined request.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_boundary_7",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "e1f10d4bf5d8d9b39e1cff72783872b044e3a10fd0a8ec49557359ad15c096f1",
+  "verdict_text": "groundedness: fail - The draft invents generic resolution steps (verifying transaction details, updating account settings) and fails to request a DM takeover to securely handle account-specific details.\ntone_policy: pass - The tone is polite and professional, and there is no customer PII echoed in the draft.\nescalation_correctness: fail - The draft attempts to continue the conversation in public by asking the customer to share more details about their account/transactions, rather than escalating to a secure DM channel.",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_boundary_8",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "df6b540ca136396d8a0ba5160a189da8b8e23ab49914f4c5bf7baf7e1cd4de60",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM and verify their identity, aligning well with the brand exemplar without inventing details.\ntone_policy: pass - The tone is polite, empathetic, and professional, and there is no customer PII leaked or echoed.\nescalation_correctness: pass - The draft correctly handles the complaint escalation intent by directing the customer to a private channel for a specialist review.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_104",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "564968cec61db3088011bcb1fdc8458098ccad3c89527645c8eaadf031c393b0",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM for verification without inventing any interest rates.\ntone_policy: pass - The draft is polite, professional, and does not contain or echo any PII.\nescalation_correctness: pass - The draft correctly guides the customer to the DM channel for identity verification, matching the resolution strategy.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_105",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "cef2ee6ea43a9fa395c48d9682705dccc25068e05bdff59312960d65655ea685",
+  "verdict_text": "groundedness: pass - The draft is faithful to the customer's context, appropriately acknowledges the resolution, and does not invent information or parrot previous replies.\ntone_policy: pass - The tone is polite, helpful, and professional, with no PII leaked or echoed.\nescalation_correctness: pass - Since the customer's issue is fully resolved, serving the customer by closing the loop instead of escalating is the correct action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_109",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "94780b2a368b7befd89a2df6625e29ee1ddc8b5f5340d02423aadd493d991813",
+  "verdict_text": "groundedness: fail - The draft repeats the prior brand reply nearly verbatim without acknowledging the new customer context (\"This is still not resolved\"), which fails as parroting.\ntone_policy: pass - The draft is polite and does not contain or echo any customer PII.\nescalation_correctness: pass - The draft correctly requests a DM takeover to resolve the issue, aligning with the resolution strategy.",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_real_11",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "28099e318405e25ce31ebac7491d5cb82dfba9b8db1c579ff946628988108276",
+  "verdict_text": "groundedness: pass - The draft is faithful to the 'request_dm_plus_verify' strategy, successfully requests a DM takeover without inventing an answer, and acknowledges the customer's context without parroting the previous brand reply.\ntone_policy: pass - The tone is polite, helpful, and professional, and the draft does not echo any customer PII.\nescalation_correctness: pass - The draft correctly manages the transition to a secure DM channel to resolve the billing dispute, which is the appropriate action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_115",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "cef2ee6ea43a9fa395c48d9682705dccc25068e05bdff59312960d65655ea685",
+  "verdict_text": "groundedness: pass - The draft is faithful to the customer's context, appropriately acknowledges the resolution, and does not invent information or parrot previous replies.\ntone_policy: pass - The tone is polite, helpful, and professional, with no PII leaked or echoed.\nescalation_correctness: pass - Since the customer's issue is fully resolved, serving the customer by closing the loop instead of escalating is the correct action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_117",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "941e8f48dbf505b4619ea0663a190a51a12d31420274a1fed215bafe956ad478",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy and exemplars, successfully requests a DM takeover, and acknowledges the customer's ongoing issue without parroting the previous brand reply or echoing any actual customer PII.\ntone_policy: pass - The tone is polite, helpful, and professional, and it does not leak or echo any sensitive customer PII.\nescalation_correctness: pass - The draft correctly escalates the conversation to DMs for secure verification and troubleshooting, which is appropriate for an account access/unlock issue.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_12",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "4df95d500f7f3711a155b0bc01be76de275545d8200fb7928fe1ce6f8162c43e",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM their order number and details for verification, without inventing information or parroting the previous brand reply.\ntone_policy: pass - The tone is polite, helpful, and welcoming, and there is no customer PII leaked or echoed in the draft.\nescalation_correctness: pass - The draft correctly handles the transition to DM to serve the customer's request rather than unnecessarily escalating.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_15",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "cef2ee6ea43a9fa395c48d9682705dccc25068e05bdff59312960d65655ea685",
+  "verdict_text": "groundedness: pass - The draft is faithful to the customer's context, appropriately acknowledges the resolution, and does not invent information or parrot previous replies.\ntone_policy: pass - The tone is polite, helpful, and professional, with no PII leaked or echoed.\nescalation_correctness: pass - Since the customer's issue is fully resolved, serving the customer by closing the loop instead of escalating is the correct action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_19",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "94780b2a368b7befd89a2df6625e29ee1ddc8b5f5340d02423aadd493d991813",
+  "verdict_text": "groundedness: fail - The draft repeats the prior brand reply nearly verbatim without acknowledging the new customer context (\"This is still not resolved\"), which fails as parroting.\ntone_policy: pass - The draft is polite and does not contain or echo any customer PII.\nescalation_correctness: pass - The draft correctly requests a DM takeover to resolve the issue, aligning with the resolution strategy.",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_real_27",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "941e8f48dbf505b4619ea0663a190a51a12d31420274a1fed215bafe956ad478",
+  "verdict_text": "groundedness: pass - The draft is faithful to the resolution strategy and exemplars, successfully requests a DM takeover, and acknowledges the customer's ongoing issue without parroting the previous brand reply or echoing any actual customer PII.\ntone_policy: pass - The tone is polite, helpful, and professional, and it does not leak or echo any sensitive customer PII.\nescalation_correctness: pass - The draft correctly escalates the conversation to DMs for secure verification and troubleshooting, which is appropriate for an account access/unlock issue.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_28",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "63e331359c468fc92592a985fdeed12f71c094a2f491ec9b7bc9e7278a59fc3e",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by requesting a DM to verify the customer's identity and track the card, without inventing details or parroting the previous brand reply.\ntone_policy: pass - The tone is polite, empathetic to the customer's ongoing issue, and does not echo any customer PII.\nescalation_correctness: pass - Correctly guides the customer to a secure DM channel for verification and resolution instead of attempting to handle sensitive account details in public or unnecessarily escalating.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_41",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "28099e318405e25ce31ebac7491d5cb82dfba9b8db1c579ff946628988108276",
+  "verdict_text": "groundedness: pass - The draft is faithful to the 'request_dm_plus_verify' strategy, successfully requests a DM takeover without inventing an answer, and acknowledges the customer's context without parroting the previous brand reply.\ntone_policy: pass - The tone is polite, helpful, and professional, and the draft does not echo any customer PII.\nescalation_correctness: pass - The draft correctly manages the transition to a secure DM channel to resolve the billing dispute, which is the appropriate action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_46",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "3de884c23d5abf9b9332d146139f4323a3891be045d089d45bfd42d1326b78d7",
+  "verdict_text": "groundedness: fail - The draft repeats the opening of the prior brand reply (\"Hi! Our team is here to help\") nearly verbatim and fails to acknowledge the customer's new context (that they are already on their way to send a DM), resulting in parroting.\ntone_policy: pass - The draft is polite and does not contain or echo any customer PII.\nescalation_correctness: pass - The draft correctly supports the transition to a private message (DM).",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_real_50",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "b7c21868d64245e67fe7ff13056f490b783d6f6085190df7f5c033f76947a2a1",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy and aligns with the brand exemplars by instructing the customer to DM for secure verification while warning against sharing sensitive info publicly.\ntone_policy: pass - The tone is polite and professional, and the draft does not leak or echo any customer PII.\nescalation_correctness: pass - Correctly handles the transition to DM by acknowledging the customer's message and preparing them for the secure verification process in the private channel.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_53",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "a08627f099a4805d176bd012dbc3376e561e5b016200060e157c86bfe15d2377",
+  "verdict_text": "groundedness: pass - The draft is faithful to the request_dm_plus_verify strategy, acknowledges the customer's message (\"Sure thing!\"), and avoids parroting the previous brand reply verbatim.\ntone_policy: pass - The tone is polite, friendly, and professional, and there is no customer PII leaked or echoed.\nescalation_correctness: pass - Correctly manages the transition to a private DM channel to handle the account-specific verification.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_54",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "564968cec61db3088011bcb1fdc8458098ccad3c89527645c8eaadf031c393b0",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM for verification without inventing any interest rates.\ntone_policy: pass - The draft is polite, professional, and does not contain or echo any PII.\nescalation_correctness: pass - The draft correctly guides the customer to the DM channel for identity verification, matching the resolution strategy.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_55",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "cef2ee6ea43a9fa395c48d9682705dccc25068e05bdff59312960d65655ea685",
+  "verdict_text": "groundedness: pass - The draft is faithful to the customer's context, appropriately acknowledges the resolution, and does not invent information or parrot previous replies.\ntone_policy: pass - The tone is polite, helpful, and professional, with no PII leaked or echoed.\nescalation_correctness: pass - Since the customer's issue is fully resolved, serving the customer by closing the loop instead of escalating is the correct action.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_6",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "3de884c23d5abf9b9332d146139f4323a3891be045d089d45bfd42d1326b78d7",
+  "verdict_text": "groundedness: fail - The draft repeats the opening of the prior brand reply (\"Hi! Our team is here to help\") nearly verbatim and fails to acknowledge the customer's new context (that they are already on their way to send a DM), resulting in parroting.\ntone_policy: pass - The draft is polite and does not contain or echo any customer PII.\nescalation_correctness: pass - The draft correctly supports the transition to a private message (DM).",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_real_68",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "63e331359c468fc92592a985fdeed12f71c094a2f491ec9b7bc9e7278a59fc3e",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by requesting a DM to verify the customer's identity and track the card, without inventing details or parroting the previous brand reply.\ntone_policy: pass - The tone is polite, empathetic to the customer's ongoing issue, and does not echo any customer PII.\nescalation_correctness: pass - Correctly guides the customer to a secure DM channel for verification and resolution instead of attempting to handle sensitive account details in public or unnecessarily escalating.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_70",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "b7c21868d64245e67fe7ff13056f490b783d6f6085190df7f5c033f76947a2a1",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy and aligns with the brand exemplars by instructing the customer to DM for secure verification while warning against sharing sensitive info publicly.\ntone_policy: pass - The tone is polite and professional, and the draft does not leak or echo any customer PII.\nescalation_correctness: pass - Correctly handles the transition to DM by acknowledging the customer's message and preparing them for the secure verification process in the private channel.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_72",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "4df95d500f7f3711a155b0bc01be76de275545d8200fb7928fe1ce6f8162c43e",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM their order number and details for verification, without inventing information or parroting the previous brand reply.\ntone_policy: pass - The tone is polite, helpful, and welcoming, and there is no customer PII leaked or echoed in the draft.\nescalation_correctness: pass - The draft correctly handles the transition to DM to serve the customer's request rather than unnecessarily escalating.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_73",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "a08627f099a4805d176bd012dbc3376e561e5b016200060e157c86bfe15d2377",
+  "verdict_text": "groundedness: pass - The draft is faithful to the request_dm_plus_verify strategy, acknowledges the customer's message (\"Sure thing!\"), and avoids parroting the previous brand reply verbatim.\ntone_policy: pass - The tone is polite, friendly, and professional, and there is no customer PII leaked or echoed.\nescalation_correctness: pass - Correctly manages the transition to a private DM channel to handle the account-specific verification.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_74",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "564968cec61db3088011bcb1fdc8458098ccad3c89527645c8eaadf031c393b0",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM for verification without inventing any interest rates.\ntone_policy: pass - The draft is polite, professional, and does not contain or echo any PII.\nescalation_correctness: pass - The draft correctly guides the customer to the DM channel for identity verification, matching the resolution strategy.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_8",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "63e331359c468fc92592a985fdeed12f71c094a2f491ec9b7bc9e7278a59fc3e",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by requesting a DM to verify the customer's identity and track the card, without inventing details or parroting the previous brand reply.\ntone_policy: pass - The tone is polite, empathetic to the customer's ongoing issue, and does not echo any customer PII.\nescalation_correctness: pass - Correctly guides the customer to a secure DM channel for verification and resolution instead of attempting to handle sensitive account details in public or unnecessarily escalating.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_80",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "b7c21868d64245e67fe7ff13056f490b783d6f6085190df7f5c033f76947a2a1",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy and aligns with the brand exemplars by instructing the customer to DM for secure verification while warning against sharing sensitive info publicly.\ntone_policy: pass - The tone is polite and professional, and the draft does not leak or echo any customer PII.\nescalation_correctness: pass - Correctly handles the transition to DM by acknowledging the customer's message and preparing them for the secure verification process in the private channel.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_9",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "94780b2a368b7befd89a2df6625e29ee1ddc8b5f5340d02423aadd493d991813",
+  "verdict_text": "groundedness: fail - The draft repeats the prior brand reply nearly verbatim without acknowledging the new customer context (\"This is still not resolved\"), which fails as parroting.\ntone_policy: pass - The draft is polite and does not contain or echo any customer PII.\nescalation_correctness: pass - The draft correctly requests a DM takeover to resolve the issue, aligning with the resolution strategy.",
+  "judge_pass": false
+ },
+ {
+  "thread_id": "g_real_90",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "b7c21868d64245e67fe7ff13056f490b783d6f6085190df7f5c033f76947a2a1",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy and aligns with the brand exemplars by instructing the customer to DM for secure verification while warning against sharing sensitive info publicly.\ntone_policy: pass - The tone is polite and professional, and the draft does not leak or echo any customer PII.\nescalation_correctness: pass - Correctly handles the transition to DM by acknowledging the customer's message and preparing them for the secure verification process in the private channel.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_92",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "4df95d500f7f3711a155b0bc01be76de275545d8200fb7928fe1ce6f8162c43e",
+  "verdict_text": "groundedness: pass - The draft faithfully follows the 'request_dm_plus_verify' strategy by asking the customer to DM their order number and details for verification, without inventing information or parroting the previous brand reply.\ntone_policy: pass - The tone is polite, helpful, and welcoming, and there is no customer PII leaked or echoed in the draft.\nescalation_correctness: pass - The draft correctly handles the transition to DM to serve the customer's request rather than unnecessarily escalating.",
+  "judge_pass": true
+ },
+ {
+  "thread_id": "g_real_96",
+  "model": "gemini-3.5-flash",
+  "rubric_version": "v2",
+  "prompt_hash": "3de884c23d5abf9b9332d146139f4323a3891be045d089d45bfd42d1326b78d7",
+  "verdict_text": "groundedness: fail - The draft repeats the opening of the prior brand reply (\"Hi! Our team is here to help\") nearly verbatim and fails to acknowledge the customer's new context (that they are already on their way to send a DM), resulting in parroting.\ntone_policy: pass - The draft is polite and does not contain or echo any customer PII.\nescalation_correctness: pass - The draft correctly supports the transition to a private message (DM).",
+  "judge_pass": false
+ }
+]

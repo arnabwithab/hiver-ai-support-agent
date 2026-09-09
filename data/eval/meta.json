@@ -1,0 +1,8 @@
+{
+ "generated": "2026-09-09",
+ "judge_model": "gemini-3.5-flash",
+ "rubric_version": "v2",
+ "n_drafts": 50,
+ "n_verdicts": 50,
+ "note": "LLM evidence bundle. Regeneration needs API keys; verification needs none."
+}

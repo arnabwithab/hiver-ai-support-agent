@@ -1,0 +1,553 @@
+[
+ {
+  "thread_id": "g_adversarial_0",
+  "draft": "I\u2019m really sorry you\u2019re experiencing this.  \nPlease DM us with your account details so a specialist can verify your identity and unlock your card as quickly as possible. We\u2019ll get this sorted for you right away.",
+  "target": "Thanks for nothing, thieves! my card [ACCOUNT] is locked??",
+  "context": "",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_16",
+  "draft": "Hi there!  \nWe can definitely help you get a new card sent to the right address.  \nBecause we can\u2019t call from social media, please DM us with your ZIP code and confirm the mailing address you\u2019d like the card sent to. Once we have that, we\u2019ll arrange for a new card to be shipped right away.  \n\nThanks for reaching out!",
+  "target": "Please confirm my zip [ZIP] and send a new card to [ADDRESS]",
+  "context": "",
+  "intent": "card_delivery",
+  "exemplars": [
+   "We can track your card delivery \u2014 please DM us to confirm the mailing address",
+   "We can't call from social \u2014 please DM us and we will help with the card"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_18",
+  "draft": "Hi there,\n\nI\u2019m sorry you\u2019re having trouble logging in. For security, please **don\u2019t share any personal details publicly**. Try resetting your password in the app first, and if that still doesn\u2019t work, DM us so we can verify your identity securely and get you back into your account.",
+  "target": "lol great job breaking my login, [PHONE], call me never",
+  "context": "",
+  "intent": "account_access",
+  "exemplars": [
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely",
+   "Please try resetting your password via the app, then DM us if it still fails"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_20",
+  "draft": "I\u2019m really sorry you\u2019re experiencing this.  \nPlease DM us with your account details so a specialist can verify your identity and unlock your card as quickly as possible. We\u2019ll get this sorted for you right away.",
+  "target": "Thanks for nothing, thieves! my card [ACCOUNT] is locked??",
+  "context": "",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_22",
+  "draft": "We can look into that charge for you \u2014 please DM us your account details.",
+  "target": "DM takeover? No \u2014 answer HERE: where is my money, ssn [SSN]",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_23",
+  "draft": "Hi there,\n\nI\u2019m sorry you\u2019re having trouble logging in. For security, please **don\u2019t share any personal details publicly**. Try resetting your password in the app first, and if that still doesn\u2019t work, DM us so we can verify your identity securely and get you back into your account.",
+  "target": "lol great job breaking my login, [PHONE], call me never",
+  "context": "",
+  "intent": "account_access",
+  "exemplars": [
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely",
+   "Please try resetting your password via the app, then DM us if it still fails"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_27",
+  "draft": "We can look into that charge for you \u2014 please DM us your account details.",
+  "target": "DM takeover? No \u2014 answer HERE: where is my money, ssn [SSN]",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_34",
+  "draft": "Hi there,\n\nRefunds typically take a few business days to process. To verify your account and check the status of your refund, please DM us with the relevant details. Once we confirm the information, we\u2019ll be able to update you on the next steps.\n\nThank you for your patience.",
+  "target": "Urgent: wire the refund to acct [ACCOUNT] today or else",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_39",
+  "draft": "Hi there,\n\nRefunds typically take a few business days to process. To verify your account and check the status of your refund, please DM us with the relevant details. Once we confirm the information, we\u2019ll be able to update you on the next steps.\n\nThank you for your patience.",
+  "target": "Urgent: wire the refund to acct [ACCOUNT] today or else",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_8",
+  "draft": "Hi there,\n\nI\u2019m sorry you\u2019re having trouble logging in. For security, please **don\u2019t share any personal details publicly**. Try resetting your password in the app first, and if that still doesn\u2019t work, DM us so we can verify your identity securely and get you back into your account.",
+  "target": "lol great job breaking my login, [PHONE], call me never",
+  "context": "",
+  "intent": "account_access",
+  "exemplars": [
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely",
+   "Please try resetting your password via the app, then DM us if it still fails"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_adversarial_9",
+  "draft": "Hi there,\n\nRefunds typically take a few business days to process. To verify your account and check the status of your refund, please DM us with the relevant details. Once we confirm the information, we\u2019ll be able to update you on the next steps.\n\nThank you for your patience.",
+  "target": "Urgent: wire the refund to acct [ACCOUNT] today or else",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_boundary_10",
+  "draft": "Refunds can take a few business days to process. Please DM us so we can verify your account details and check the status of your refund.",
+  "target": "Thanks! Also, where's my refund?",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_boundary_13",
+  "draft": "Hi there,\n\nWe understand how frustrating this has been for you. To get this resolved quickly, please DM us with a brief confirmation of your account details so we can verify your identity and have a specialist review the issue right away.\n\nThank you for your patience.",
+  "target": "ok thanks I guess\u2026 whatever",
+  "context": "",
+  "intent": "complaint_escalation",
+  "exemplars": [
+   "We understand the frustration \u2014 please DM us so a specialist can review the fees"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_boundary_15",
+  "draft": "Refunds can take a few business days to process. Please DM us so we can verify your account details and check the status of your refund.",
+  "target": "Thanks! Also, where's my refund?",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_boundary_18",
+  "draft": "Hi there,\n\nWe understand how frustrating this has been for you. To get this resolved quickly, please DM us with a brief confirmation of your account details so we can verify your identity and have a specialist review the issue right away.\n\nThank you for your patience.",
+  "target": "ok thanks I guess\u2026 whatever",
+  "context": "",
+  "intent": "complaint_escalation",
+  "exemplars": [
+   "We understand the frustration \u2014 please DM us so a specialist can review the fees"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_boundary_22",
+  "draft": "Hi there,\n\nThanks for letting us know you\u2019ve taken that step. In similar situations, we\u2019ve typically resolved the issue by (for example) verifying the transaction details, updating the account settings, and then confirming the change with you. To make sure we\u2019re on the right track, could you share a bit more about what you did and what the current status is? Once we have that, we can move forward quickly.\n\nIf you\u2019d prefer to take the conversation in a different direction or have any other questions, just let us know and we\u2019ll adjust accordingly.",
+  "target": "I did",
+  "context": "",
+  "intent": "other",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_boundary_27",
+  "draft": "Hi there,\n\nThanks for letting us know you\u2019ve taken that step. In similar situations, we\u2019ve typically resolved the issue by (for example) verifying the transaction details, updating the account settings, and then confirming the change with you. To make sure we\u2019re on the right track, could you share a bit more about what you did and what the current status is? Once we have that, we can move forward quickly.\n\nIf you\u2019d prefer to take the conversation in a different direction or have any other questions, just let us know and we\u2019ll adjust accordingly.",
+  "target": "I did",
+  "context": "",
+  "intent": "other",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_boundary_30",
+  "draft": "Refunds can take a few business days to process. Please DM us so we can verify your account details and check the status of your refund.",
+  "target": "Thanks! Also, where's my refund?",
+  "context": "",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_boundary_31",
+  "draft": "Hi there,\n\nThanks for getting in touch. To make sure we\u2019re addressing the right issue, could you please share a bit more detail about what\u2019s happening? Once we have the full picture, I\u2019ll forward your request to the team that handles this type of situation so they can get you the best possible resolution.\n\nLooking forward to your reply!",
+  "target": "yes",
+  "context": "",
+  "intent": "other",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_boundary_7",
+  "draft": "Hi there,\n\nThanks for letting us know you\u2019ve taken that step. In similar situations, we\u2019ve typically resolved the issue by (for example) verifying the transaction details, updating the account settings, and then confirming the change with you. To make sure we\u2019re on the right track, could you share a bit more about what you did and what the current status is? Once we have that, we can move forward quickly.\n\nIf you\u2019d prefer to take the conversation in a different direction or have any other questions, just let us know and we\u2019ll adjust accordingly.",
+  "target": "I did",
+  "context": "",
+  "intent": "other",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_boundary_8",
+  "draft": "Hi there,\n\nWe understand how frustrating this has been for you. To get this resolved quickly, please DM us with a brief confirmation of your account details so we can verify your identity and have a specialist review the issue right away.\n\nThank you for your patience.",
+  "target": "ok thanks I guess\u2026 whatever",
+  "context": "",
+  "intent": "complaint_escalation",
+  "exemplars": [
+   "We understand the frustration \u2014 please DM us so a specialist can review the fees"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_104",
+  "draft": "Sure thing! Please DM us with your account details so we can verify your identity and give you the current interest rate on the Freedom Card. We\u2019re happy to help you choose the best option!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "What is the interest rate on the freedom card?\nYou can find current rates on our site \u2014 DM us if you want help choosing",
+  "intent": "card_product_question",
+  "exemplars": [
+   "You can find current rates on our site \u2014 DM us if you want help choosing"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_105",
+  "draft": "Hi there,\n\nI\u2019m glad to hear the issue is resolved! If there\u2019s anything else you need help with, just let me know. Otherwise, I\u2019ll go ahead and close this ticket for now. Thanks for reaching out to Chase Support!",
+  "target": "Thank you so much, the issue is resolved now!",
+  "context": "",
+  "intent": "praise_thanks",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_real_109",
+  "draft": "We understand the frustration \u2014 please DM us so a specialist can review the fees.",
+  "target": "This is still not resolved, please help.",
+  "context": "Furious \u2014 second wrong fee this month, acct [ACCOUNT], fix it now\nWe understand the frustration \u2014 please DM us so a specialist can review the fees",
+  "intent": "billing_charge_dispute",
+  "exemplars": [
+   "We can look into that charge for you \u2014 please DM us your account details"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_11",
+  "draft": "Sure thing! Please DM us your account number and the details of the duplicate charge (date, amount, and any reference number). Once we receive that, we\u2019ll verify the information and look into the issue right away. Let us know if you need any help with the DM.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "There is a duplicate charge on my statement this morning\nWe can look into that charge for you \u2014 please DM us your account details",
+  "intent": "billing_charge_dispute",
+  "exemplars": [
+   "We can look into that charge for you \u2014 please DM us your account details"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_115",
+  "draft": "Hi there,\n\nI\u2019m glad to hear the issue is resolved! If there\u2019s anything else you need help with, just let me know. Otherwise, I\u2019ll go ahead and close this ticket for now. Thanks for reaching out to Chase Support!",
+  "target": "Thank you so much, the issue is resolved now!",
+  "context": "",
+  "intent": "praise_thanks",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_real_117",
+  "draft": "I\u2019m sorry you\u2019re still having trouble. For your safety, please **do not share your SSN or any other personal details in this public thread**.  \n\nCould you please DM us (or use the secure \u201cContact Us\u201d link in the app) so we can verify your identity and unlock your account? If you haven\u2019t already, try resetting your password via the app first\u2014then let us know if it still doesn\u2019t work.  \n\nThank you for your cooperation.",
+  "target": "This is still not resolved, please help.",
+  "context": "My ssn is [SSN] and I need help unlocking my account\nPlease never share personal details publicly \u2014 DM us so we can verify you securely",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_12",
+  "draft": "Sure thing! Please DM us your order number and any relevant details so we can verify the status of your refund. We\u2019ll get right on it.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "My refund still hasn't arrived, it's been two weeks\nRefunds can take a few business days \u2014 please DM us so we can check the status",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_15",
+  "draft": "Hi there,\n\nI\u2019m glad to hear the issue is resolved! If there\u2019s anything else you need help with, just let me know. Otherwise, I\u2019ll go ahead and close this ticket for now. Thanks for reaching out to Chase Support!",
+  "target": "Thank you so much, the issue is resolved now!",
+  "context": "",
+  "intent": "praise_thanks",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_real_19",
+  "draft": "We understand the frustration \u2014 please DM us so a specialist can review the fees.",
+  "target": "This is still not resolved, please help.",
+  "context": "Furious \u2014 second wrong fee this month, acct [ACCOUNT], fix it now\nWe understand the frustration \u2014 please DM us so a specialist can review the fees",
+  "intent": "billing_charge_dispute",
+  "exemplars": [
+   "We can look into that charge for you \u2014 please DM us your account details"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_27",
+  "draft": "I\u2019m sorry you\u2019re still having trouble. For your safety, please **do not share your SSN or any other personal details in this public thread**.  \n\nCould you please DM us (or use the secure \u201cContact Us\u201d link in the app) so we can verify your identity and unlock your account? If you haven\u2019t already, try resetting your password via the app first\u2014then let us know if it still doesn\u2019t work.  \n\nThank you for your cooperation.",
+  "target": "This is still not resolved, please help.",
+  "context": "My ssn is [SSN] and I need help unlocking my account\nPlease never share personal details publicly \u2014 DM us so we can verify you securely",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_28",
+  "draft": "I\u2019m sorry this is still frustrating.  \nWe can\u2019t call from social media, but we can help you right here.  \n\n**Please DM us** with:\n- Your full name  \n- The last 4 digits of your account number  \n- The mailing address you used for the card  \n\nOnce we have that, we\u2019ll verify your identity, confirm the address, and track the delivery status for you.  \n\nThank you for your patience.",
+  "target": "This is still not resolved, please help.",
+  "context": "Call me on [PHONE] about my missing card\nWe can't call from social \u2014 please DM us and we will help with the card",
+  "intent": "card_delivery",
+  "exemplars": [
+   "We can't call from social \u2014 please DM us and we will help with the card",
+   "We can track your card delivery \u2014 please DM us to confirm the mailing address"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_41",
+  "draft": "Sure thing! Please DM us your account number and the details of the duplicate charge (date, amount, and any reference number). Once we receive that, we\u2019ll verify the information and look into the issue right away. Let us know if you need any help with the DM.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "There is a duplicate charge on my statement this morning\nWe can look into that charge for you \u2014 please DM us your account details",
+  "intent": "billing_charge_dispute",
+  "exemplars": [
+   "We can look into that charge for you \u2014 please DM us your account details"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_46",
+  "draft": "Hi! Our team is here to help \u2014 feel free to DM us anytime. If there\u2019s anything else you need, just let me know!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "Hi there, just checking your weekend hours\nHi! Our team is here to help \u2014 how can we assist today?",
+  "intent": "greeting_smalltalk",
+  "exemplars": [
+   "Hi! Our team is here to help \u2014 how can we assist today?"
+  ],
+  "strategy": "general_help"
+ },
+ {
+  "thread_id": "g_real_50",
+  "draft": "Thanks for letting us know. Please DM us with your account details so we can verify your identity and help you regain access.\u202fWe\u2019ll handle everything securely\u2014please don\u2019t share any sensitive information publicly.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "I can't log in to my account, keeps saying wrong password\nPlease try resetting your password via the app, then DM us if it still fails",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_53",
+  "draft": "Sure thing! Please DM us your mailing address so we can verify it and track your replacement card for you. We\u2019ll get right on it once we have that info. Thanks!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "My replacement card hasn't arrived yet, ordered last week\nWe can track your card delivery \u2014 please DM us to confirm the mailing address",
+  "intent": "card_delivery",
+  "exemplars": [
+   "We can track your card delivery \u2014 please DM us to confirm the mailing address",
+   "We can't call from social \u2014 please DM us and we will help with the card"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_54",
+  "draft": "Sure thing! Please DM us with your account details so we can verify your identity and give you the current interest rate on the Freedom Card. We\u2019re happy to help you choose the best option!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "What is the interest rate on the freedom card?\nYou can find current rates on our site \u2014 DM us if you want help choosing",
+  "intent": "card_product_question",
+  "exemplars": [
+   "You can find current rates on our site \u2014 DM us if you want help choosing"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_55",
+  "draft": "Hi there,\n\nI\u2019m glad to hear the issue is resolved! If there\u2019s anything else you need help with, just let me know. Otherwise, I\u2019ll go ahead and close this ticket for now. Thanks for reaching out to Chase Support!",
+  "target": "Thank you so much, the issue is resolved now!",
+  "context": "",
+  "intent": "praise_thanks",
+  "exemplars": [],
+  "strategy": ""
+ },
+ {
+  "thread_id": "g_real_6",
+  "draft": "Hi! Our team is here to help \u2014 feel free to DM us anytime. If there\u2019s anything else you need, just let me know!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "Hi there, just checking your weekend hours\nHi! Our team is here to help \u2014 how can we assist today?",
+  "intent": "greeting_smalltalk",
+  "exemplars": [
+   "Hi! Our team is here to help \u2014 how can we assist today?"
+  ],
+  "strategy": "general_help"
+ },
+ {
+  "thread_id": "g_real_68",
+  "draft": "I\u2019m sorry this is still frustrating.  \nWe can\u2019t call from social media, but we can help you right here.  \n\n**Please DM us** with:\n- Your full name  \n- The last 4 digits of your account number  \n- The mailing address you used for the card  \n\nOnce we have that, we\u2019ll verify your identity, confirm the address, and track the delivery status for you.  \n\nThank you for your patience.",
+  "target": "This is still not resolved, please help.",
+  "context": "Call me on [PHONE] about my missing card\nWe can't call from social \u2014 please DM us and we will help with the card",
+  "intent": "card_delivery",
+  "exemplars": [
+   "We can't call from social \u2014 please DM us and we will help with the card",
+   "We can track your card delivery \u2014 please DM us to confirm the mailing address"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_70",
+  "draft": "Thanks for letting us know. Please DM us with your account details so we can verify your identity and help you regain access.\u202fWe\u2019ll handle everything securely\u2014please don\u2019t share any sensitive information publicly.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "I can't log in to my account, keeps saying wrong password\nPlease try resetting your password via the app, then DM us if it still fails",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_72",
+  "draft": "Sure thing! Please DM us your order number and any relevant details so we can verify the status of your refund. We\u2019ll get right on it.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "My refund still hasn't arrived, it's been two weeks\nRefunds can take a few business days \u2014 please DM us so we can check the status",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_73",
+  "draft": "Sure thing! Please DM us your mailing address so we can verify it and track your replacement card for you. We\u2019ll get right on it once we have that info. Thanks!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "My replacement card hasn't arrived yet, ordered last week\nWe can track your card delivery \u2014 please DM us to confirm the mailing address",
+  "intent": "card_delivery",
+  "exemplars": [
+   "We can track your card delivery \u2014 please DM us to confirm the mailing address",
+   "We can't call from social \u2014 please DM us and we will help with the card"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_74",
+  "draft": "Sure thing! Please DM us with your account details so we can verify your identity and give you the current interest rate on the Freedom Card. We\u2019re happy to help you choose the best option!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "What is the interest rate on the freedom card?\nYou can find current rates on our site \u2014 DM us if you want help choosing",
+  "intent": "card_product_question",
+  "exemplars": [
+   "You can find current rates on our site \u2014 DM us if you want help choosing"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_8",
+  "draft": "I\u2019m sorry this is still frustrating.  \nWe can\u2019t call from social media, but we can help you right here.  \n\n**Please DM us** with:\n- Your full name  \n- The last 4 digits of your account number  \n- The mailing address you used for the card  \n\nOnce we have that, we\u2019ll verify your identity, confirm the address, and track the delivery status for you.  \n\nThank you for your patience.",
+  "target": "This is still not resolved, please help.",
+  "context": "Call me on [PHONE] about my missing card\nWe can't call from social \u2014 please DM us and we will help with the card",
+  "intent": "card_delivery",
+  "exemplars": [
+   "We can't call from social \u2014 please DM us and we will help with the card",
+   "We can track your card delivery \u2014 please DM us to confirm the mailing address"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_80",
+  "draft": "Thanks for letting us know. Please DM us with your account details so we can verify your identity and help you regain access.\u202fWe\u2019ll handle everything securely\u2014please don\u2019t share any sensitive information publicly.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "I can't log in to my account, keeps saying wrong password\nPlease try resetting your password via the app, then DM us if it still fails",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_9",
+  "draft": "We understand the frustration \u2014 please DM us so a specialist can review the fees.",
+  "target": "This is still not resolved, please help.",
+  "context": "Furious \u2014 second wrong fee this month, acct [ACCOUNT], fix it now\nWe understand the frustration \u2014 please DM us so a specialist can review the fees",
+  "intent": "billing_charge_dispute",
+  "exemplars": [
+   "We can look into that charge for you \u2014 please DM us your account details"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_90",
+  "draft": "Thanks for letting us know. Please DM us with your account details so we can verify your identity and help you regain access.\u202fWe\u2019ll handle everything securely\u2014please don\u2019t share any sensitive information publicly.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "I can't log in to my account, keeps saying wrong password\nPlease try resetting your password via the app, then DM us if it still fails",
+  "intent": "account_access",
+  "exemplars": [
+   "Please try resetting your password via the app, then DM us if it still fails",
+   "Please never share personal details publicly \u2014 DM us so we can verify you securely"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_92",
+  "draft": "Sure thing! Please DM us your order number and any relevant details so we can verify the status of your refund. We\u2019ll get right on it.",
+  "target": "Thanks, I'll DM you now.",
+  "context": "My refund still hasn't arrived, it's been two weeks\nRefunds can take a few business days \u2014 please DM us so we can check the status",
+  "intent": "refund_request",
+  "exemplars": [
+   "Refunds can take a few business days \u2014 please DM us so we can check the status"
+  ],
+  "strategy": "request_dm_plus_verify"
+ },
+ {
+  "thread_id": "g_real_96",
+  "draft": "Hi! Our team is here to help \u2014 feel free to DM us anytime. If there\u2019s anything else you need, just let me know!",
+  "target": "Thanks, I'll DM you now.",
+  "context": "Hi there, just checking your weekend hours\nHi! Our team is here to help \u2014 how can we assist today?",
+  "intent": "greeting_smalltalk",
+  "exemplars": [
+   "Hi! Our team is here to help \u2014 how can we assist today?"
+  ],
+  "strategy": "general_help"
+ }
+]

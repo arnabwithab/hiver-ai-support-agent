@@ -5,36 +5,26 @@
   <img src="https://img.shields.io/badge/version-0.1.0-informational" alt="version 0.1.0" />
   <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="code style: black" />
   <img src="https://img.shields.io/badge/lint-ruff-red?logo=ruff&logoColor=white" alt="lint: ruff" />
-  <img src="https://img.shields.io/badge/tests-121%20passed-green?logo=pytest&logoColor=white" alt="tests: 121 passed" />
+  <img src="https://img.shields.io/badge/tests-123%20passed-green?logo=pytest&logoColor=white" alt="tests: 123 passed" />
   <img src="https://img.shields.io/badge/drafter-Groq-orange" alt="drafter: Groq" />
   <img src="https://img.shields.io/badge/judge-Gemini-blue" alt="judge: Gemini" />
   <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="license: Apache 2.0" />
 </p>
 
 <p align="center">
-  Intent-routed AI support agent for ChaseSupport Twitter threads: a local
-  embedding + logistic-regression classifier routes each customer message
-  through a thread-state machine, Groq drafts replies grounded in retrieved
-  same-intent brand resolutions, Gemini judges them as gate + critic, and
-  low-confidence cases escalate with a written reason. Proof (golden set,
-  baselines, calibrated judge, report) over polish.
+  Intent-routed AI support agent for ChaseSupport Twitter threads with HITL escalation and LLM-as-a-judge evals.
 </p>
 
 ## Setup
 
-Prerequisites: `curl` and a C compiler toolchain (for `uv sync`
-dependencies). `uv` itself is bootstrapped by `make setup` when missing.
-`kaggle` credentials and LLM API keys are needed only for the tracks
-marked below — the core repro is credential-free.
-
-### 15-minute reproduction (credential-free, new PC)
-
 ```bash
-git clone <repo-url> && cd hiver-ai-support-agent
+git clone https://github.com/arnabwithab/hiver-ai-support-agent.git
+cd hiver-ai-support-agent
 cp .env.example .env        # no keys needed for this track
 make setup                  # installs uv if missing, then uv sync (~3 min first run)
-make test                   # 121 tests, ~30 s (pulls the 90 MB encoder once)
+make test                   # 123 tests, ~30 s (pulls the 90 MB encoder once)
 make build                  # headline numbers from cache, zero live calls (~1 min)
+make verify                 # recompute every report number from committed evidence, keyless
 make dev                    # offline pipeline demo: one golden thread, fake LLMs
 ```
 

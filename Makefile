@@ -3,7 +3,7 @@
 # Thin wrappers only — no business logic. All targets must run green on an
 # empty repo (before F001..F012 are built).
 
-.PHONY: setup dev test style build clean data subsample train
+.PHONY: setup dev test style build clean data subsample train verify
 
 # uv sync (idempotent; bootstraps uv itself when missing)
 setup:
@@ -38,6 +38,10 @@ style:
 # F011: cache-first repro — headlines from cache, live smoke only with keys
 build:
 	uv run python -m src.build $(ARGS)
+
+# keyless check: recompute every report number from the committed evidence
+verify:
+	uv run python -m src.eval.verify
 
 clean:
 	rm -rf .pytest_cache

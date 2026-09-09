@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 22,
-    "completed": 22,
+    "total": 23,
+    "completed": 23,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 22,
+    "tests_passing": 23,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -651,6 +651,32 @@
         }
       ],
       "notes": "Set GEMINI_MODEL=gemini-3.5-flash in .env. 2 drafts unjudged (quota).",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F022",
+      "name": "Committed LLM evidence bundle + keyless verifier",
+      "description": "data/eval/ holds 50 drafts + 50 verdicts + meta (67KB, redacted). make verify recomputes kappa/agreement/fail-recall keyless and asserts report constants. Fresh clones verify all LLM-derived numbers without keys.",
+      "status": "completed",
+      "priority": "high",
+      "module": "data/eval/ + src/eval/verify.py + Makefile",
+      "design_doc": "docs/design.md \u00a712",
+      "tests": {
+        "status": "passing",
+        "files": [
+          "tests/test_eval_verify.py"
+        ],
+        "notes": "Bundle count/shape; verify asserts all 7 report constants"
+      },
+      "subtasks": [
+        {
+          "id": "F022-1",
+          "name": "Bundle + verifier + README + Makefile",
+          "status": "completed"
+        }
+      ],
+      "notes": "Regeneration needs keys; verification needs none. data/cache stays gitignored scratch.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }
