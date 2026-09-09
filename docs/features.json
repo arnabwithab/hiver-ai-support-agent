@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 15,
-    "completed": 15,
+    "total": 16,
+    "completed": 16,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 15,
+    "tests_passing": 16,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -478,6 +478,30 @@
         }
       ],
       "notes": "Refund F1 0.318->0.891, card-delivery 0.325->0.894. Retrain wall 218s. Mined 500+500 social rows.",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F015",
+      "name": "Repro hardening (Makefile targets, README, sink audit)",
+      "description": "make data/subsample/train/dev targets; README with setup + env table; sink-error audit rejects multi-candidate routing; report \u00a72/\u00a73 refreshed to ST numbers (0.600/0.591, real 12/36).",
+      "status": "completed",
+      "priority": "medium",
+      "module": "Makefile + README.md + docs/report.md",
+      "design_doc": "docs/design.md \u00a712",
+      "tests": {
+        "status": "passing",
+        "files": [],
+        "notes": "No new tests; suite 118 green, make dev/train/build verified live"
+      },
+      "subtasks": [
+        {
+          "id": "F015-1",
+          "name": "Makefile + README + sink audit + report refresh",
+          "status": "completed"
+        }
+      ],
+      "notes": "Live smoke blocked: Groq 403 on current keys (key-side issue, not code).",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }

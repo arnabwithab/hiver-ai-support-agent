@@ -103,3 +103,31 @@ def handle_message(
         "handoff_note": judged["handoff_note"],
         "attempts": judged["attempts"],
     }
+
+
+def demo(thread_path="data/golden/dev/threads.jsonl"):
+    """One golden thread through the DAG with fake LLM clients (offline)."""
+    import json as _json
+
+    with open(thread_path) as fh:
+        thread = next(_json.loads(line) for line in fh if line.strip())
+
+    def fake_draft(prompt, model, temperature=0):
+        return "Thanks for reaching out — please DM us so we can help."
+
+    def fake_judge(prompt, model, temperature=0):
+        return (
+            "groundedness: pass - requests DM takeover per exemplar\n"
+            "tone_policy: pass - polite, no PII\n"
+            "escalation_correctness: pass - correct to serve"
+        )
+
+    result = handle_message(
+        thread["turns"], thread["target_id"], draft_client=fake_draft, judge_client=fake_judge
+    )
+    print(_json.dumps({k: result[k] for k in ("case", "decision", "text")}, indent=2))
+    return result
+
+
+if __name__ == "__main__":
+    demo()

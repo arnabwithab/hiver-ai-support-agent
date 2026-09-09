@@ -196,3 +196,4 @@ def main(csv_path=DEFAULT_CSV, out_path=DEFAULT_OUT):
 
 if __name__ == "__main__":
     main()
+    mine_social()

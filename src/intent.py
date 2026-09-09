@@ -397,3 +397,30 @@ _INTENT_NAMES = {
 
 def intent_name(label):
     return _INTENT_NAMES[label]
+
+
+def _mapped_rows(csv_path):
+    rows = []
+    with open(csv_path) as fh:
+        for row in csv.DictReader(fh):
+            rows.append((row["text"], BANKING77_MAP.get(row.get("label_text") or "", 9)))
+    return rows
+
+
+if __name__ == "__main__":
+    """make train: Phase A on banking77 (+mined social) if present, else synthetic."""
+    train_csv = "data/raw/banking77/train.csv"
+    train_csv = train_csv if Path(train_csv).exists() else None
+    social = "data/raw/mined_social.jsonl"
+    social = social if Path(social).exists() else None
+    clf, _ = train_phase_a(train_csv, social)
+    test_csv = "data/raw/banking77/test.csv"
+    if Path(test_csv).exists():
+        gold = _mapped_rows(test_csv)
+        pred = [clf.predict(text) for text, _ in gold]
+        out = classification_metrics([label for _, label in gold], pred)
+        out = {"n": out["n"], "accuracy": out["accuracy"], "macro_f1": out["macro_f1"]}
+    else:
+        out = {"note": "no banking77 test split; trained on synthetic fixtures"}
+    out.update({"threshold": clf.threshold, "embedding": EMBEDDING_MODEL})
+    print(json.dumps(out, indent=2))

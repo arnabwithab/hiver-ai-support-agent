@@ -3,7 +3,8 @@
 All numbers traceable: `B` = `make build` stdout 2026-09-09; `G` = golden
 jsonl counts; `T` = `make test` stdout; `L` = local eval 2026-09-09
 (`src/intent.train_adapt("data/golden/dev")` + `classification_metrics` on the
-holdout — method mirrors `src/build.py`, not a committed artifact).
+holdout — method mirrors `src/build.py`, not a committed artifact); `L2` =
+same method re-run 2026-09-09 with ST embeddings + class-weighted head.
 No human ratings collected yet: every unmeasured claim is labeled as such.
 
 ## 1. Problem framing + non-goals
@@ -25,17 +26,21 @@ fine-tuned local drafter (API dependence must go).
 |---|---|---|---|
 | majority (predicts dev-majority `card_delivery` + canned reply) | 0.167 | 0.032 | `B` |
 | TF-IDF retrieval draft (fit on dev n=140) | 0.567 | 0.532 | `B` |
-| ours, raw classifier | 0.550 | 0.508 | `L` |
-| ours, final (after state machine) | 0.550 | 0.508 | `L` |
+| ours, raw classifier (ST embeddings) | 0.600 | 0.591 | `L2` |
+| ours, final (after state machine) | 0.600 | 0.591 | `L2` |
 
-Honest headline: **we beat the trivial baseline ~3× but lose to the simple
-one** (−0.017 acc, −0.024 macro-F1). Stratum split (`L`): real 0.250 (9/36),
-boundary 1.000 (12/12), adversarial 1.000 (12/12). Calibration: gate threshold
-T=0.442 fit on adapt-dev; holdout ECE=0.092 (`L`). Routing (`L`, fresh-state
+Honest headline: **we now beat TF-IDF** (+0.033 acc, +0.059 macro-F1 —
+embeddings closed the gap the hashing head left). Stratum split (`L2`):
+real 0.333 (12/36), boundary 1.000 (12/12), adversarial 1.000 (12/12).
+Calibration: gate threshold T=0.473 fit on adapt-dev (`L2`; ECE on the new
+head unmeasured — recompute before trusting T). Routing (`L2`, fresh-state
 eval): 56 Case C, 4 Case A, **0 vetoes, 0 inheritance hits — raw = final, so
 the state machine contributed nothing measurable on this slice.** Cache repro
 (`B`): 5 threads × 2 passes, first-pass misses [0,0], second_pass_calls=0,
-live calls 0. Suite: 107 passed (`T`).
+live calls 0. Suite: 118 passed (`T`). Sink-error audit (`L2`): 5 residual
+true-2/4→5 errors, mean confidence 0.565, none above 0.8 — the gate already
+catches them, so multi-candidate routing is rejected for now; 99/344 other
+errors exceed 0.8 (margin signal reserved as future work).
 
 Judge calibration: protocol is 3 raters, 15 calibration + ~50 main examples,
 pairwise kappas + judge-vs-majority vs mean−2σ bar (design §11). Status:
@@ -44,18 +49,19 @@ pairwise kappas + judge-vs-majority vs mean−2σ bar (design §11). Status:
 measured either.** The trust claim currently rests only on rubric unit tests.
 Unmeasured, labeled as such.
 
-## 3. Top-5 failure modes (all 27 errors are real-stratum; boundary/adversarial: zero)
+## 3. Top-5 failure modes (all 24 errors are real-stratum; boundary/adversarial: zero)
 
-1. **Continuation fragments classified target-only (27/27 errors).** Gold labels
+1. **Continuation fragments classified target-only (24/24 errors).** Gold labels
    carry the thread's substantive intent, but eval feeds only the final inbound
    turn with fresh state — so context + inheritance (design §6) never engage.
    Ex: `g_real_53` (gold card_delivery): "My replacement card hasn't arrived
    yet…" → brand DM request → "Thanks, I'll DM you now." predicted
-   billing_charge_dispute. Same shape: `g_real_93`, `g_real_4`, `g_real_12`.
-2. **"Thanks, I'll DM you now." → billing_charge_dispute (20 cases).**
-   Hypothesis: DM-takeover phrasing correlates with billing threads in dev, and
-   the trigram head has no thread memory. Ex: `g_real_50` (gold account_access),
-   `g_real_46`/`g_real_6` (gold greeting_smalltalk) — all auto-labeled, all wrong.
+   card_product_question. Same shape: `g_real_93`, `g_real_83`, `g_real_73`.
+2. **"Thanks, I'll DM you now." → card_product_question (17 cases).**
+   DM-takeover phrasing now lands in the product bucket (with hashing it was
+   billing — the sink moved with the features, the shape didn't). Ex: `g_real_50`
+   (gold account_access), `g_real_46`/`g_real_6` (gold greeting_smalltalk),
+   `g_real_92`/`g_real_12` (gold refund_request) — all auto-labeled, all wrong.
 3. **"This is still not resolved, please help." → complaint_escalation
    (7 cases).** Anger tokens dominate; gold keeps the underlying intent. Ex:
    `g_real_8` (gold card_delivery, cust posted a phone number, brand refused
@@ -65,21 +71,22 @@ Unmeasured, labeled as such.
    continuation inherited, no Case B close evaluated with real prior state —
    so Case-B wrong-close recall (the silence-toward-user metric) is unmeasured.
    Coverage gap, not an accuracy gap. Unmeasured, labeled as such.
-5. **Losing to TF-IDF + uncalibrated judge.** Word-overlap retrieval beats the
-   hashing trigram head on this slice, and with no kappa the judge gate is an
-   unproven safety claim: ≤3 retries then escalate is tested on fakes only
-   (`tests/test_judge.py`, `test_orchestrate.py`).
+5. **Beating TF-IDF on averages, uncalibrated judge.** The averages flipped,
+    but the judge gate is still an unproven safety claim: ≤3 retries then
+    escalate is tested on fakes only (`tests/test_judge.py`,
+    `test_orchestrate.py`), and with no kappa the trust metric is missing.
 
 ## 4. What is misleading about my headline number
 
-"0.55 accuracy / 0.51 macro-F1" is misleading four ways: (a) it averages a
-0.25 real stratum with two 1.00 crafted strata — workload-representative
-accuracy is 0.25, not 0.55; (b) raw = final hides that the state machine was
+"0.60 accuracy / 0.59 macro-F1" is misleading four ways: (a) it averages a
+0.33 real stratum with two 1.00 crafted strata — workload-representative
+accuracy is 0.33, not 0.60; (b) raw = final hides that the state machine was
 never actually tested with threaded state; (c) n=60 with per-intent slices of
 3–11 makes every per-intent number noise (macro-F1's rare-intent caveat,
-design §4); (d) it suggests near-parity with TF-IDF while hiding that the
-parity comes from winning the easy crafted slices and collapsing on the real
-ones. The number to quote is **real-stratum 9/36**, not 33/60.
+design §4); (d) it suggests victory over TF-IDF while hiding that the win
+comes from the easy crafted slices plus a real stratum where all 24 errors
+are two template fragments. The number to quote is **real-stratum 12/36**,
+not 36/60.
 
 ## 5. Next-week plan
 
@@ -88,7 +95,7 @@ ones. The number to quote is **real-stratum 9/36**, not 33/60.
 2. Collect rater labels (15 calibration + 50 main) → report kappas and
    judge-vs-majority vs the mean−2σ bar; re-tune rubric on mismatches.
 3. Error-driven fix for fragments: continuation fallback before the head, plus
-   seed terms from the 27 misses; re-tune T on adapt-dev precision–coverage.
+   seed terms from the 24 misses; re-tune T on adapt-dev precision–coverage.
 4. Measure Case-B wrong-close recall and auto-handle precision at T on threaded
    holdout; run the `make build --live` smoke subset with keys set.
 
