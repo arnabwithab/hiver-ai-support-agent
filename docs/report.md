@@ -118,8 +118,9 @@ ones. The number to quote is **real-stratum 9/36**, not 33/60.
 
 | split | n | accuracy | macro-F1 | source |
 |---|---|---|---|---|
-| train (in-sample) | 10003 | 0.486 | 0.402 | `R` |
-| test (ceiling) | 3080 | 0.507 | 0.419 | `R` |
+| train (in-sample) | 10003 | 0.486 | 0.402 | `R` (unweighted) |
+| test (ceiling, unweighted) | 3080 | 0.507 | 0.419 | `R` |
+| test (ceiling, class-weighted) | 3080 | **0.559** | **0.485** | `R2` |
 
 `R` = run stdout 2026-09-09 (`train_phase_a` + `classification_metrics`
 on mapped test). Mapped test counts `R`: {1: 480, 2: 120, 3: 400,
@@ -127,11 +128,32 @@ on mapped test). Mapped test counts `R`: {1: 480, 2: 120, 3: 400,
 3: 1150, 4: 815, 5: 2240, 6: 276, 9: 3151}. Intents 7/8 have
 **zero coverage in train and test** (Banking77 carries no social
 intents — asserted in `tests/test_intent.py`, reported gap not a bug).
-Per-class test F1 `R`: 1: 0.611, 2: 0.229, 3: 0.678, 4: 0.255,
+Per-class test F1 `R` (unweighted): 1: 0.611, 2: 0.229, 3: 0.678, 4: 0.255,
 5: 0.543, 6: 0.239, 9: 0.374 — rare money intents (2/4/6) collapse
 under the hashing-trigram head. Mirror quirk: `dev.csv` is
 byte-identical to `test.csv`; train ∩ test overlap is 0/3080, so the
 ceiling stands.
+
+Class-weighted SGD (`_train_head(balanced=True)`, per-class gradient
+scale N/K·n_c, no rows dropped — undersampling rejected: it would discard
+~80% of data and starve the diverse `other` class). `R2` per-class
+prec/rec/F1: 1: 0.651/0.637/0.644, 2: 0.774/0.200/0.318,
+3: 0.654/0.710/0.681, 4: 0.803/0.204/0.325, 5: 0.434/0.938/0.593,
+6: 0.744/0.242/0.365, 9: 0.788/0.335/0.470 — every minority recall
+improves (2: 0.133→0.200, 4: 0.150→0.204, 6: 0.142→0.242). Residual
+error is class 5 as sink (true-2 → 83/120 predicted 5; true-4 →
+180/280 predicted 5): the 19-intent product bucket plus trigram overlap
+(`top_up_reverted`→2 vs `pending_top_up`→9) exceeds what reweighting a
+frozen hashing embedding can split — needs the real sentence embedding
+or a mapping rethink, not more balancing.
+
+Classes 7/8 (`R2` synthetic probes, `_SYNTHETIC` 3 texts each — Banking77
+has zero social rows so real prec/rec is uncomputable): probe-acc 0.000
+for both; the head never emits 7/8 (unseen classes keep ~zero bias while
+trained biases grow). Social coverage must come from Twitter threads —
+measured real prevalence `R2`: ChaseSupport 19.1% thanks / 6.2% greeting
+(n=1,974 attributed inbound), Tesco 23.6%/10.7%, Spotify 22.0%/3.6%;
+single-hop attribution leaves 64% unattributed, weak labels not gold.
 
 Chase subsample (`src/subsample.py`, fixpoint over `twcs.csv`, 5 passes
 to convergence, 33 s): **6887 threads / 19110 rows** written to

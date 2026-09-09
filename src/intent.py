@@ -12,6 +12,7 @@ import csv
 import hashlib
 import json
 import math
+from collections import Counter
 from pathlib import Path
 
 from src.eval.metrics import classification_metrics
@@ -95,18 +96,26 @@ class IntentClassifier:
         return max(self.predict_proba(text))
 
 
-def _train_head(rows, epochs=EPOCHS, lr=LR):
+def _train_head(rows, epochs=EPOCHS, lr=LR, balanced=True):
     clf = IntentClassifier()
+    if balanced:
+        # Equal gradient influence per class (N/K·n_c); keeps every row,
+        # unlike undersampling. ponytail: no oversampling machinery.
+        counts = Counter(label for _, label in rows)
+        weights = {label: len(rows) / (len(counts) * n) for label, n in counts.items()}
+    else:
+        weights = {}
     for _ in range(epochs):
         for text, label in rows:
             vec = embed(text)
             proba = _softmax(clf._logits(text))
+            step = lr * weights.get(label, 1.0)
             for k in range(N_INTENTS):
                 err = proba[k] - (1.0 if label == k + 1 else 0.0)
                 wk = clf.weights[k]
                 for j in range(DIM):
-                    wk[j] -= lr * err * vec[j]
-                clf.bias[k] -= lr * err
+                    wk[j] -= step * err * vec[j]
+                clf.bias[k] -= step * err
     return clf
 
 
