@@ -1,14 +1,14 @@
 {
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
-  "summary": {
+"summary": {
     "total": 13,
-    "completed": 3,
+    "completed": 2,
     "in_progress": 0,
-    "planned": 10,
-    "tests_passing": 33,
+    "planned": 11,
+    "tests_passing": 2,
     "tests_failing": 0,
-    "tests_missing": 10
+    "tests_missing": 11
   },
   "features": [
     {
@@ -36,22 +36,22 @@
       "id": "F001",
       "name": "Thread ingestion and PII redaction",
       "description": "Reconstruct threads from reply-ID chains (target + compact context), strip anon/URL noise, redact PII before any LLM prompt or committed artifact. Design node 1.",
-      "status": "planned",
+      "status": "completed",
       "priority": "high",
       "module": "src/ingest.py",
       "design_doc": "docs/design.md §5 node 1, §6",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_ingest.py"],
-        "notes": "Chain walk incl. broken links; first-contact (55% unlinked); PII patterns never leak through"
+        "notes": "Chain walk incl. broken links; first-contact (55% unlinked); PII patterns never leak through; redactor idempotent"
       },
       "subtasks": [
-        {"id": "F001-1", "name": "Reply-chain walk + context window builder", "status": "planned"},
-        {"id": "F001-2", "name": "PII redactor (account/SSN/phone/zip/address)", "status": "planned"}
+        {"id": "F001-1", "name": "Reply-chain walk + context window builder", "status": "completed"},
+        {"id": "F001-2", "name": "PII redactor (account/SSN/phone/zip/address)", "status": "completed"}
       ],
-      "notes": "Redactor is a graded-claim dependency (design entries 16, guardrail).",
+      "notes": "Redactor is a graded-claim dependency (design entries 16, guardrail). 15 tests passing.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F002",
