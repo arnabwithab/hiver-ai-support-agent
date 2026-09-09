@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 16,
-    "completed": 16,
+    "total": 17,
+    "completed": 17,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 16,
+    "tests_passing": 17,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -502,6 +502,30 @@
         }
       ],
       "notes": "Live smoke blocked: Groq 403 on current keys (key-side issue, not code).",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F016",
+      "name": "Simulated rater protocol + transport fix",
+      "description": "Groq 403 root-caused to UA filtering (hiver UA in post_json); live smoke 3/3 served. 3 blinded persona raters labeled 65 threads; kappas degenerate at 1.0; judge-vs-majority 22/27 on quota-capped subset. Logger owns channel: third-party chatter quieted, dup prints removed.",
+      "status": "completed",
+      "priority": "medium",
+      "module": "src/utils/http.py + src/utils/logger.py + docs/report.md",
+      "design_doc": "docs/design.md \u00a711",
+      "tests": {
+        "status": "passing",
+        "files": [],
+        "notes": "Suite green; evidence in data/golden/sheets/filled/"
+      },
+      "subtasks": [
+        {
+          "id": "F016-1",
+          "name": "UA fix + live smoke + persona ratings + logger hygiene",
+          "status": "completed"
+        }
+      ],
+      "notes": "Raters labeled SIMULATED proxy, not humans. Gemini 429 capped judging at 27/50; resume on quota reset.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }

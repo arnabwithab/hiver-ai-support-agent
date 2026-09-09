@@ -69,13 +69,16 @@ def _model():
 
 def embed(text):
     """Frozen sentence embedding (design §7), L2-normalised. Deterministic."""
-    return [float(v) for v in _model().encode(text, normalize_embeddings=True)]
+    return [
+        float(v) for v in _model().encode(text, normalize_embeddings=True, show_progress_bar=False)
+    ]
 
 
 def embed_many(texts):
     """Batch encode; one model call for a whole corpus."""
     return [
-        [float(v) for v in row] for row in _model().encode(list(texts), normalize_embeddings=True)
+        [float(v) for v in row]
+        for row in _model().encode(list(texts), normalize_embeddings=True, show_progress_bar=False)
     ]
 
 

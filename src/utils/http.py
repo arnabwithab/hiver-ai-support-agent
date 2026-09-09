@@ -21,7 +21,12 @@ def post_json(url, api_key, model, prompt, temperature):
     request = urllib.request.Request(
         url,
         data=body,
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            # Groq 403s Python-urllib's default UA; identify honestly instead.
+            "User-Agent": "hiver-support-agent/1.0",
+        },
     )
     with urllib.request.urlopen(request, timeout=60) as response:
         payload = json.loads(response.read().decode("utf-8"))

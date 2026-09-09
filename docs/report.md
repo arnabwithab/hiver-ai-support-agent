@@ -44,10 +44,17 @@ errors exceed 0.8 (margin signal reserved as future work).
 
 Judge calibration: protocol is 3 raters, 15 calibration + ~50 main examples,
 pairwise kappas + judge-vs-majority vs mean−2σ bar (design §11). Status:
-**not run — both rater sheets are blank (`data/golden/sheets/main.csv`,
-`calibration.csv`), so no kappa exists and no judge-vs-golden agreement was
-measured either.** The trust claim currently rests only on rubric unit tests.
-Unmeasured, labeled as such.
+**simulated-rater proxy, not humans** — 3 isolated persona raters labeled
+blinded threads independently (filled sheets in `data/golden/sheets/filled/`).
+Pairwise kappas, intent and auto/escalate alike: **1.000 × 3 (degenerate,
+σ = 0, bar = 1.0)** — same-model personas converge, so this measures no
+human spread; draft-verdict agreement 0.88/0.88/1.0 shows the only real
+variance. Rater majority vs fixture labels: 54/65 — raters did not copy
+fixtures (systematic relabel: fixture complaint_escalation 9 → 0, refund
+11 → 39, other 7 → 33). Judge-vs-rater-majority on 27/50 drafts
+(Gemini quota-capped, resume pending): **22/27 agreement**; judge passed
+24/27 vs rater-majority 19/27 — the judge is more lenient than the panel.
+The trust claim still awaits human raters; unmeasured, labeled as such.
 
 ## 3. Top-5 failure modes (all 24 errors are real-stratum; boundary/adversarial: zero)
 

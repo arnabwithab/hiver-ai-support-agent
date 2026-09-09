@@ -131,7 +131,6 @@ def weak_label_distribution(threads):
             if turn["inbound"] and turn["text"]:
                 dist[weak_label(turn["text"])] += 1
     dist = dict(sorted(dist.items()))
-    print(f"weak-label distribution (n={sum(dist.values())}): {dist}")
     logger.info("weak-label distribution n=%d %s", sum(dist.values()), dist)
     return dist
 
@@ -190,7 +189,6 @@ def main(csv_path=DEFAULT_CSV, out_path=DEFAULT_OUT):
         for thread in threads:
             fh.write(json.dumps(thread) + "\n")
     logger.info("wrote %d threads to %s", len(threads), out)
-    print(f"threads={len(threads)} ids={len(ids)} out={out}")
     return weak_label_distribution(threads)
 
 

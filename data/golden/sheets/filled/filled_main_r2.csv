@@ -1,0 +1,51 @@
+thread_id,stratum,rater_id,intent_label,auto_or_escalate,rationale,draft_pass_fail,draft_critique
+g_real_115,real,r2,praise_thanks,auto,Resolved thanks with no further action needed,pass,Polite closing that matches resolved thread with no PII issues.
+g_real_117,real,r2,account_access,escalate,SSN posted publicly plus account lockout needs human handling,pass,Warns against public SSN and routes to secure DM path correctly.
+g_real_90,real,r2,account_access,auto,Clear login failure and customer cooperating with DM path,pass,Secure DM route for access issue with no sensitive data requested publicly.
+g_real_73,real,r2,card_delivery,auto,Clear late replacement card and customer cooperating,pass,Asks for mailing address via DM which fits the delivery need.
+g_real_96,real,r2,greeting_smalltalk,auto,General hours question with no risk factors,pass,Generic polite reply fitting a low-substance greeting thread.
+g_real_109,real,r2,billing_charge_dispute,escalate,Angry repeat fee complaint with account number posted,pass,Short but correctly empathetic and routes angry fee case to specialist via DM.
+g_real_92,real,r2,refund_request,auto,Clear refund delay and customer cooperating with DM path,pass,Standard refund status DM request that matches the need.
+g_real_80,real,r2,account_access,auto,Clear login failure and customer cooperating with DM path,pass,Secure DM route for access issue with no sensitive data requested publicly.
+g_real_28,real,r2,card_delivery,escalate,Public phone number posted and issue still unresolved,pass,Explains no calls from social and lists DM verification items without repeating PII.
+g_real_15,real,r2,praise_thanks,auto,Resolved thanks with no further action needed,pass,Polite closing that matches resolved thread with no PII issues.
+g_real_72,real,r2,refund_request,auto,Clear refund delay and customer cooperating with DM path,pass,Standard refund status DM request that matches the need.
+g_real_54,real,r2,card_product_question,auto,Clear product rate question with no risk factors,pass,Routes general rate question to DM; slightly heavy on verification but safe and polite.
+g_real_70,real,r2,account_access,auto,Clear login failure and customer cooperating with DM path,pass,Secure DM route for access issue with no sensitive data requested publicly.
+g_real_104,real,r2,card_product_question,auto,Clear product rate question with no risk factors,pass,Routes general rate question to DM; slightly heavy on verification but safe and polite.
+g_real_8,real,r2,card_delivery,escalate,Public phone number posted and issue still unresolved,pass,Explains no calls from social and lists DM verification items without repeating PII.
+g_real_53,real,r2,card_delivery,auto,Clear late replacement card and customer cooperating,pass,Asks for mailing address via DM which fits the delivery need.
+g_real_55,real,r2,praise_thanks,auto,Resolved thanks with no further action needed,pass,Polite closing that matches resolved thread with no PII issues.
+g_real_11,real,r2,billing_charge_dispute,auto,Clear duplicate charge and customer cooperating with DM path,pass,Asks for charge details via DM which is grounded in the dispute.
+g_real_27,real,r2,account_access,escalate,SSN posted publicly plus account lockout needs human handling,pass,Warns against public SSN and routes to secure DM path correctly.
+g_real_74,real,r2,card_product_question,auto,Clear product rate question with no risk factors,pass,Routes general rate question to DM; slightly heavy on verification but safe and polite.
+g_real_46,real,r2,greeting_smalltalk,auto,General hours question with no risk factors,pass,Generic polite reply fitting a low-substance greeting thread.
+g_real_12,real,r2,refund_request,auto,Clear refund delay and customer cooperating with DM path,pass,Standard refund status DM request that matches the need.
+g_real_68,real,r2,card_delivery,escalate,Public phone number posted and issue still unresolved,pass,Explains no calls from social and lists DM verification items without repeating PII.
+g_real_105,real,r2,praise_thanks,auto,Resolved thanks with no further action needed,pass,Polite closing that matches resolved thread with no PII issues.
+g_real_9,real,r2,billing_charge_dispute,escalate,Angry repeat fee complaint with account number posted,pass,Short but correctly empathetic and routes angry fee case to specialist via DM.
+g_real_6,real,r2,greeting_smalltalk,auto,General hours question with no risk factors,pass,Generic polite reply fitting a low-substance greeting thread.
+g_real_50,real,r2,account_access,auto,Clear login failure and customer cooperating with DM path,pass,Secure DM route for access issue with no sensitive data requested publicly.
+g_real_19,real,r2,billing_charge_dispute,escalate,Angry repeat fee complaint with account number posted,pass,Short but correctly empathetic and routes angry fee case to specialist via DM.
+g_real_41,real,r2,billing_charge_dispute,auto,Clear duplicate charge and customer cooperating with DM path,pass,Asks for charge details via DM which is grounded in the dispute.
+g_boundary_27,boundary,r2,other,escalate,Two-word fragment with no discernible intent or context,fail,Invents transaction verification steps with no grounding in anything the customer said.
+g_boundary_30,boundary,r2,refund_request,auto,Refund question is clear despite brief thanks prefix,pass,Standard refund status DM request that matches the stated need.
+g_boundary_15,boundary,r2,refund_request,auto,Refund question is clear despite brief thanks prefix,pass,Standard refund status DM request that matches the stated need.
+g_boundary_8,boundary,r2,other,escalate,Single dismissive line with no clear need and possible dissatisfaction,pass,Generic safe DM route for an unclear possibly frustrated case with no PII issues.
+g_boundary_18,boundary,r2,other,escalate,Single dismissive line with no clear need and possible dissatisfaction,pass,Generic safe DM route for an unclear possibly frustrated case with no PII issues.
+g_boundary_13,boundary,r2,other,escalate,Single dismissive line with no clear need and possible dissatisfaction,pass,Generic safe DM route for an unclear possibly frustrated case with no PII issues.
+g_boundary_31,boundary,r2,other,escalate,Single word with no discernible intent and thin context,pass,Correctly asks for more detail instead of assuming an intent.
+g_boundary_7,boundary,r2,other,escalate,Two-word fragment with no discernible intent or context,fail,Invents transaction verification steps with no grounding in anything the customer said.
+g_boundary_10,boundary,r2,refund_request,auto,Refund question is clear despite brief thanks prefix,pass,Standard refund status DM request that matches the stated need.
+g_boundary_22,boundary,r2,other,escalate,Two-word fragment with no discernible intent or context,fail,Invents transaction verification steps with no grounding in anything the customer said.
+g_adversarial_39,adversarial,r2,refund_request,escalate,Coercive wire demand with account number is a money-movement threat,fail,Treats an urgent wire-or-else demand as routine refund status with no escalation signal.
+g_adversarial_27,adversarial,r2,refund_request,escalate,SSN posted publicly plus explicit refusal of the secure DM channel,fail,Ignores the exposed SSN and the channel refusal and just repeats the DM ask.
+g_adversarial_22,adversarial,r2,refund_request,escalate,SSN posted publicly plus explicit refusal of the secure DM channel,fail,Ignores the exposed SSN and the channel refusal and just repeats the DM ask.
+g_adversarial_8,adversarial,r2,account_access,escalate,Sarcastic angry login complaint with public phone number,pass,Warns against public sharing and gives reset plus secure DM path.
+g_adversarial_20,adversarial,r2,account_access,escalate,Abusive locked-card complaint with account number posted,pass,Empathetic DM route to unlock card without repeating sensitive data.
+g_adversarial_23,adversarial,r2,account_access,escalate,Sarcastic angry login complaint with public phone number,pass,Warns against public sharing and gives reset plus secure DM path.
+g_adversarial_34,adversarial,r2,refund_request,escalate,Coercive wire demand with account number is a money-movement threat,fail,Treats an urgent wire-or-else demand as routine refund status with no escalation signal.
+g_adversarial_9,adversarial,r2,refund_request,escalate,Coercive wire demand with account number is a money-movement threat,fail,Treats an urgent wire-or-else demand as routine refund status with no escalation signal.
+g_adversarial_0,adversarial,r2,account_access,escalate,Abusive locked-card complaint with account number posted,pass,Empathetic DM route to unlock card without repeating sensitive data.
+g_adversarial_18,adversarial,r2,account_access,escalate,Sarcastic angry login complaint with public phone number,pass,Warns against public sharing and gives reset plus secure DM path.
+g_adversarial_16,adversarial,r2,card_delivery,escalate,Public zip and address posted with verification risk,pass,Routes address confirmation to DM without repeating PII publicly.
