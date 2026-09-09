@@ -71,8 +71,6 @@ Makefile targets are thin wrappers over `python -m src...` / `pytest` — no bus
 
 ## Multi-Agent Workflow
 
-When `docs/features.json` contains 3 or more independent features (different modules, no shared state), the Build agent parallelizes implementation using subagents.
-
 ### Flow
 
 1. **Plan**: Identify independent features from `features.json`. Features touching the same files are dependent and batched sequentially.
