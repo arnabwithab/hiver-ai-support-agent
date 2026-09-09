@@ -3,34 +3,34 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 0,
+    "completed": 1,
     "in_progress": 0,
-    "planned": 13,
-    "tests_passing": 0,
+    "planned": 12,
+    "tests_passing": 1,
     "tests_failing": 0,
-    "tests_missing": 13
+    "tests_missing": 12
   },
   "features": [
     {
       "id": "F000",
       "name": "Repo scaffold and toolchain",
       "description": "Makefile (setup/dev/test/style/build/clean), uv project, settings + logger, .env.example, .gitignore, git init + first commit. Everything else builds on this.",
-      "status": "planned",
+      "status": "completed",
       "priority": "high",
       "module": "repo-root",
       "design_doc": "docs/design.md §12",
       "tests": {
-        "status": "missing",
-        "files": [],
-        "notes": "Smoke: make setup idempotent; make test/style run green on empty suite"
+        "status": "passing",
+        "files": ["tests/test_scaffold.py"],
+        "notes": "Smoke: make setup idempotent; make test/style run green on empty suite. 2 tests pass (settings + logger import/behavior)."
       },
       "subtasks": [
-        {"id": "F000-1", "name": "Makefile + uv init + config/logger", "status": "planned"},
-        {"id": "F000-2", "name": "git init + first commit", "status": "planned"}
+        {"id": "F000-1", "name": "Makefile + uv init + config/logger", "status": "completed"},
+        {"id": "F000-2", "name": "git init + first commit", "status": "completed"}
       ],
       "notes": "Build first; unblocks all other features.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F001",
