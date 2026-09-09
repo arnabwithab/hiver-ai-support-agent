@@ -55,16 +55,16 @@ thread split the anger-vs-substance line opposite ways; on drafts the
 human failed 3 verbatim-copy fee replies r1 passed, while r1 failed 5
 the human passed. Auto/escalate agreement is perfect — both raters
 escalate identically everywhere, so the gate threshold carries no
-rater-explained variance. Judge-vs-rater on 48/50 drafts (rubric v2 incl.
+rater-explained variance. Judge-vs-rater on 50/50 drafts (rubric v2 incl.
 anti-parroting rule, `gemini-3.5-flash` — 2.5-flash deprecated for new
-keys, lite proven unusable with 1.00 pass rate): **agreement 0.75 vs
-human, 0.58 vs r1; fail-recall 0.40 vs human fail set (6/15), 0.18 vs
+keys, lite proven unusable with 1.00 pass rate): **agreement 0.76 vs
+human, 0.60 vs r1; fail-recall 0.40 vs human fail set (6/15), 0.18 vs
 r1 (3/17).** The gate functions on the stronger model — it fails
 verbatim-copy fee drafts and PII-ignoring replies — but stays stricter
 than both raters in places (false alarms on 3 greeting drafts both
 raters passed) while missing most rater fails. Verdict: shippable as an
 escalate-happy gate with human review of fails, not as autonomous
-pass-through. 2 drafts unjudged (quota); model recorded per artifact.
+pass-through. Model recorded per artifact.
 Caveat: 2 raters give no majority on splits and no rater-spread bar
 (needs 3); treat kappas as alignment evidence, not the full §11 bar.
 
