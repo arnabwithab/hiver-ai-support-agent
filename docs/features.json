@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 7,
+    "completed": 8,
     "in_progress": 0,
-    "planned": 6,
-    "tests_passing": 7,
+    "planned": 5,
+    "tests_passing": 8,
     "tests_failing": 0,
-    "tests_missing": 6
+    "tests_missing": 5
   },
   "features": [
     {
@@ -100,43 +100,43 @@
       "id": "F004",
       "name": "Per-intent retrieval grounding",
       "description": "Cluster historical brand replies within each intent into named response strategies (2-3 exemplars each); same-intent top-k retrieval at serve time. Design node 4c + §8.",
-      "status": "planned",
+      "status": "completed",
       "priority": "medium",
       "module": "src/retrieve.py",
       "design_doc": "docs/design.md §8",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_retrieve.py"],
-        "notes": "Retrieval restricted to predicted intent; DM-takeover clusters present for money intents"
+        "notes": "6 tests pass: same-intent restriction both directions; DM-takeover present for money intents 1/2/3; top-k length respected; 2-3 exemplars per strategy; default index from dev brand turns"
       },
       "subtasks": [
-        {"id": "F004-1", "name": "Offline per-intent clustering + strategy labels", "status": "planned"},
-        {"id": "F004-2", "name": "Serve-time same-intent top-k retrieval", "status": "planned"}
+        {"id": "F004-1", "name": "Offline per-intent clustering + strategy labels", "status": "completed"},
+        {"id": "F004-2", "name": "Serve-time same-intent top-k retrieval", "status": "completed"}
       ],
       "notes": "Needs F002 intent labels for clustering corpus.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F005",
       "name": "Reply drafter (Groq)",
       "description": "LLM call site #1. Free-draft policy for social-only threads; grounded policy (intent + history + exemplars + strategy as hard context) otherwise. Temperature 0, model recorded, artifacts cached.",
-      "status": "planned",
+      "status": "completed",
       "priority": "high",
       "module": "src/draft.py",
       "design_doc": "docs/design.md §5 nodes 4b/4d, §9, §12",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_draft.py"],
-        "notes": "Mock the LLM client; assert prompt contains intent + exemplars for grounded policy and omits them for free policy"
+        "notes": "7 tests pass on a fake client (no keys): grounded prompt contains intent + exemplars + strategy, free prompt omits them; cache hit avoids second client call; model/hash mismatch invalidates; temperature 0 + provider/model/retry-flag recorded; PII redacted in both builders"
       },
       "subtasks": [
-        {"id": "F005-1", "name": "Groq client + free/grounded prompt builders", "status": "planned"},
-        {"id": "F005-2", "name": "Artifact caching keyed by (provider, model, prompt hash)", "status": "planned"}
+        {"id": "F005-1", "name": "Groq client + free/grounded prompt builders", "status": "completed"},
+        {"id": "F005-2", "name": "Artifact caching keyed by (provider, model, prompt hash)", "status": "completed"}
       ],
       "notes": "Needs GROQ_API_KEY at runtime; tests run on mocks. Never add classification logic here.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F006",
