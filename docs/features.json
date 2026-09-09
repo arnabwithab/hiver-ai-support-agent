@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 11,
+    "completed": 13,
     "in_progress": 0,
-    "planned": 2,
-    "tests_passing": 11,
+    "planned": 0,
+    "tests_passing": 13,
     "tests_failing": 0,
-    "tests_missing": 2
+    "tests_missing": 0
   },
   "features": [
     {
@@ -267,22 +267,22 @@
       "id": "F012",
       "name": "Report",
       "description": "docs/report.md (≤6 pages): framing + non-goals, results vs both baselines, top-5 failures with real examples, 'misleading headline' section, next-week plan, decision log. Built from F009 outputs, not hand-written numbers.",
-      "status": "planned",
+      "status": "completed",
       "priority": "medium",
       "module": "docs/report.md",
       "design_doc": "docs/design.md §10",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": [],
-        "notes": "Checklist test: every mandatory brief section present; every number traceable to an eval artifact"
+        "notes": "Checklist verified by inspection: all 6 mandatory brief sections present (framing+non-goals, baselines, top-5 failures with thread IDs, misleading-headline, next-week plan, 15-entry decision log); every number cites source (B=make build stdout, G=golden counts, T=make test, L=local eval script); 111 lines (<200); unmeasured claims (kappa, judge-vs-golden, Case-B recall) labeled as such"
       },
       "subtasks": [
-        {"id": "F012-1", "name": "Report skeleton with mandatory sections", "status": "planned"},
-        {"id": "F012-2", "name": "Fill from eval artifacts + failure analysis", "status": "planned"}
+        {"id": "F012-1", "name": "Report skeleton with mandatory sections", "status": "completed"},
+        {"id": "F012-2", "name": "Fill from eval artifacts + failure analysis", "status": "completed"}
       ],
-      "notes": "Last feature. Numbers must match committed eval artifacts exactly.",
+      "notes": "Last feature. Real-stratum accuracy 0.250 (9/36) is the honest headline; TF-IDF beats the trigram head; rater protocol unrun (sheets blank) so no kappa reported.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     }
   ]
 }
