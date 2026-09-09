@@ -81,7 +81,7 @@ Makefile targets are thin wrappers over `python -m src...` / `pytest` — no bus
 
 ### Subagents
 
-Subagents are defined in `~/.config/opencode/agents/` and available globally. All three use `model: opencode-go/deepseek-v4-flash`.
+Subagents are defined in `~/.config/opencode/agents/` and available globally.
 
 | Agent | File | Purpose | Permissions |
 |-------|------|---------|-------------|
