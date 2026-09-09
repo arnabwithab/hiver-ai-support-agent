@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 1,
+    "completed": 2,
     "in_progress": 0,
-    "planned": 12,
-    "tests_passing": 1,
+    "planned": 11,
+    "tests_passing": 13,
     "tests_failing": 0,
-    "tests_missing": 12
+    "tests_missing": 11
   },
   "features": [
     {
@@ -79,22 +79,22 @@
       "id": "F003",
       "name": "Thread-state machine",
       "description": "Cases A-D, keyword veto, continuation inheritance, (raw → override → final) logging. Design node 3 + §6 state block.",
-      "status": "planned",
+      "status": "completed",
       "priority": "high",
       "module": "src/state.py",
       "design_doc": "docs/design.md §6",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_state.py"],
-        "notes": "Each Case A-D; awaiting_user exception; veto on 'thanks + refund?'; inheritance only when low-conf; every decision logs the triple"
+        "notes": "Each Case A-D; awaiting_user exception; veto on 'thanks + refund?'; inheritance only when low-conf; every decision returns/logs the triple. 11 tests pass."
       },
       "subtasks": [
-        {"id": "F003-1", "name": "Transitions A-D + veto + inheritance", "status": "planned"},
-        {"id": "F003-2", "name": "Decision-triple logging", "status": "planned"}
+        {"id": "F003-1", "name": "Transitions A-D + veto + inheritance", "status": "completed"},
+        {"id": "F003-2", "name": "Decision-triple logging", "status": "completed"}
       ],
       "notes": "Pure logic, no LLM — fully testable offline. Feeds F009 override counts.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F004",
