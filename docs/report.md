@@ -44,17 +44,22 @@ errors exceed 0.8 (margin signal reserved as future work).
 
 Judge calibration: protocol is 3 raters, 15 calibration + ~50 main examples,
 pairwise kappas + judge-vs-majority vs mean−2σ bar (design §11). Status:
-**simulated-rater proxy, not humans** — 3 isolated persona raters labeled
-blinded threads independently (filled sheets in `data/golden/sheets/filled/`).
-Pairwise kappas, intent and auto/escalate alike: **1.000 × 3 (degenerate,
-σ = 0, bar = 1.0)** — same-model personas converge, so this measures no
-human spread; draft-verdict agreement 0.88/0.88/1.0 shows the only real
-variance. Rater majority vs fixture labels: 54/65 — raters did not copy
-fixtures (systematic relabel: fixture complaint_escalation 9 → 0, refund
-11 → 39, other 7 → 33). Judge-vs-rater-majority on 27/50 drafts
-(Gemini quota-capped, resume pending): **22/27 agreement**; judge passed
-24/27 vs rater-majority 19/27 — the judge is more lenient than the panel.
-The trust claim still awaits human raters; unmeasured, labeled as such.
+**2 raters, one human** — the author labeled all 65 blind threads via
+`rate.md`; r1 is a persona-A model rater (strict QA). Filled sheets in
+`data/golden/sheets/filled/` (v2). Calibration intent kappa 0.920 ≥ 0.7,
+so no second round was needed. Full-panel: **intent kappa 0.928 (n=65),
+auto/escalate kappa 1.000, draft-verdict agreement 0.840 (42/50).**
+Disagreements are interpretable, not noise: the "whatever" threads
+(human complaint_escalation vs r1 other ×3) and one sarcastic-login
+thread split the anger-vs-substance line opposite ways; on drafts the
+human failed 3 verbatim-copy fee replies r1 passed, while r1 failed 5
+the human passed. Auto/escalate agreement is perfect — both raters
+escalate identically everywhere, so the gate threshold carries no
+rater-explained variance. Judge-vs-rater on 25/50 drafts (Gemini quota):
+**0.72 vs human and vs r1 alike** — the judge passes more (22/25) than
+either rater panel majority would sustain, i.e. lenient, not strict.
+Caveat: 2 raters give no majority on splits and no rater-spread bar
+(needs 3); treat kappas as alignment evidence, not the full §11 bar.
 
 ## 3. Top-5 failure modes (all 24 errors are real-stratum; boundary/adversarial: zero)
 

@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 19,
-    "completed": 19,
+    "total": 20,
+    "completed": 20,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 19,
+    "tests_passing": 20,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -577,6 +577,30 @@
         }
       ],
       "notes": "r1 dist: auto 24/escalate 26; drafts 33 pass/17 fail; complaint_escalation used where boundary threads warranted (per-persona doctrine, not guideline-forced).",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F019",
+      "name": "Human rater protocol (2-rater panel)",
+      "description": "Author labeled 65 blind threads via rate.md; model rater r1 (persona A) labeled same set. Intent kappa 0.928, auto 1.000, draft agreement 0.840. Judge-vs-rater 0.72 on quota-capped 25/50. Calibration 0.920 cleared the 0.7 bar; no second round.",
+      "status": "completed",
+      "priority": "high",
+      "module": "data/golden/sheets/filled/ + data/golden/sheets/rate.md",
+      "design_doc": "docs/design.md \u00a711",
+      "tests": {
+        "status": "passing",
+        "files": [],
+        "notes": "No code changes; suite green"
+      },
+      "subtasks": [
+        {
+          "id": "F019-1",
+          "name": "Human labeling + kappa computation + report",
+          "status": "completed"
+        }
+      ],
+      "notes": "2 raters: no majority on splits, no spread bar (needs 3). Judge lenient vs panel.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }
