@@ -10,13 +10,13 @@ loudly without keys. Stdlib only; env via settings; logging via logger.
 import argparse
 import json
 
-from src import cache
+from src import cache, orchestrate
 from src.draft import PROVIDER as DRAFT_PROVIDER
-from src.draft import draft, free_draft_prompt
+from src.draft import free_draft_prompt
 from src.eval.baselines import MajorityBaseline, TfidfBaseline
 from src.eval.metrics import classification_metrics
 from src.judge import PROVIDER as JUDGE_PROVIDER
-from src.judge import judge, judge_prompt
+from src.judge import judge_prompt
 from src.utils.config import settings
 from src.utils.logger import logger
 
@@ -106,7 +106,7 @@ def cache_repro(holdout, n=SMOKE_N):
 
 
 def live_smoke(holdout, n):
-    """Small live subset through the real drafter + judge (cache-backed)."""
+    """Small live subset through the real DAG (classify → retrieve → draft → judge)."""
     missing = [
         name
         for name, val in (
@@ -122,11 +122,9 @@ def live_smoke(holdout, n):
         )
     decisions = []
     for thread in holdout[:n]:
-        target = target_text(thread)
-        draft_text = draft(free_draft_prompt(target=target, context=""))["text"]
-        verdict = judge(draft_text, target=target)
-        decisions.append("serve" if verdict["pass"] else "escalate")
-        logger.info("live smoke %s -> %s", thread["thread_id"], decisions[-1])
+        result = orchestrate.handle_message(thread["turns"], thread["target_id"])
+        decisions.append(result["decision"])
+        logger.info("live smoke %s -> %s", thread["thread_id"], result["decision"])
     return {
         "threads": len(decisions),
         "serve": decisions.count("serve"),

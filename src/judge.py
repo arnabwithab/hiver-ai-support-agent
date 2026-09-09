@@ -10,13 +10,12 @@ Deterministic Case-B canned acks carry no LLM content and are explicitly
 outside this gate (design §5/§9): callers must never pass them to review().
 """
 
-import json
 import re
-import urllib.request
 
 from src import cache
 from src.ingest import redact_pii
 from src.utils.config import settings
+from src.utils.http import post_json
 from src.utils.logger import logger
 
 PROVIDER = "gemini"
@@ -104,21 +103,8 @@ def gemini_complete(prompt, model, temperature=TEMPERATURE):
     key = settings.GEMINI_API_KEY
     if not key:
         raise RuntimeError("GEMINI_API_KEY is missing")
-    body = json.dumps(
-        {
-            "model": model,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": temperature,
-        }
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        settings.GEMINI_BASE_URL.rstrip("/") + "/chat/completions",
-        data=body,
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-    )
-    with urllib.request.urlopen(request, timeout=60) as response:
-        payload = json.loads(response.read().decode("utf-8"))
-    return payload["choices"][0]["message"]["content"]
+    url = settings.GEMINI_BASE_URL.rstrip("/") + "/chat/completions"
+    return post_json(url, key, model, prompt, temperature)
 
 
 def judge(

@@ -18,43 +18,6 @@ DM_STRATEGY = "request_dm_plus_verify"
 _EXEMPLARS_EACH = 3
 _KMEANS_ITERS = 10
 
-_SYNTHETIC_BRAND = {
-    1: [
-        "Please DM us so we can verify your account and check the duplicate charge",
-        "DM us your details so we can verify you securely",
-        "Duplicate charges are reviewed case by case, see our billing policy here",
-        "Our billing policy covers duplicate charge eligibility",
-    ],
-    2: [
-        "Please DM us so we can check your refund status securely",
-        "DM us your details so we can verify the refund",
-        "Refunds can take a few business days per our policy",
-        "Check our refund policy for eligibility timelines",
-    ],
-    3: [
-        "Please DM us so we can verify your identity and unlock your account",
-        "DM us to verify you securely before any account action",
-        "Try resetting your password via the login page first",
-        "Follow these steps to troubleshoot your login",
-    ],
-    4: [
-        "DM us your address so we can track your replacement card",
-        "Your replacement card is on its way, we will follow up shortly",
-        "Card delivery usually takes 5 to 7 business days",
-    ],
-    5: [
-        "You can find current rates on our site, DM us if you want help choosing",
-        "Per our policy, eligibility details are listed on the offer page",
-    ],
-    6: [
-        "We are sorry for the experience, please DM us so a senior rep can help",
-        "Your complaint is escalated, expect a callback shortly",
-    ],
-    7: ["You are so welcome, glad we could help", "Thanks for the kind words"],
-    8: ["Hello, how can we help today", "Hi there, DM us if you need anything"],
-    9: ["Please DM us so we can look into this", "Thanks for reaching out"],
-}
-
 
 def _strategy_name(text):
     t = text.lower()
@@ -72,7 +35,7 @@ def _strategy_name(text):
 
 
 def load_brand_replies(dev_dir="data/golden/dev"):
-    """Brand (outbound) turns grouped by intent; synthetic fallback if dev absent."""
+    """Brand (outbound) turns grouped by intent; loud failure when dev is absent."""
     name_to_id = {name: label for label, name in _INTENT_NAMES.items()}
     grouped = {}
     for path in sorted(Path(dev_dir).glob("*.jsonl")):
@@ -86,11 +49,10 @@ def load_brand_replies(dev_dir="data/golden/dev"):
                 for turn in thread.get("turns", []):
                     if not turn.get("inbound") and turn.get("text"):
                         grouped.setdefault(label, []).append(turn["text"])
-    if grouped:
-        logger.info("loaded brand replies for %d intents from %s", len(grouped), dev_dir)
-        return grouped
-    logger.info("dev slice absent, using synthetic brand replies")
-    return {label: list(texts) for label, texts in _SYNTHETIC_BRAND.items()}
+    if not grouped:
+        raise SystemExit(f"retrieval needs brand replies at {dev_dir} (run F010 sampler first)")
+    logger.info("loaded brand replies for %d intents from %s", len(grouped), dev_dir)
+    return grouped
 
 
 def _kmeans(vecs, k):

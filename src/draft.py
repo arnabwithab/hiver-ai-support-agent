@@ -6,12 +6,10 @@ provider + model recorded, artifacts cached by (provider, model, prompt hash).
 No classification logic here — intent arrives as an argument (design §5).
 """
 
-import json
-import urllib.request
-
 from src import cache
 from src.ingest import redact_pii
 from src.utils.config import settings
+from src.utils.http import post_json
 
 PROVIDER = "groq"
 TEMPERATURE = 0
@@ -55,21 +53,7 @@ def groq_complete(prompt, model, temperature=TEMPERATURE):
     key = settings.GROQ_API_KEY
     if not key:
         raise RuntimeError("GROQ_API_KEY is missing")
-    body = json.dumps(
-        {
-            "model": model,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": temperature,
-        }
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        _GROQ_URL,
-        data=body,
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-    )
-    with urllib.request.urlopen(request, timeout=60) as response:
-        payload = json.loads(response.read().decode("utf-8"))
-    return payload["choices"][0]["message"]["content"]
+    return post_json(_GROQ_URL, key, model, prompt, temperature)
 
 
 def draft(prompt, client=None, model=None, judge_guided_retry=False, cache_dir=None):

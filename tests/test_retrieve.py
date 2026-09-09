@@ -4,7 +4,9 @@ cluster() groups brand replies WITHIN each intent into named strategies;
 retrieve() serves top-k from the predicted intent only (never cross-intent).
 """
 
-from src.retrieve import build_index, cluster, retrieve
+import pytest
+
+from src.retrieve import build_index, cluster, load_brand_replies, retrieve
 
 INTENT_1 = [
     "Please DM us so we can verify your account and check the duplicate charge",
@@ -65,3 +67,8 @@ def test_default_index_builds_from_dev_or_synthetic():
     hits = retrieve(1, "duplicate charge on my bill", index, k=2)
     assert 1 <= len(hits) <= 2
     assert all(set(h) >= {"text", "strategy"} for h in hits)
+
+
+def test_brand_replies_fail_loud_when_dev_absent(tmp_path):
+    with pytest.raises(SystemExit):
+        load_brand_replies(str(tmp_path / "missing"))
