@@ -11,7 +11,7 @@ setup:
 
 # placeholder until F007 pipeline lands
 dev:
-	python -m src.orchestrate
+	@echo "dev: pipeline not yet implemented (F007)"
 
 test:
 	uv run pytest

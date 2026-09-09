@@ -6,8 +6,3 @@ for the single logger import path.
 Env vars are read ONLY via `src.utils.config.settings`. Never import os.getenv
 elsewhere in the codebase.
 """
-
-from .utils.config import settings
-from .utils.logger import logger
-
-__all__ = ["settings", "logger"]
