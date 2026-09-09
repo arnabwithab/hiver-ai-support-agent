@@ -6,4 +6,5 @@ __pycache__/
 .venv/
 .pytest_cache/
 data/cache/
+data/raw/
 .ruff_cache/
