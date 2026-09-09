@@ -142,22 +142,22 @@
       "id": "F006",
       "name": "Judge as gate and critic (Gemini)",
       "description": "LLM call site #2. One call, multi-criteria rubric (groundedness / tone_policy incl. PII-leak / escalation-correctness + shift-aware check), rationale per verdict; failures return critique for ≤3 retries, then escalate. Different provider from drafter by construction.",
-      "status": "planned",
+      "status": "completed",
       "priority": "high",
       "module": "src/judge.py",
       "design_doc": "docs/design.md §9",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_judge.py"],
-        "notes": "Mock client; PII-echo draft must fail; retry loop caps at 3 then escalates with rationale as handoff note"
+        "notes": "8 tests pass on a fake client (no keys): rubric version pinned in prompt; prompt redacts PII; per-criterion parse with rationale; temperature 0; PII-echo draft fails tone_policy despite LLM pass (local override); serve on first pass; ≤3 retries then escalate with rationale as handoff note; recovery on 2nd attempt"
       },
       "subtasks": [
-        {"id": "F006-1", "name": "Gemini client + rubric prompt + rationale parsing", "status": "planned"},
-        {"id": "F006-2", "name": "Gate/critic loop with retry cap and drop-to-escalate", "status": "planned"}
+        {"id": "F006-1", "name": "Gemini client + rubric prompt + rationale parsing", "status": "completed"},
+        {"id": "F006-2", "name": "Gate/critic loop with retry cap and drop-to-escalate", "status": "completed"}
       ],
       "notes": "Needs GEMINI_API_KEY at runtime. Rubric text versioned; old rubrics retained.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F007",
