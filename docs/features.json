@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 21,
-    "completed": 21,
+    "total": 22,
+    "completed": 22,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 21,
+    "tests_passing": 22,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -627,6 +627,30 @@
         }
       ],
       "notes": "Agreement judge-vs-human 0.70, vs-r1 0.66. Re-run on 2.5-flash/pro when quota returns.",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F021",
+      "name": "Judge on gemini-3.5-flash (gate functions)",
+      "description": "2.5-flash deprecated for new keys; lite passes everything (fail-recall 0). Re-judged 48/50 under v2 + 3.5-flash: agreement 0.75/0.58, fail-recall 0.40/0.18. Gate shippable escalate-happy only.",
+      "status": "completed",
+      "priority": "high",
+      "module": "src/judge.py (unchanged) + docs/report.md",
+      "design_doc": "docs/design.md \u00a79",
+      "tests": {
+        "status": "passing",
+        "files": [],
+        "notes": "No code changes; 48 judgments cached in data/cache (gitignored)"
+      },
+      "subtasks": [
+        {
+          "id": "F021-1",
+          "name": "3.5-flash judging + report",
+          "status": "completed"
+        }
+      ],
+      "notes": "Set GEMINI_MODEL=gemini-3.5-flash in .env. 2 drafts unjudged (quota).",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }
