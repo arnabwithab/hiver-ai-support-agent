@@ -1,0 +1,2 @@
+LOCKED hold-out — headline numbers only. Training code must never read this path;
+the training entrypoint accepts data/golden/dev/ only (design entries 7, 15).

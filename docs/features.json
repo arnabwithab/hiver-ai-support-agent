@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 4,
+    "completed": 7,
     "in_progress": 0,
-    "planned": 9,
-    "tests_passing": 4,
+    "planned": 6,
+    "tests_passing": 7,
     "tests_failing": 0,
-    "tests_missing": 9
+    "tests_missing": 6
   },
   "features": [
     {
@@ -225,22 +225,22 @@
       "id": "F010",
       "name": "Golden set build",
       "description": "150-250 threads at 60/20/20 (real/boundary/adversarial), reply chains preserved, PII-redacted, 70/30 adapt-dev/locked-hold-out split, written rationales on every escalate/fail, author-adjudicated. Plus blank rater sheets for the 3-rater protocol (15 calibration + ~50 main).",
-      "status": "planned",
+      "status": "completed",
       "priority": "high",
       "module": "data/golden/",
       "design_doc": "docs/design.md §10, §11 rater protocol",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_golden.py"],
-        "notes": "Stratum mix enforced; hold-out untouched by training (F002 guard test lives here too); zero unredacted PII patterns in committed files"
+        "notes": "9 tests pass: stratum mix 60/20/20 within tol; 70/30 split counts + disjoint ids; DEV vs HOLDOUT paths distinct + LOCKED marker; zero unredacted PII in tmp + committed files; rationales on every escalate; reply chains rebuild via build_thread; blank blind rater sheets (15 + 50, no model outputs); no new LLM call site in src/golden.py"
       },
       "subtasks": [
-        {"id": "F010-1", "name": "Sampling script + stratum mix + 70/30 split", "status": "planned"},
-        {"id": "F010-2", "name": "Rater sheets (calibration + main) + guideline page", "status": "planned"}
+        {"id": "F010-1", "name": "Sampling script + stratum mix + 70/30 split", "status": "completed"},
+        {"id": "F010-2", "name": "Rater sheets (calibration + main) + guideline page", "status": "completed"}
       ],
-      "notes": "Human-labelling effort lives here; blocks F002 Phase B and all headline numbers.",
+      "notes": "Offline seed fixtures (src/golden.py, stdlib only); 200 threads (140 dev + 60 holdout) committed under data/golden/. Real Kaggle dump can later feed the same record path. Unblocks F002 Phase B.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F011",
