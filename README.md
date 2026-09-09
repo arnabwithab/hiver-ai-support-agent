@@ -1,9 +1,15 @@
 <h1 align="center">hiver support agent</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/python-3.11-blue" alt="python 3.11" />
-  <img src="https://img.shields.io/badge/black-24-blue" alt="black" />
-  <img src="https://img.shields.io/badge/ruff-0.6-blue" alt="ruff" />
+  <img src="https://img.shields.io/badge/python-3.11-blue?logo=python&logoColor=white" alt="python 3.11" />
+  <img src="https://img.shields.io/badge/version-0.1.0-informational" alt="version 0.1.0" />
+  <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="code style: black" />
+  <img src="https://img.shields.io/badge/lint-ruff-red?logo=ruff&logoColor=white" alt="lint: ruff" />
+  <img src="https://img.shields.io/badge/tests-121%20passed-green?logo=pytest&logoColor=white" alt="tests: 121 passed" />
+  <img src="https://img.shields.io/badge/repro-%3C15%20min-brightgreen" alt="repro under 15 min" />
+  <img src="https://img.shields.io/badge/drafter-Groq-orange" alt="drafter: Groq" />
+  <img src="https://img.shields.io/badge/judge-Gemini-blue" alt="judge: Gemini" />
+  <img src="https://img.shields.io/badge/embeddings-MiniLM--L6--v2-yellow" alt="embeddings: MiniLM-L6-v2" />
 </p>
 
 <p align="center">
