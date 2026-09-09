@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 2,
+    "completed": 3,
     "in_progress": 0,
-    "planned": 11,
-    "tests_passing": 13,
+    "planned": 10,
+    "tests_passing": 33,
     "tests_failing": 0,
-    "tests_missing": 11
+    "tests_missing": 10
   },
   "features": [
     {
@@ -204,22 +204,22 @@
       "id": "F009",
       "name": "Metrics and agreement",
       "description": "Accuracy/macro-F1 on raw + final labels, override counts, per-intent counts with CIs, auto-handle precision, judge specificity, Case-B wrong-close recall — every metric sliced by Case/continuation/veto/shift flags. Kappa + bootstrap CIs (pairwise raters + judge-vs-majority vs mean−2σ bar).",
-      "status": "planned",
+      "status": "completed",
       "priority": "high",
       "module": "src/eval/metrics.py",
       "design_doc": "docs/design.md §10",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_eval_metrics.py"],
-        "notes": "Kappa on a known table; bootstrap CI contains point estimate; slicing preserves counts"
+        "notes": "20 tests pass. Kappa on a hand-computed 2x2 table (=0.4) + edge cases; bootstrap CI contains point estimate and is seed-reproducible; slicing partitions rows preserving counts; raw AND final accuracy/macro-F1/confusion both reported; override counts; per-intent counts with normal-approx CIs; auto-handle precision at threshold; judge specificity (fail-recall); Case-B wrong-close recall; pairwise kappas + judge-vs-majority vs mean−2σ bar"
       },
       "subtasks": [
-        {"id": "F009-1", "name": "Classification + override + case-slice metrics", "status": "planned"},
-        {"id": "F009-2", "name": "Kappa + bootstrap CI + rater-spread bar", "status": "planned"}
+        {"id": "F009-1", "name": "Classification + override + case-slice metrics", "status": "completed"},
+        {"id": "F009-2", "name": "Kappa + bootstrap CI + rater-spread bar", "status": "completed"}
       ],
       "notes": "Pure local math — no LLM, no keys. Buildable in parallel with F001-F003.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F010",
