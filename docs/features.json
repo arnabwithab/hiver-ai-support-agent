@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 10,
+    "completed": 11,
     "in_progress": 0,
-    "planned": 3,
-    "tests_passing": 10,
+    "planned": 2,
+    "tests_passing": 11,
     "tests_failing": 0,
-    "tests_missing": 3
+    "tests_missing": 2
   },
   "features": [
     {
@@ -163,21 +163,21 @@
       "id": "F007",
       "name": "Pipeline orchestration",
       "description": "The DAG only: ingest → classify → gate/state → draft/retrieve → judge → serve/retry/escalate. No business logic; stage boundaries stay 1:1 portable.",
-      "status": "planned",
+      "status": "completed",
       "priority": "medium",
       "module": "src/orchestrate.py",
       "design_doc": "docs/design.md §5",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_orchestrate.py"],
-        "notes": "End-to-end on fixtures with mocked LLM sites; each Case A-D path exercised"
+        "notes": "5 tests pass on fakes (no keys): Case A free draft + judged serve with no exemplars; Case B canned resolve with zero LLM calls; Case C grounded draft + serve; Case D veto to intent 9 + serve; judge exhaustion escalates with rationale as handoff note"
       },
       "subtasks": [
-        {"id": "F007-1", "name": "DAG wiring with typed state dict", "status": "planned"}
+        {"id": "F007-1", "name": "DAG wiring with typed state dict", "status": "completed"}
       ],
-      "notes": "Integrates F001-F006. No LangGraph (design entry 3).",
+      "notes": "Integrates F001-F006. No LangGraph (design entry 3). Adopted partial files; fixed dropped cache_dir on the judge review call (judge fell through to data/cache, bypassing injected fakes).",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F008",
