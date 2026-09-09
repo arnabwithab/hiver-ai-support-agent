@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
   "summary": {
     "total": 13,
-    "completed": 9,
+    "completed": 10,
     "in_progress": 0,
-    "planned": 4,
-    "tests_passing": 9,
+    "planned": 3,
+    "tests_passing": 10,
     "tests_failing": 0,
-    "tests_missing": 4
+    "tests_missing": 3
   },
   "features": [
     {
@@ -246,22 +246,22 @@
       "id": "F011",
       "name": "Cache-first repro harness",
       "description": "LLM artifact cache + `make build` reproducing headline numbers from cache with a small live smoke subset (<15 min with keys set). Loud failure without keys.",
-      "status": "planned",
+      "status": "completed",
       "priority": "medium",
       "module": "data/cache/ + Makefile",
       "design_doc": "docs/design.md §12",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_cache.py"],
-        "notes": "Cache hit avoids client call; key mismatch (provider/model/hash) invalidates"
+        "notes": "6 tests pass: key deterministic + mismatch-sensitive; hit avoids client call; provider/model/prompt mismatch invalidates; tampered entry falls through; corrupt entry falls through + overwritten; extra fields stored. draft.py + judge.py migrated onto src/cache.py get_or_call (their suites still green: 7 + 9 tests). `make build` reproduces baselines on holdout from cache (majority acc 0.17/macro-F1 0.03, tfidf acc 0.57/macro-F1 0.53, n=60) with zero live calls by default; --live N fails loudly without keys."
       },
       "subtasks": [
-        {"id": "F011-1", "name": "Cache read/write keyed by (provider, model, prompt hash)", "status": "planned"},
-        {"id": "F011-2", "name": "make build: cache repro + smoke subset", "status": "planned"}
+        {"id": "F011-1", "name": "Cache read/write keyed by (provider, model, prompt hash)", "status": "completed"},
+        {"id": "F011-2", "name": "make build: cache repro + smoke subset", "status": "completed"}
       ],
       "notes": "Wires into F005/F006 clients.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F012",

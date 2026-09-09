@@ -14,6 +14,7 @@ import json
 import re
 import urllib.request
 
+from src import cache
 from src.ingest import redact_pii
 from src.utils.config import settings
 from src.utils.logger import logger
@@ -130,11 +131,22 @@ def judge(
     shift=False,
     client=None,
     model=None,
+    cache_dir=None,
 ):
-    """Judge one draft; local PII check overrides an LLM pass on tone_policy."""
+    """Judge one draft; local PII check overrides an LLM pass on tone_policy.
+
+    The raw verdict text is read through the shared (provider, model, prompt
+    hash) cache, so identical drafts never cost a second LLM call.
+    """
     model = model or settings.GEMINI_MODEL
     prompt = judge_prompt(draft_text, target, context, intent, exemplars, strategy, shift)
-    raw = (client or gemini_complete)(prompt, model, TEMPERATURE)
+
+    def call():
+        return (client or gemini_complete)(prompt, model, TEMPERATURE)
+
+    raw = cache.get_or_call(
+        PROVIDER, model, prompt, call, cache_dir=cache_dir, extra={"rubric_version": RUBRIC_VERSION}
+    )["text"]
     verdict = parse_verdict(raw)
     if _has_pii(draft_text):
         verdict["criteria"]["tone_policy"] = {
@@ -163,6 +175,7 @@ def review(
     client=None,
     model=None,
     max_retries=MAX_RETRIES,
+    cache_dir=None,
 ):
     """Gate/critic loop: draft_fn(critique) → judge; ≤max_retries redrafts, else escalate."""
     critique = ""
@@ -173,7 +186,16 @@ def review(
         draft_text = draft_fn(critique)
         attempts = attempt + 1
         verdict = judge(
-            draft_text, target, context, intent, exemplars, strategy, shift, client, model
+            draft_text,
+            target,
+            context,
+            intent,
+            exemplars,
+            strategy,
+            shift,
+            client,
+            model,
+            cache_dir,
         )
         if verdict["pass"]:
             return {

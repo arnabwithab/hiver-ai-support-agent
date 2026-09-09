@@ -70,17 +70,27 @@ def test_parse_verdict_pass_fail_per_criterion_with_rationale():
     assert failed["criteria"]["groundedness"]["rationale"]
 
 
-def test_judge_temperature_zero():
+def test_judge_temperature_zero(tmp_path):
     client = FakeClient([PASS_TEXT])
-    judge("a clean draft", target="hello", client=client, model="m1")
+    judge("a clean draft", target="hello", client=client, model="m1", cache_dir=tmp_path)
     assert client.calls[0]["temperature"] == 0
 
 
-def test_pii_echo_draft_fails_tone_policy_despite_llm_pass():
+def test_judge_cache_hit_avoids_second_client_call(tmp_path):
+    client = FakeClient([PASS_TEXT])
+    first = judge("a clean draft", target="hello", client=client, model="m1", cache_dir=tmp_path)
+    second = judge("a clean draft", target="hello", client=client, model="m1", cache_dir=tmp_path)
+    assert len(client.calls) == 1
+    assert first == second
+
+
+def test_pii_echo_draft_fails_tone_policy_despite_llm_pass(tmp_path):
     # Local PII check overrides the LLM: fake client says pass everywhere,
     # but the draft echoes customer PII, so tone_policy must fail.
     pii_draft = "thanks! confirming your ssn 123-45-6789 and (212) 555-0199"
-    verdict = judge(pii_draft, target="here is my ssn", client=FakeClient([PASS_TEXT]))
+    verdict = judge(
+        pii_draft, target="here is my ssn", client=FakeClient([PASS_TEXT]), cache_dir=tmp_path
+    )
     assert verdict["pass"] is False
     assert verdict["criteria"]["tone_policy"]["pass"] is False
     assert verdict["criteria"]["tone_policy"]["rationale"]
@@ -89,7 +99,7 @@ def test_pii_echo_draft_fails_tone_policy_despite_llm_pass():
 # --- F006-2: gate/critic loop ---
 
 
-def test_pass_through_serves_on_first_verdict():
+def test_pass_through_serves_on_first_verdict(tmp_path):
     client = FakeClient([PASS_TEXT])
     calls = []
 
@@ -97,22 +107,24 @@ def test_pass_through_serves_on_first_verdict():
         calls.append(critique)
         return "a clean draft"
 
-    result = review(draft_fn, target="hello", client=client)
+    result = review(draft_fn, target="hello", client=client, cache_dir=tmp_path)
     assert result["decision"] == "serve"
     assert result["text"] == "a clean draft"
     assert len(calls) == 1
     assert len(client.calls) == 1
 
 
-def test_retry_loop_caps_at_3_then_escalates_with_rationale():
+def test_retry_loop_caps_at_3_then_escalates_with_rationale(tmp_path):
     client = FakeClient([FAIL_TEXT])
     seen = []
 
     def draft_fn(critique=""):
         seen.append(critique)
-        return "a bad draft"
+        # Each redraft differs (critique appended), so every judge call is a
+        # cache miss — identical drafts would correctly hit the cache.
+        return f"a bad draft attempt {len(seen)}"
 
-    result = review(draft_fn, target="hello", client=client)
+    result = review(draft_fn, target="hello", client=client, cache_dir=tmp_path)
     assert result["decision"] == "escalate"
     assert len(seen) == MAX_RETRIES + 1
     assert len(client.calls) == MAX_RETRIES + 1
@@ -125,14 +137,14 @@ def test_retry_loop_caps_at_3_then_escalates_with_rationale():
     )
 
 
-def test_retry_recovers_on_second_attempt():
+def test_retry_recovers_on_second_attempt(tmp_path):
     client = FakeClient([FAIL_TEXT, PASS_TEXT])
     seen = []
 
     def draft_fn(critique=""):
         seen.append(critique)
-        return "a recovering draft"
+        return f"a recovering draft attempt {len(seen)}"
 
-    result = review(draft_fn, target="hello", client=client)
+    result = review(draft_fn, target="hello", client=client, cache_dir=tmp_path)
     assert result["decision"] == "serve"
     assert len(seen) == 2

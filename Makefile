@@ -20,9 +20,9 @@ style:
 	uv run black src tests
 	uv run ruff check src tests
 
-# placeholder until F011 cache-first repro
+# F011: cache-first repro — headlines from cache, live smoke only with keys
 build:
-	@echo "build: cache repro + smoke subset (F011)"
+	uv run python -m src.build $(ARGS)
 
 clean:
 	rm -rf .pytest_cache

@@ -6,18 +6,16 @@ provider + model recorded, artifacts cached by (provider, model, prompt hash).
 No classification logic here — intent arrives as an argument (design §5).
 """
 
-import hashlib
 import json
 import urllib.request
-from pathlib import Path
 
+from src import cache
 from src.ingest import redact_pii
 from src.utils.config import settings
-from src.utils.logger import logger
 
 PROVIDER = "groq"
 TEMPERATURE = 0
-CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "cache"
+CACHE_DIR = cache.CACHE_DIR
 _GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
@@ -74,39 +72,18 @@ def groq_complete(prompt, model, temperature=TEMPERATURE):
     return payload["choices"][0]["message"]["content"]
 
 
-def _cache_path(provider, model, prompt_hash, cache_dir):
-    safe_model = "".join(c if c.isalnum() else "_" for c in model)
-    return (cache_dir or CACHE_DIR) / f"{provider}_{safe_model}_{prompt_hash}.json"
-
-
 def draft(prompt, client=None, model=None, judge_guided_retry=False, cache_dir=None):
     """Read-through cache: hit returns the artifact without touching the client."""
     model = model or settings.GROQ_MODEL
-    prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
-    path = _cache_path(PROVIDER, model, prompt_hash, cache_dir)
-    if path.exists():
-        try:
-            artifact = json.loads(path.read_text())
-        except (OSError, ValueError):
-            artifact = None
-        if (
-            artifact
-            and artifact.get("provider") == PROVIDER
-            and artifact.get("model") == model
-            and artifact.get("prompt_hash") == prompt_hash
-        ):
-            logger.info("draft cache hit %s", path.name)
-            return artifact
-    text = (client or groq_complete)(prompt, model, TEMPERATURE)
-    artifact = {
-        "provider": PROVIDER,
-        "model": model,
-        "prompt_hash": prompt_hash,
-        "prompt": prompt,
-        "text": text,
-        "judge_guided_retry": judge_guided_retry,
-    }
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(artifact))
-    logger.info("draft cached %s", path.name)
-    return artifact
+
+    def call():
+        return (client or groq_complete)(prompt, model, TEMPERATURE)
+
+    return cache.get_or_call(
+        PROVIDER,
+        model,
+        prompt,
+        call,
+        cache_dir=cache_dir,
+        extra={"judge_guided_retry": judge_guided_retry},
+    )
