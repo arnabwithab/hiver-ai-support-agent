@@ -17,23 +17,27 @@
 
 ## Setup
 
+Prerequisites: `curl`, a C toolchain, `kaggle` CLI with credentials
+(you supplied the dataset), and Groq + Gemini API keys (you asked for
+an AI agent). `uv` itself is bootstrapped by `make setup` when missing.
+
 ```bash
 git clone https://github.com/arnabwithab/hiver-ai-support-agent.git
 cd hiver-ai-support-agent
-make setup                  # sets up dev environment
-make test                   # 123 tests + pulls encoder
-make build                  # headline numbers from cache, zero live calls (~1 min)
-make verify                 # recheck report arithmetic over committed evidence, keyless (replays verdicts, does not re-judge)
+cp .env.example .env        # fill in GROQ_API_KEY + GEMINI_API_KEY (table below)
+make setup                  # installs uv if missing, then uv sync (~3 min first run)
+make data                   # Kaggle dumps to data/raw/ (~520 MB, skipped when present)
+make subsample              # Chase thread extraction + social mining
+make train                  # Phase-A training + ceiling 0.887/0.786 (~4 min)
+make test                   # 123 tests, ~30 s (pulls the 90 MB encoder once)
+make build                  # headlines from cache + live smoke (~2 min)
+make verify                 # recheck report arithmetic over committed evidence
 make dev                    # offline pipeline demo: one golden thread, fake LLMs
 ```
 
-### Full-number reproduction (needs credentials, +10 min)
-
-```bash
-make data                   # Kaggle dumps to data/raw/ (~520 MB, needs kaggle CLI + credentials)
-make subsample              # Chase thread extraction + social mining
-make train                  # Phase-A training + ceiling 0.887/0.786 (~4 min)
-```
+`make test`, `make build` (without `--live`), and `make verify` also run
+with no keys and no data (synthetic fallbacks, clearly labeled) — but the
+numbers above assume the full track.
 
 ### Envicronment variable setup
 
