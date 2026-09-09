@@ -6,7 +6,7 @@ Two concerns live here:
             counts, per-intent counts with normal-approx CIs, auto-handle
             precision at the operating threshold, judge specificity /
             fail-recall, Case-B wrong-close recall), every metric sliceable by
-            case / continuation / veto / shift flags.
+            case / continuation / veto flags.
   * F009-2  rater agreement: Cohen's kappa, bootstrap CIs, pairwise rater
             kappas and the judge-vs-majority vs mean−2σ rater-spread bar.
 
@@ -39,7 +39,6 @@ class EvalRow:
     case: str = ""
     continuation: bool = False
     veto: bool = False
-    shift: bool = False
     auto: bool = False
     closed: bool = False
     conf: float | None = None
@@ -59,11 +58,12 @@ def accuracy(true, pred):
 
 
 def _per_class(true, pred, labels):
+    matrix = confusion_matrix(true, pred)  # single pass; derive tp/fp/fn from it
     classes = {}
     for label in labels:
-        tp = sum(1 for t, p in zip(true, pred) if t == label and p == label)
-        fp = sum(1 for t, p in zip(true, pred) if p == label and t != label)
-        fn = sum(1 for t, p in zip(true, pred) if t == label and p != label)
+        tp = matrix[label][label]
+        fp = sum(matrix[t][label] for t in labels) - tp
+        fn = sum(matrix[label][p] for p in labels) - tp
         precision = tp / (tp + fp) if tp + fp else 0.0
         recall = tp / (tp + fn) if tp + fn else 0.0
         f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
@@ -120,20 +120,11 @@ def override_counts(rows):
     }
 
 
-def slice_rows(rows, *, case=None, continuation=None, veto=None, shift=None):
+def slice_rows(rows, *, case=None, continuation=None, veto=None):
     """Rows matching every supplied filter value (None = leave unfiltered)."""
-    out = []
-    for r in rows:
-        if case is not None and r.case != case:
-            continue
-        if continuation is not None and r.continuation != continuation:
-            continue
-        if veto is not None and r.veto != veto:
-            continue
-        if shift is not None and r.shift != shift:
-            continue
-        out.append(r)
-    return out
+    active = {"case": case, "continuation": continuation, "veto": veto}
+    active = {k: v for k, v in active.items() if v is not None}
+    return [r for r in rows if all(getattr(r, k) == v for k, v in active.items())]
 
 
 def proportion_ci(k, n, z=1.96):

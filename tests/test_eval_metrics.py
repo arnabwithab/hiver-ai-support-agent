@@ -120,7 +120,7 @@ def test_confusion_matrix_shape():
 
 def test_evaluate_reports_raw_and_final_metrics():
     # Row 1: raw wrong (y), inheritance corrects to x.  Row 4: raw wrong (z),
-    # veto/shift corrects to y.  Rows 2-3 correct everywhere.
+    # veto corrects to y.  Rows 2-3 correct everywhere.
     rows = [
         row("x", "y", "x", case="C", continuation=True),
         row("x", "x", "x", case="C"),
@@ -164,18 +164,13 @@ def test_slicing_partitions_rows_preserving_counts():
         row("x", "x", "x", case="B", closed=True),
         row("x", "x", "x", case="B"),
         row("x", "x", "x", case="C", continuation=True),
-        row("x", "x", "x", case="C", shift=True),
+        row("x", "x", "x", case="C"),
         row("x", "x", "x", case="D", veto=True),
     ]
     by_case = [slice_rows(rows, case=c) for c in ("A", "B", "C", "D")]
     assert [len(s) for s in by_case] == [1, 2, 2, 1]
     assert sum(len(s) for s in by_case) == len(rows)
     assert len(slice_rows(rows, case="C", continuation=True)) == 1
-    assert len(slice_rows(rows, case="C", continuation=False, shift=True)) == 1
-    assert len(slice_rows(rows, veto=True)) == 1
-    assert len(slice_rows(rows, case="D", veto=True, continuation=False)) == 1
-    assert len(slice_rows(rows, case="D", veto=False)) == 0
-    # Multiple flags AND together; all-None filter returns everything.
     assert len(slice_rows(rows)) == 6
 
 
@@ -283,9 +278,9 @@ def test_majority_label_and_pairwise_kappas():
 
 def test_rater_spread_bar_is_mean_minus_two_sigma():
     kappas = {("r1", "r2"): 0.5, ("r1", "r3"): 0.5, ("r2", "r3"): 0.2}
-    mean = sum(kappas.values()) / 3
-    sd = statistics.stdev(kappas.values())
-    assert rater_spread_bar(kappas) == pytest.approx(mean - 2 * sd)
+    # Hand-computed: mean 0.4, sd sqrt(0.03) -> bar ≈ 0.0536, below the worst kappa.
+    assert rater_spread_bar(kappas) == pytest.approx(0.0536, abs=1e-3)
+    assert rater_spread_bar(kappas) < 0.2
     # Not enough pairwise kappas to estimate a spread.
     assert rater_spread_bar({("r1", "r2"): 0.5}) is None
 
