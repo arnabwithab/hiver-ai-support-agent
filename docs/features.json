@@ -1,0 +1,288 @@
+{
+  "project": "hiver-chase-support-agent",
+  "last_updated": "2026-09-09",
+  "summary": {
+    "total": 13,
+    "completed": 0,
+    "in_progress": 0,
+    "planned": 13,
+    "tests_passing": 0,
+    "tests_failing": 0,
+    "tests_missing": 13
+  },
+  "features": [
+    {
+      "id": "F000",
+      "name": "Repo scaffold and toolchain",
+      "description": "Makefile (setup/dev/test/style/build/clean), uv project, settings + logger, .env.example, .gitignore, git init + first commit. Everything else builds on this.",
+      "status": "planned",
+      "priority": "high",
+      "module": "repo-root",
+      "design_doc": "docs/design.md §12",
+      "tests": {
+        "status": "missing",
+        "files": [],
+        "notes": "Smoke: make setup idempotent; make test/style run green on empty suite"
+      },
+      "subtasks": [
+        {"id": "F000-1", "name": "Makefile + uv init + config/logger", "status": "planned"},
+        {"id": "F000-2", "name": "git init + first commit", "status": "planned"}
+      ],
+      "notes": "Build first; unblocks all other features.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F001",
+      "name": "Thread ingestion and PII redaction",
+      "description": "Reconstruct threads from reply-ID chains (target + compact context), strip anon/URL noise, redact PII before any LLM prompt or committed artifact. Design node 1.",
+      "status": "planned",
+      "priority": "high",
+      "module": "src/ingest.py",
+      "design_doc": "docs/design.md §5 node 1, §6",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_ingest.py"],
+        "notes": "Chain walk incl. broken links; first-contact (55% unlinked); PII patterns never leak through"
+      },
+      "subtasks": [
+        {"id": "F001-1", "name": "Reply-chain walk + context window builder", "status": "planned"},
+        {"id": "F001-2", "name": "PII redactor (account/SSN/phone/zip/address)", "status": "planned"}
+      ],
+      "notes": "Redactor is a graded-claim dependency (design entries 16, guardrail).",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F002",
+      "name": "Intent classifier with calibration",
+      "description": "Frozen embedding + linear head. Phase A: Banking77 clean ceiling. Phase B: weak-supervision adaptation on golden adapt-dev ONLY (entrypoint accepts dev slice path). Platt/temperature calibration + reliability data; threshold T from adapt-dev precision-coverage curve. Design node 2.",
+      "status": "planned",
+      "priority": "high",
+      "module": "src/intent.py",
+      "design_doc": "docs/design.md §7",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_intent.py"],
+        "notes": "Hold-out import guard (training must fail on hold-out path); calibration improves ECE; 9-way output shape"
+      },
+      "subtasks": [
+        {"id": "F002-1", "name": "Banking77 Phase A training + clean ceiling", "status": "planned"},
+        {"id": "F002-2", "name": "Phase B adaptation on adapt-dev only", "status": "planned"},
+        {"id": "F002-3", "name": "Calibration + threshold selection", "status": "planned"}
+      ],
+      "notes": "Needs F010 dev slice for Phase B. No LLM in this module, ever.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F003",
+      "name": "Thread-state machine",
+      "description": "Cases A-D, keyword veto, continuation inheritance, (raw → override → final) logging. Design node 3 + §6 state block.",
+      "status": "planned",
+      "priority": "high",
+      "module": "src/state.py",
+      "design_doc": "docs/design.md §6",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_state.py"],
+        "notes": "Each Case A-D; awaiting_user exception; veto on 'thanks + refund?'; inheritance only when low-conf; every decision logs the triple"
+      },
+      "subtasks": [
+        {"id": "F003-1", "name": "Transitions A-D + veto + inheritance", "status": "planned"},
+        {"id": "F003-2", "name": "Decision-triple logging", "status": "planned"}
+      ],
+      "notes": "Pure logic, no LLM — fully testable offline. Feeds F009 override counts.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F004",
+      "name": "Per-intent retrieval grounding",
+      "description": "Cluster historical brand replies within each intent into named response strategies (2-3 exemplars each); same-intent top-k retrieval at serve time. Design node 4c + §8.",
+      "status": "planned",
+      "priority": "medium",
+      "module": "src/retrieve.py",
+      "design_doc": "docs/design.md §8",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_retrieve.py"],
+        "notes": "Retrieval restricted to predicted intent; DM-takeover clusters present for money intents"
+      },
+      "subtasks": [
+        {"id": "F004-1", "name": "Offline per-intent clustering + strategy labels", "status": "planned"},
+        {"id": "F004-2", "name": "Serve-time same-intent top-k retrieval", "status": "planned"}
+      ],
+      "notes": "Needs F002 intent labels for clustering corpus.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F005",
+      "name": "Reply drafter (Groq)",
+      "description": "LLM call site #1. Free-draft policy for social-only threads; grounded policy (intent + history + exemplars + strategy as hard context) otherwise. Temperature 0, model recorded, artifacts cached.",
+      "status": "planned",
+      "priority": "high",
+      "module": "src/draft.py",
+      "design_doc": "docs/design.md §5 nodes 4b/4d, §9, §12",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_draft.py"],
+        "notes": "Mock the LLM client; assert prompt contains intent + exemplars for grounded policy and omits them for free policy"
+      },
+      "subtasks": [
+        {"id": "F005-1", "name": "Groq client + free/grounded prompt builders", "status": "planned"},
+        {"id": "F005-2", "name": "Artifact caching keyed by (provider, model, prompt hash)", "status": "planned"}
+      ],
+      "notes": "Needs GROQ_API_KEY at runtime; tests run on mocks. Never add classification logic here.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F006",
+      "name": "Judge as gate and critic (Gemini)",
+      "description": "LLM call site #2. One call, multi-criteria rubric (groundedness / tone_policy incl. PII-leak / escalation-correctness + shift-aware check), rationale per verdict; failures return critique for ≤3 retries, then escalate. Different provider from drafter by construction.",
+      "status": "planned",
+      "priority": "high",
+      "module": "src/judge.py",
+      "design_doc": "docs/design.md §9",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_judge.py"],
+        "notes": "Mock client; PII-echo draft must fail; retry loop caps at 3 then escalates with rationale as handoff note"
+      },
+      "subtasks": [
+        {"id": "F006-1", "name": "Gemini client + rubric prompt + rationale parsing", "status": "planned"},
+        {"id": "F006-2", "name": "Gate/critic loop with retry cap and drop-to-escalate", "status": "planned"}
+      ],
+      "notes": "Needs GEMINI_API_KEY at runtime. Rubric text versioned; old rubrics retained.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F007",
+      "name": "Pipeline orchestration",
+      "description": "The DAG only: ingest → classify → gate/state → draft/retrieve → judge → serve/retry/escalate. No business logic; stage boundaries stay 1:1 portable.",
+      "status": "planned",
+      "priority": "medium",
+      "module": "src/orchestrate.py",
+      "design_doc": "docs/design.md §5",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_orchestrate.py"],
+        "notes": "End-to-end on fixtures with mocked LLM sites; each Case A-D path exercised"
+      },
+      "subtasks": [
+        {"id": "F007-1", "name": "DAG wiring with typed state dict", "status": "planned"}
+      ],
+      "notes": "Integrates F001-F006. No LangGraph (design entry 3).",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F008",
+      "name": "Baselines",
+      "description": "Trivial (majority intent + canned reply) and simple (TF-IDF retrieval draft) baselines on the same hold-out. Unbeaten slices feed failure analysis.",
+      "status": "planned",
+      "priority": "medium",
+      "module": "src/eval/baselines.py",
+      "design_doc": "docs/design.md §10",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_eval_baselines.py"],
+        "notes": "Baselines run offline with zero LLM calls"
+      },
+      "subtasks": [
+        {"id": "F008-1", "name": "Majority + canned baseline", "status": "planned"},
+        {"id": "F008-2", "name": "TF-IDF retrieval baseline", "status": "planned"}
+      ],
+      "notes": "Independent of F005/F006 — buildable in parallel.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F009",
+      "name": "Metrics and agreement",
+      "description": "Accuracy/macro-F1 on raw + final labels, override counts, per-intent counts with CIs, auto-handle precision, judge specificity, Case-B wrong-close recall — every metric sliced by Case/continuation/veto/shift flags. Kappa + bootstrap CIs (pairwise raters + judge-vs-majority vs mean−2σ bar).",
+      "status": "planned",
+      "priority": "high",
+      "module": "src/eval/metrics.py",
+      "design_doc": "docs/design.md §10",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_eval_metrics.py"],
+        "notes": "Kappa on a known table; bootstrap CI contains point estimate; slicing preserves counts"
+      },
+      "subtasks": [
+        {"id": "F009-1", "name": "Classification + override + case-slice metrics", "status": "planned"},
+        {"id": "F009-2", "name": "Kappa + bootstrap CI + rater-spread bar", "status": "planned"}
+      ],
+      "notes": "Pure local math — no LLM, no keys. Buildable in parallel with F001-F003.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F010",
+      "name": "Golden set build",
+      "description": "150-250 threads at 60/20/20 (real/boundary/adversarial), reply chains preserved, PII-redacted, 70/30 adapt-dev/locked-hold-out split, written rationales on every escalate/fail, author-adjudicated. Plus blank rater sheets for the 3-rater protocol (15 calibration + ~50 main).",
+      "status": "planned",
+      "priority": "high",
+      "module": "data/golden/",
+      "design_doc": "docs/design.md §10, §11 rater protocol",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_golden.py"],
+        "notes": "Stratum mix enforced; hold-out untouched by training (F002 guard test lives here too); zero unredacted PII patterns in committed files"
+      },
+      "subtasks": [
+        {"id": "F010-1", "name": "Sampling script + stratum mix + 70/30 split", "status": "planned"},
+        {"id": "F010-2", "name": "Rater sheets (calibration + main) + guideline page", "status": "planned"}
+      ],
+      "notes": "Human-labelling effort lives here; blocks F002 Phase B and all headline numbers.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F011",
+      "name": "Cache-first repro harness",
+      "description": "LLM artifact cache + `make build` reproducing headline numbers from cache with a small live smoke subset (<15 min with keys set). Loud failure without keys.",
+      "status": "planned",
+      "priority": "medium",
+      "module": "data/cache/ + Makefile",
+      "design_doc": "docs/design.md §12",
+      "tests": {
+        "status": "missing",
+        "files": ["tests/test_cache.py"],
+        "notes": "Cache hit avoids client call; key mismatch (provider/model/hash) invalidates"
+      },
+      "subtasks": [
+        {"id": "F011-1", "name": "Cache read/write keyed by (provider, model, prompt hash)", "status": "planned"},
+        {"id": "F011-2", "name": "make build: cache repro + smoke subset", "status": "planned"}
+      ],
+      "notes": "Wires into F005/F006 clients.",
+      "added": "2026-09-09",
+      "completed": null
+    },
+    {
+      "id": "F012",
+      "name": "Report",
+      "description": "docs/report.md (≤6 pages): framing + non-goals, results vs both baselines, top-5 failures with real examples, 'misleading headline' section, next-week plan, decision log. Built from F009 outputs, not hand-written numbers.",
+      "status": "planned",
+      "priority": "medium",
+      "module": "docs/report.md",
+      "design_doc": "docs/design.md §10",
+      "tests": {
+        "status": "missing",
+        "files": [],
+        "notes": "Checklist test: every mandatory brief section present; every number traceable to an eval artifact"
+      },
+      "subtasks": [
+        {"id": "F012-1", "name": "Report skeleton with mandatory sections", "status": "planned"},
+        {"id": "F012-2", "name": "Fill from eval artifacts + failure analysis", "status": "planned"}
+      ],
+      "notes": "Last feature. Numbers must match committed eval artifacts exactly.",
+      "added": "2026-09-09",
+      "completed": null
+    }
+  ]
+}
