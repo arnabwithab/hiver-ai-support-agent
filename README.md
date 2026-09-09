@@ -10,6 +10,7 @@
   <img src="https://img.shields.io/badge/drafter-Groq-orange" alt="drafter: Groq" />
   <img src="https://img.shields.io/badge/judge-Gemini-blue" alt="judge: Gemini" />
   <img src="https://img.shields.io/badge/embeddings-MiniLM--L6--v2-yellow" alt="embeddings: MiniLM-L6-v2" />
+  <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="license: Apache 2.0" />
 </p>
 
 <p align="center">
