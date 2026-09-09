@@ -23,8 +23,16 @@ def _thread(thread_id, intent_name, *texts):
 
 
 def _trained():
-    clf, _ = intent.train_phase_a()
-    return clf
+    # Unit shape probe: a few inline texts (not a dataset) to exercise the head.
+    rows = [
+        ("where is my refund", 2),
+        ("thanks so much", 7),
+        ("hello there", 8),
+        ("locked out of my account", 3),
+        ("duplicate charge on my bill", 1),
+        ("my card never arrived", 4),
+    ]
+    return intent._train_head(rows, epochs=5)
 
 
 def test_embed_is_frozen_sentence_vector():
@@ -67,10 +75,36 @@ def test_training_refuses_holdout_paths():
             intent.train_adapt(bad)
 
 
-def test_phase_a_ceiling_beats_chance():
-    _, metrics = intent.train_phase_a()
-    assert metrics["accuracy"] > 1 / 9
-    assert set(metrics["labels"]) <= {1, 2, 3, 4, 5, 6, 7, 8, 9}
+def test_phase_a_requires_real_data():
+    with pytest.raises(SystemExit):
+        intent.train_phase_a()
+    with pytest.raises(SystemExit):
+        intent.train_phase_a("does/not/exist.csv")
+
+
+def test_load_head_reads_shipped_weights(tmp_path):
+    clf = _trained()
+    path = tmp_path / "head.json"
+    path.write_text(
+        json.dumps(
+            {
+                "encoder": intent.EMBEDDING_MODEL,
+                "dim": intent.DIM,
+                "head": clf.to_dict(),
+            }
+        )
+    )
+    clone = intent.load_head(str(path))
+    assert clone.predict("hello there") == clf.predict("hello there")
+
+
+def test_load_head_refuses_missing_and_mismatched(tmp_path):
+    with pytest.raises(SystemExit):
+        intent.load_head(str(tmp_path / "missing.json"))
+    bad = tmp_path / "bad.json"
+    bad.write_text(json.dumps({"encoder": "other-model", "dim": 12, "head": {}}))
+    with pytest.raises(SystemExit):
+        intent.load_head(str(bad))
 
 
 def test_adapt_trains_on_dev_dir_only(tmp_path):

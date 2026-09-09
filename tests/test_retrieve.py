@@ -61,7 +61,7 @@ def test_cluster_keeps_two_to_three_exemplars():
         assert 1 <= len(exemplars) <= 3
 
 
-def test_default_index_builds_from_dev_or_synthetic():
+def test_default_index_builds_from_dev():
     index = build_index()
     assert index
     hits = retrieve(1, "duplicate charge on my bill", index, k=2)

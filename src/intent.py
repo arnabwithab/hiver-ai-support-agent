@@ -22,6 +22,7 @@ LR = 0.1
 N_BINS = 10
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 _TEMPS = (0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0)
+WEIGHTS_PATH = "artifacts/phase_a_weights.json"
 
 KEYWORD_SEEDS = {
     1: ("charge", "charged", "billing", "bill", "dispute", "duplicate", "fee"),
@@ -33,18 +34,6 @@ KEYWORD_SEEDS = {
     7: ("thank", "thanks", "great service", "appreciated"),
     8: ("hello", "hi ", "hey", "good morning", "good afternoon"),
     9: (),
-}
-
-_SYNTHETIC = {
-    1: ["duplicate charge on my bill", "billing dispute over a fee", "charged twice this month"],
-    2: ["where is my refund", "request a refund please", "money back for that fee"],
-    3: ["locked out of my account", "cannot login to my account", "reset my password"],
-    4: ["my replacement card hasn't arrived", "card delivery is late", "rush my new card"],
-    5: ["what is the interest rate", "are these rewards eligible", "what is my limit"],
-    6: ["this is terrible service", "awful experience, escalate this", "worst support ever"],
-    7: ["thanks so much", "thank you, great service", "much appreciated"],
-    8: ["hello there", "hi, good morning", "hey, how are you"],
-    9: ["not sure what happened", "please advise on next steps", "following up here"],
 }
 
 
@@ -165,8 +154,23 @@ def _train_head(rows, epochs=EPOCHS, lr=LR, balanced=True):
     return clf
 
 
-def _synthetic_rows():
-    return [(text, label) for label, texts in _SYNTHETIC.items() for text in texts]
+def load_head(path=WEIGHTS_PATH):
+    """The shipped model: committed Phase-A weights + calibration. Loud
+    failure on missing/corrupt/encoder-mismatched files — never silently
+    predict with a wrong or untrained head."""
+    try:
+        payload = json.loads(Path(path).read_text())
+    except OSError:
+        raise SystemExit(f"head weights missing at {path} (train first, then ship them)")
+    if payload.get("encoder") != EMBEDDING_MODEL or payload.get("dim") != DIM:
+        raise SystemExit(
+            f"weights at {path} are for {payload.get('encoder')} dim={payload.get('dim')}, "
+            f"code expects {EMBEDDING_MODEL} dim={DIM} — retrain, do not serve"
+        )
+    try:
+        return IntentClassifier.from_dict(payload["head"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise SystemExit(f"head weights at {path} are corrupt: {exc}")
 
 
 # F013: Banking77 label_text → 9-way map. Intents 7/8 intentionally empty
@@ -258,16 +262,13 @@ def _load_bankings77_csv(path):
 
 
 def train_phase_a(csv_path=None, social_path=None, social_rows=None):
-    """Phase A: Banking77-format CSV if present else synthetic fixtures.
-
-    social_path appends mined cross-brand social rows (labels 7/8, absent
-    from Banking77) — the ceiling is then measured on banking77 test for
-    1-6/9 plus probe accuracy for 7/8. Returns (classifier, ceiling metrics
-    via metrics.classification_metrics)."""
-    if csv_path and Path(csv_path).exists():
-        rows = _load_bankings77_csv(csv_path)
-    else:
-        rows = _synthetic_rows()
+    """Phase A: Banking77 CSV + mined social rows (labels 7/8). No synthetic
+    data, no fallbacks — missing inputs fail loudly. The ceiling is measured
+    on banking77 test for 1-6/9 plus heldback probes for 7/8. Returns
+    (classifier, ceiling metrics via metrics.classification_metrics)."""
+    if not csv_path or not Path(csv_path).exists():
+        raise SystemExit(f"Phase A needs Banking77 at {csv_path or 'data/raw/banking77/train.csv'}")
+    rows = _load_bankings77_csv(csv_path)
     if social_rows is not None:
         rows.extend((text, int(label)) for text, label in social_rows)
     elif social_path and Path(social_path).exists():
@@ -423,27 +424,23 @@ def intent_name(label):
 
 
 def _mapped_rows(csv_path):
+    try:
+        fh = open(csv_path)
+    except OSError:
+        raise SystemExit(f"Banking77 test split missing at {csv_path} (make data first)")
     rows = []
-    with open(csv_path) as fh:
+    with fh:
         for row in csv.DictReader(fh):
             rows.append((row["text"], BANKING77_MAP.get(row.get("label_text") or "", 9)))
     return rows
 
 
 if __name__ == "__main__":
-    """make train: Phase A on banking77 (+mined social) if present, else synthetic."""
-    train_csv = "data/raw/banking77/train.csv"
-    train_csv = train_csv if Path(train_csv).exists() else None
-    social = "data/raw/mined_social.jsonl"
-    social = social if Path(social).exists() else None
-    clf, _ = train_phase_a(train_csv, social)
-    test_csv = "data/raw/banking77/test.csv"
-    if Path(test_csv).exists():
-        gold = _mapped_rows(test_csv)
-        pred = [clf.predict(text) for text, _ in gold]
-        out = classification_metrics([label for _, label in gold], pred)
-        out = {"n": out["n"], "accuracy": out["accuracy"], "macro_f1": out["macro_f1"]}
-    else:
-        out = {"note": "no banking77 test split; trained on synthetic fixtures"}
+    """Phase-A training entry: banking77 + mined social, prints the ceiling."""
+    clf, _ = train_phase_a("data/raw/banking77/train.csv", "data/raw/mined_social.jsonl")
+    gold = _mapped_rows("data/raw/banking77/test.csv")
+    pred = [clf.predict(text) for text, _ in gold]
+    out = classification_metrics([label for _, label in gold], pred)
+    out = {"n": out["n"], "accuracy": out["accuracy"], "macro_f1": out["macro_f1"]}
     out.update({"threshold": clf.threshold, "embedding": EMBEDDING_MODEL})
     print(json.dumps(out, indent=2))

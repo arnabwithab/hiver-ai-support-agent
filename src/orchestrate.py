@@ -34,7 +34,7 @@ def handle_message(
 ):
     """Route one customer message end-to-end. Returns decision + updated state."""
     ctx = ingest.build_thread(tweets, target_id)
-    clf = classifier or intent_mod.IntentClassifier()
+    clf = classifier or intent_mod.load_head()
     query = f"{ctx.prev_customer} {ctx.target}".strip() or ctx.target
     decision = state_mod.transition(
         state or state_mod.new_state(),
@@ -106,25 +106,14 @@ def handle_message(
 
 
 def demo(thread_path="data/golden/dev/threads.jsonl"):
-    """One golden thread through the DAG with fake LLM clients (offline)."""
+    """One golden thread through the DAG with REAL clients (needs keys).
+
+    No fakes: without GROQ_API_KEY + GEMINI_API_KEY this fails loudly."""
     import json as _json
 
     with open(thread_path) as fh:
         thread = next(_json.loads(line) for line in fh if line.strip())
-
-    def fake_draft(prompt, model, temperature=0):
-        return "Thanks for reaching out — please DM us so we can help."
-
-    def fake_judge(prompt, model, temperature=0):
-        return (
-            "groundedness: pass - requests DM takeover per exemplar\n"
-            "tone_policy: pass - polite, no PII\n"
-            "escalation_correctness: pass - correct to serve"
-        )
-
-    result = handle_message(
-        thread["turns"], thread["target_id"], draft_client=fake_draft, judge_client=fake_judge
-    )
+    result = handle_message(thread["turns"], thread["target_id"])
     print(_json.dumps({k: result[k] for k in ("case", "decision", "text")}, indent=2))
     return result
 
