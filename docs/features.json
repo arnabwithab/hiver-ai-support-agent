@@ -3,12 +3,12 @@
   "last_updated": "2026-09-09",
 "summary": {
     "total": 13,
-    "completed": 2,
+    "completed": 3,
     "in_progress": 0,
-    "planned": 11,
-    "tests_passing": 2,
+    "planned": 10,
+    "tests_passing": 3,
     "tests_failing": 0,
-    "tests_missing": 11
+    "tests_missing": 10
   },
   "features": [
     {
@@ -183,22 +183,22 @@
       "id": "F008",
       "name": "Baselines",
       "description": "Trivial (majority intent + canned reply) and simple (TF-IDF retrieval draft) baselines on the same hold-out. Unbeaten slices feed failure analysis.",
-      "status": "planned",
+      "status": "completed",
       "priority": "medium",
       "module": "src/eval/baselines.py",
       "design_doc": "docs/design.md §10",
       "tests": {
-        "status": "missing",
+        "status": "passing",
         "files": ["tests/test_eval_baselines.py"],
-        "notes": "Baselines run offline with zero LLM calls"
+        "notes": "7 tests pass: majority predicts train-majority class with stable tie-break + constant canned reply; stdlib TF-IDF retrieval returns most-overlapping reply and predict maps to nearest train intent; module source scanned for zero LLM imports"
       },
       "subtasks": [
-        {"id": "F008-1", "name": "Majority + canned baseline", "status": "planned"},
-        {"id": "F008-2", "name": "TF-IDF retrieval baseline", "status": "planned"}
+        {"id": "F008-1", "name": "Majority + canned baseline", "status": "completed"},
+        {"id": "F008-2", "name": "TF-IDF retrieval baseline", "status": "completed"}
       ],
       "notes": "Independent of F005/F006 — buildable in parallel.",
       "added": "2026-09-09",
-      "completed": null
+      "completed": "2026-09-09"
     },
     {
       "id": "F009",
