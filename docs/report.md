@@ -55,9 +55,15 @@ thread split the anger-vs-substance line opposite ways; on drafts the
 human failed 3 verbatim-copy fee replies r1 passed, while r1 failed 5
 the human passed. Auto/escalate agreement is perfect — both raters
 escalate identically everywhere, so the gate threshold carries no
-rater-explained variance. Judge-vs-rater on 25/50 drafts (Gemini quota):
-**0.72 vs human and vs r1 alike** — the judge passes more (22/25) than
-either rater panel majority would sustain, i.e. lenient, not strict.
+rater-explained variance. Judge-vs-rater on 50/50 drafts (rubric v2 incl.
+anti-parroting rule, `gemini-2.5-flash-lite` — 2.5-flash quota-exhausted,
+model recorded per artifact): **judge passed all 50 (1.00 pass rate) vs
+human 35 and r1 33 — agreement 0.70 / 0.66.** The v2 parroting rule did
+not bite on lite: all three verbatim-copy fee drafts the human failed
+still pass. Conclusion: the judge is unusable as a gate in this
+configuration — fail-recall is 0.00 against either rater's fail set, so
+every bad draft would serve. Do not ship the gate on lite; re-run on
+2.5-flash/pro or tighten the rubric until a known-bad draft fails.
 Caveat: 2 raters give no majority on splits and no rater-spread bar
 (needs 3); treat kappas as alignment evidence, not the full §11 bar.
 

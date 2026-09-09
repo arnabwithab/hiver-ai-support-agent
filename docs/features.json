@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 20,
-    "completed": 20,
+    "total": 21,
+    "completed": 21,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 20,
+    "tests_passing": 21,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -601,6 +601,32 @@
         }
       ],
       "notes": "2 raters: no majority on splits, no spread bar (needs 3). Judge lenient vs panel.",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F020",
+      "name": "Rubric v2 parroting rule + full-panel judging",
+      "description": "Human verbatim-copy catch encoded as groundedness rule (v2, v1 retained). All 50 drafts judged under v2/flash-lite: judge passed 50/50 (fail-recall 0.00) \u2014 gate unusable on lite, do not ship.",
+      "status": "completed",
+      "priority": "high",
+      "module": "src/judge.py",
+      "design_doc": "docs/design.md \u00a79, \u00a711",
+      "tests": {
+        "status": "passing",
+        "files": [
+          "tests/test_judge.py"
+        ],
+        "notes": "v2 parroting clause pinned in prompt test"
+      },
+      "subtasks": [
+        {
+          "id": "F020-1",
+          "name": "Parroting rule + 50/50 judging + report",
+          "status": "completed"
+        }
+      ],
+      "notes": "Agreement judge-vs-human 0.70, vs-r1 0.66. Re-run on 2.5-flash/pro when quota returns.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }

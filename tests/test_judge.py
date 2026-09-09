@@ -51,6 +51,13 @@ def test_rubric_version_pinned_in_prompt():
     assert "escalation_correctness" in prompt
 
 
+def test_rubric_v2_parroting_rule_in_prompt():
+    # Human rater catch (2026-09-09): verbatim-copy drafts must fail groundedness.
+    prompt = judge_prompt(draft_text="hello", target="hi")
+    assert "verbatim" in prompt
+    assert RUBRIC_VERSION == "v2"
+
+
 def test_prompt_redacts_pii():
     dirty = "my ssn is 123-45-6789 call (212) 555-0199"
     prompt = judge_prompt(draft_text=dirty, target=dirty, context=dirty)

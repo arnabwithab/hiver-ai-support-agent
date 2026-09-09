@@ -21,13 +21,18 @@ from src.utils.logger import logger
 PROVIDER = "gemini"
 TEMPERATURE = 0
 MAX_RETRIES = 3
-RUBRIC_VERSION = "v1"
+RUBRIC_VERSION = "v2"
 
 # Old rubrics retained for rollback (design §11: human signs off every change).
 RUBRIC_V0 = "v0: pass if polite and relevant. Single overall verdict, no rationale."
-# v1: per-criterion pass/fail + rationale; adds groundedness (DM-takeover is
-# faithful, inventing answers fails), tone_policy PII-leak check,
-# escalation-correctness, and the shift-aware groundedness check (Case C).
+RUBRIC_V1 = (
+    "v1: per-criterion pass/fail + rationale; groundedness (DM-takeover is "
+    "faithful, inventing answers fails), tone_policy PII-leak check, "
+    "escalation-correctness, shift-aware check. No parroting rule."
+)
+# v2 adds: parroting rule (human rater catch, 2026-09-09) — a draft that
+# repeats the prior brand reply nearly verbatim without acknowledging new
+# customer context fails groundedness.
 
 CRITERIA = ("groundedness", "tone_policy", "escalation_correctness")
 
@@ -52,8 +57,10 @@ def judge_prompt(
         "one per line in the form '<criterion>: <pass|fail> - <rationale>'.",
         "Criteria: groundedness (faithful to exemplars/strategy; requesting DM",
         "takeover instead of inventing an answer passes; echoing customer PII fails",
-        "tone_policy too); tone_policy (polite, no PII leak — any draft echoing",
-        "customer PII fails); escalation_correctness (serve vs escalate is right).",
+        "tone_policy too; repeating the prior brand reply nearly verbatim without",
+        "acknowledging new customer context fails groundedness as parroting);",
+        "tone_policy (polite, no PII leak — any draft echoing customer PII fails);",
+        "escalation_correctness (serve vs escalate is right).",
     ]
     if shift:
         lines.append(
