@@ -4,11 +4,22 @@ TDD first: these target src/intent.py (§7, no LLM ever). Phase B runs on
 tmp fixture dirs until F010 lands data/golden/dev/.
 """
 
-import csv
+import json
 
 import pytest
 
 from src import intent
+
+
+def _thread(thread_id, intent_name, *texts):
+    return {
+        "thread_id": thread_id,
+        "intent": intent_name,
+        "turns": [
+            {"tweet_id": f"{thread_id}_t{i}", "inbound": True, "text": text}
+            for i, text in enumerate(texts)
+        ],
+    }
 
 
 def _trained():
@@ -50,14 +61,20 @@ def test_phase_a_ceiling_beats_chance():
 def test_adapt_trains_on_dev_dir_only(tmp_path):
     dev = tmp_path / "dev"
     dev.mkdir()
-    with open(dev / "messages.csv", "w", newline="") as fh:
-        writer = csv.writer(fh)
-        writer.writerow(["text", "thread_id"])
-        writer.writerow(["where is my refund please", "t1"])
-        writer.writerow(["yes that amount", "t1"])
-        writer.writerow(["thanks so much", "t2"])
-        writer.writerow(["locked out of my account", "t3"])
+    threads = [
+        _thread("t1", "refund_request", "where is my refund please", "yes that amount"),
+        _thread("t2", "praise_thanks", "thanks so much"),
+        _thread("t3", "mystery_intent", "locked out of my account"),  # weak-label fallback
+    ]
+    with open(dev / "threads.jsonl", "w") as fh:
+        for thread in threads:
+            fh.write(json.dumps(thread) + "\n")
     clf = intent.train_adapt(str(dev))
+    assert clf.predict("where is my refund") in {1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+
+def test_adapt_reads_real_dev_slice():
+    clf = intent.train_adapt("data/golden/dev")
     assert clf.predict("where is my refund") in {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 

@@ -159,61 +159,44 @@ def _check_dev_path(dev_dir):
 
 
 def _read_dev_rows(dev_dir):
-    """Tolerant reader for the F010 slice (csv/json/jsonl: text + optional
-    thread_id/label). Falls back to weak labels when gold labels are absent."""
+    """Thread dicts from the F010 slice (threads.jsonl only): each row carries
+    thread_id, intent (gold name), and turns with text/inbound."""
     rows = []
-    for path in sorted(Path(dev_dir).glob("*")):
-        if path.suffix == ".csv":
-            with open(path, newline="") as fh:
-                for row in csv.DictReader(fh):
-                    if row.get("text"):
-                        rows.append(dict(row))
-        elif path.suffix in (".json", ".jsonl"):
-            with open(path) as fh:
-                content = fh.read().strip()
-            blobs = content.splitlines() if path.suffix == ".jsonl" else [content]
-            for blob in blobs:
-                data = json.loads(blob)
-                items = data if isinstance(data, list) else [data]
-                rows.extend(r for r in items if isinstance(r, dict) and r.get("text"))
+    for path in sorted(Path(dev_dir).glob("*.jsonl")):
+        with open(path) as fh:
+            for line in fh:
+                line = line.strip()
+                if line:
+                    rows.append(json.loads(line))
     return rows
 
 
-def _label_key(row):
-    for key in ("label", "intent", "gold_label"):
-        if row.get(key) not in (None, ""):
-            return int(row[key])
-    return None
-
-
 def train_adapt(dev_dir):
-    """Phase B: weak-supervision adaptation on the adapt-dev slice ONLY."""
+    """Phase B: weak-supervision adaptation on the adapt-dev slice ONLY.
+
+    Thread label is the gold intent name when present; otherwise one
+    weak_label call over the thread's inbound text (same-intent thread
+    expansion: every inbound turn trains under the thread label)."""
     _check_dev_path(dev_dir)
     rows = _read_dev_rows(dev_dir)
     if not rows:
         raise ValueError(f"no readable rows in dev slice: {dev_dir}")
-    by_thread = {}
-    for row in rows:
-        by_thread.setdefault(row.get("thread_id") or id(row), []).append(row)
-    train_rows, gold_texts, gold_labels = [], [], []
-    for messages in by_thread.values():
-        scored = [
-            (sum(1 for kw in KEYWORD_SEEDS[label] if kw in m["text"].lower()), label, m)
-            for m in messages
-            for label in KEYWORD_SEEDS
-            if KEYWORD_SEEDS[label]
-        ]
-        _, thread_label, _ = max(scored) if scored else (0, 9, None)
-        if not any(s > 0 for s, _, _ in scored):
-            thread_label = 9
-        for m in messages:
-            train_rows.append((m["text"], thread_label))
-            gold = _label_key(m)
-            gold_texts.append(m["text"])
-            gold_labels.append(gold if gold is not None else thread_label)
+    name_to_id = {name: label for label, name in _INTENT_NAMES.items()}
+    train_rows = []
+    for thread in rows:
+        inbound = [t["text"] for t in thread.get("turns", []) if t.get("inbound") and t.get("text")]
+        if not inbound:
+            continue
+        gold = thread.get("intent")
+        thread_label = name_to_id.get(gold, weak_label(" ".join(inbound)))
+        train_rows.extend((text, thread_label) for text in inbound)
+    if not train_rows:
+        raise ValueError(f"no inbound turns in dev slice: {dev_dir}")
     clf = _train_head(train_rows)
-    calibrate(clf, gold_texts, gold_labels)
-    clf.threshold = select_threshold(clf, gold_texts, gold_labels)
+    texts = [text for text, _ in train_rows]
+    labels = [label for _, label in train_rows]
+    calibrate(clf, texts, labels)
+    clf.threshold = select_threshold(clf, texts, labels)
     logger.info("adapted n=%d threshold=%.3f", len(train_rows), clf.threshold)
     return clf
 
