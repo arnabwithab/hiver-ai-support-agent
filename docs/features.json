@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 14,
-    "completed": 14,
+    "total": 15,
+    "completed": 15,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 14,
+    "tests_passing": 15,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -18,15 +18,25 @@
       "status": "completed",
       "priority": "high",
       "module": "repo-root",
-      "design_doc": "docs/design.md §12",
+      "design_doc": "docs/design.md \u00a712",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_scaffold.py"],
+        "files": [
+          "tests/test_scaffold.py"
+        ],
         "notes": "Smoke: make setup idempotent; make test/style run green on empty suite. 2 tests pass (settings + logger import/behavior)."
       },
       "subtasks": [
-        {"id": "F000-1", "name": "Makefile + uv init + config/logger", "status": "completed"},
-        {"id": "F000-2", "name": "git init + first commit", "status": "completed"}
+        {
+          "id": "F000-1",
+          "name": "Makefile + uv init + config/logger",
+          "status": "completed"
+        },
+        {
+          "id": "F000-2",
+          "name": "git init + first commit",
+          "status": "completed"
+        }
       ],
       "notes": "Build first; unblocks all other features.",
       "added": "2026-09-09",
@@ -39,15 +49,25 @@
       "status": "completed",
       "priority": "high",
       "module": "src/ingest.py",
-      "design_doc": "docs/design.md §5 node 1, §6",
+      "design_doc": "docs/design.md \u00a75 node 1, \u00a76",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_ingest.py"],
+        "files": [
+          "tests/test_ingest.py"
+        ],
         "notes": "Chain walk incl. broken links; first-contact (55% unlinked); PII patterns never leak through; redactor idempotent"
       },
       "subtasks": [
-        {"id": "F001-1", "name": "Reply-chain walk + context window builder", "status": "completed"},
-        {"id": "F001-2", "name": "PII redactor (account/SSN/phone/zip/address)", "status": "completed"}
+        {
+          "id": "F001-1",
+          "name": "Reply-chain walk + context window builder",
+          "status": "completed"
+        },
+        {
+          "id": "F001-2",
+          "name": "PII redactor (account/SSN/phone/zip/address)",
+          "status": "completed"
+        }
       ],
       "notes": "Redactor is a graded-claim dependency (design entries 16, guardrail). 15 tests passing.",
       "added": "2026-09-09",
@@ -60,58 +80,92 @@
       "status": "completed",
       "priority": "high",
       "module": "src/intent.py",
-      "design_doc": "docs/design.md §7",
+      "design_doc": "docs/design.md \u00a77",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_intent.py"],
+        "files": [
+          "tests/test_intent.py"
+        ],
         "notes": "9 tests pass: 9-way output shape (ints 1-9, proba sums to 1); hold-out/test path guard raises ValueError; Phase A ceiling beats chance via metrics.classification_metrics; calibration runs + returns 10 reliability bins; threshold is a float in (0,1)"
       },
       "subtasks": [
-        {"id": "F002-1", "name": "Banking77 Phase A training + clean ceiling", "status": "completed"},
-        {"id": "F002-2", "name": "Phase B adaptation on adapt-dev only", "status": "completed"},
-        {"id": "F002-3", "name": "Calibration + threshold selection", "status": "completed"}
+        {
+          "id": "F002-1",
+          "name": "Banking77 Phase A training + clean ceiling",
+          "status": "completed"
+        },
+        {
+          "id": "F002-2",
+          "name": "Phase B adaptation on adapt-dev only",
+          "status": "completed"
+        },
+        {
+          "id": "F002-3",
+          "name": "Calibration + threshold selection",
+          "status": "completed"
+        }
       ],
-      "notes": "Phase B ran on fallback fixtures (data/golden/dev/ absent — F010 in flight); train_adapt machinery + guard tests target tmp fixture dirs, wire the real path when F010 lands. Embedding is a hashing char-trigram stand-in (stdlib only), documented in src/intent.py. No LLM in this module, ever.",
+      "notes": "Phase B ran on fallback fixtures (data/golden/dev/ absent \u2014 F010 in flight); train_adapt machinery + guard tests target tmp fixture dirs, wire the real path when F010 lands. Embedding is a hashing char-trigram stand-in (stdlib only), documented in src/intent.py. No LLM in this module, ever.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     },
     {
       "id": "F003",
       "name": "Thread-state machine",
-      "description": "Cases A-D, keyword veto, continuation inheritance, (raw → override → final) logging. Design node 3 + §6 state block.",
+      "description": "Cases A-D, keyword veto, continuation inheritance, (raw \u2192 override \u2192 final) logging. Design node 3 + \u00a76 state block.",
       "status": "completed",
       "priority": "high",
       "module": "src/state.py",
-      "design_doc": "docs/design.md §6",
+      "design_doc": "docs/design.md \u00a76",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_state.py"],
+        "files": [
+          "tests/test_state.py"
+        ],
         "notes": "Each Case A-D; awaiting_user exception; veto on 'thanks + refund?'; inheritance only when low-conf; every decision returns/logs the triple. 11 tests pass."
       },
       "subtasks": [
-        {"id": "F003-1", "name": "Transitions A-D + veto + inheritance", "status": "completed"},
-        {"id": "F003-2", "name": "Decision-triple logging", "status": "completed"}
+        {
+          "id": "F003-1",
+          "name": "Transitions A-D + veto + inheritance",
+          "status": "completed"
+        },
+        {
+          "id": "F003-2",
+          "name": "Decision-triple logging",
+          "status": "completed"
+        }
       ],
-      "notes": "Pure logic, no LLM — fully testable offline. Feeds F009 override counts.",
+      "notes": "Pure logic, no LLM \u2014 fully testable offline. Feeds F009 override counts.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     },
     {
       "id": "F004",
       "name": "Per-intent retrieval grounding",
-      "description": "Cluster historical brand replies within each intent into named response strategies (2-3 exemplars each); same-intent top-k retrieval at serve time. Design node 4c + §8.",
+      "description": "Cluster historical brand replies within each intent into named response strategies (2-3 exemplars each); same-intent top-k retrieval at serve time. Design node 4c + \u00a78.",
       "status": "completed",
       "priority": "medium",
       "module": "src/retrieve.py",
-      "design_doc": "docs/design.md §8",
+      "design_doc": "docs/design.md \u00a78",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_retrieve.py"],
+        "files": [
+          "tests/test_retrieve.py"
+        ],
         "notes": "6 tests pass: same-intent restriction both directions; DM-takeover present for money intents 1/2/3; top-k length respected; 2-3 exemplars per strategy; default index from dev brand turns"
       },
       "subtasks": [
-        {"id": "F004-1", "name": "Offline per-intent clustering + strategy labels", "status": "completed"},
-        {"id": "F004-2", "name": "Serve-time same-intent top-k retrieval", "status": "completed"}
+        {
+          "id": "F004-1",
+          "name": "Offline per-intent clustering + strategy labels",
+          "status": "completed"
+        },
+        {
+          "id": "F004-2",
+          "name": "Serve-time same-intent top-k retrieval",
+          "status": "completed"
+        }
       ],
       "notes": "Needs F002 intent labels for clustering corpus.",
       "added": "2026-09-09",
@@ -124,15 +178,25 @@
       "status": "completed",
       "priority": "high",
       "module": "src/draft.py",
-      "design_doc": "docs/design.md §5 nodes 4b/4d, §9, §12",
+      "design_doc": "docs/design.md \u00a75 nodes 4b/4d, \u00a79, \u00a712",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_draft.py"],
+        "files": [
+          "tests/test_draft.py"
+        ],
         "notes": "7 tests pass on a fake client (no keys): grounded prompt contains intent + exemplars + strategy, free prompt omits them; cache hit avoids second client call; model/hash mismatch invalidates; temperature 0 + provider/model/retry-flag recorded; PII redacted in both builders"
       },
       "subtasks": [
-        {"id": "F005-1", "name": "Groq client + free/grounded prompt builders", "status": "completed"},
-        {"id": "F005-2", "name": "Artifact caching keyed by (provider, model, prompt hash)", "status": "completed"}
+        {
+          "id": "F005-1",
+          "name": "Groq client + free/grounded prompt builders",
+          "status": "completed"
+        },
+        {
+          "id": "F005-2",
+          "name": "Artifact caching keyed by (provider, model, prompt hash)",
+          "status": "completed"
+        }
       ],
       "notes": "Needs GROQ_API_KEY at runtime; tests run on mocks. Never add classification logic here.",
       "added": "2026-09-09",
@@ -141,19 +205,29 @@
     {
       "id": "F006",
       "name": "Judge as gate and critic (Gemini)",
-      "description": "LLM call site #2. One call, multi-criteria rubric (groundedness / tone_policy incl. PII-leak / escalation-correctness + shift-aware check), rationale per verdict; failures return critique for ≤3 retries, then escalate. Different provider from drafter by construction.",
+      "description": "LLM call site #2. One call, multi-criteria rubric (groundedness / tone_policy incl. PII-leak / escalation-correctness + shift-aware check), rationale per verdict; failures return critique for \u22643 retries, then escalate. Different provider from drafter by construction.",
       "status": "completed",
       "priority": "high",
       "module": "src/judge.py",
-      "design_doc": "docs/design.md §9",
+      "design_doc": "docs/design.md \u00a79",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_judge.py"],
-        "notes": "8 tests pass on a fake client (no keys): rubric version pinned in prompt; prompt redacts PII; per-criterion parse with rationale; temperature 0; PII-echo draft fails tone_policy despite LLM pass (local override); serve on first pass; ≤3 retries then escalate with rationale as handoff note; recovery on 2nd attempt"
+        "files": [
+          "tests/test_judge.py"
+        ],
+        "notes": "8 tests pass on a fake client (no keys): rubric version pinned in prompt; prompt redacts PII; per-criterion parse with rationale; temperature 0; PII-echo draft fails tone_policy despite LLM pass (local override); serve on first pass; \u22643 retries then escalate with rationale as handoff note; recovery on 2nd attempt"
       },
       "subtasks": [
-        {"id": "F006-1", "name": "Gemini client + rubric prompt + rationale parsing", "status": "completed"},
-        {"id": "F006-2", "name": "Gate/critic loop with retry cap and drop-to-escalate", "status": "completed"}
+        {
+          "id": "F006-1",
+          "name": "Gemini client + rubric prompt + rationale parsing",
+          "status": "completed"
+        },
+        {
+          "id": "F006-2",
+          "name": "Gate/critic loop with retry cap and drop-to-escalate",
+          "status": "completed"
+        }
       ],
       "notes": "Needs GEMINI_API_KEY at runtime. Rubric text versioned; old rubrics retained.",
       "added": "2026-09-09",
@@ -162,18 +236,24 @@
     {
       "id": "F007",
       "name": "Pipeline orchestration",
-      "description": "The DAG only: ingest → classify → gate/state → draft/retrieve → judge → serve/retry/escalate. No business logic; stage boundaries stay 1:1 portable.",
+      "description": "The DAG only: ingest \u2192 classify \u2192 gate/state \u2192 draft/retrieve \u2192 judge \u2192 serve/retry/escalate. No business logic; stage boundaries stay 1:1 portable.",
       "status": "completed",
       "priority": "medium",
       "module": "src/orchestrate.py",
-      "design_doc": "docs/design.md §5",
+      "design_doc": "docs/design.md \u00a75",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_orchestrate.py"],
+        "files": [
+          "tests/test_orchestrate.py"
+        ],
         "notes": "5 tests pass on fakes (no keys): Case A free draft + judged serve with no exemplars; Case B canned resolve with zero LLM calls; Case C grounded draft + serve; Case D veto to intent 9 + serve; judge exhaustion escalates with rationale as handoff note"
       },
       "subtasks": [
-        {"id": "F007-1", "name": "DAG wiring with typed state dict", "status": "completed"}
+        {
+          "id": "F007-1",
+          "name": "DAG wiring with typed state dict",
+          "status": "completed"
+        }
       ],
       "notes": "Integrates F001-F006. No LangGraph (design entry 3). Adopted partial files; fixed dropped cache_dir on the judge review call (judge fell through to data/cache, bypassing injected fakes).",
       "added": "2026-09-09",
@@ -186,38 +266,58 @@
       "status": "completed",
       "priority": "medium",
       "module": "src/eval/baselines.py",
-      "design_doc": "docs/design.md §10",
+      "design_doc": "docs/design.md \u00a710",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_eval_baselines.py"],
+        "files": [
+          "tests/test_eval_baselines.py"
+        ],
         "notes": "7 tests pass: majority predicts train-majority class with stable tie-break + constant canned reply; stdlib TF-IDF retrieval returns most-overlapping reply and predict maps to nearest train intent; module source scanned for zero LLM imports"
       },
       "subtasks": [
-        {"id": "F008-1", "name": "Majority + canned baseline", "status": "completed"},
-        {"id": "F008-2", "name": "TF-IDF retrieval baseline", "status": "completed"}
+        {
+          "id": "F008-1",
+          "name": "Majority + canned baseline",
+          "status": "completed"
+        },
+        {
+          "id": "F008-2",
+          "name": "TF-IDF retrieval baseline",
+          "status": "completed"
+        }
       ],
-      "notes": "Independent of F005/F006 — buildable in parallel.",
+      "notes": "Independent of F005/F006 \u2014 buildable in parallel.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     },
     {
       "id": "F009",
       "name": "Metrics and agreement",
-      "description": "Accuracy/macro-F1 on raw + final labels, override counts, per-intent counts with CIs, auto-handle precision, judge specificity, Case-B wrong-close recall — every metric sliced by Case/continuation/veto/shift flags. Kappa + bootstrap CIs (pairwise raters + judge-vs-majority vs mean−2σ bar).",
+      "description": "Accuracy/macro-F1 on raw + final labels, override counts, per-intent counts with CIs, auto-handle precision, judge specificity, Case-B wrong-close recall \u2014 every metric sliced by Case/continuation/veto/shift flags. Kappa + bootstrap CIs (pairwise raters + judge-vs-majority vs mean\u22122\u03c3 bar).",
       "status": "completed",
       "priority": "high",
       "module": "src/eval/metrics.py",
-      "design_doc": "docs/design.md §10",
+      "design_doc": "docs/design.md \u00a710",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_eval_metrics.py"],
-        "notes": "20 tests pass. Kappa on a hand-computed 2x2 table (=0.4) + edge cases; bootstrap CI contains point estimate and is seed-reproducible; slicing partitions rows preserving counts; raw AND final accuracy/macro-F1/confusion both reported; override counts; per-intent counts with normal-approx CIs; auto-handle precision at threshold; judge specificity (fail-recall); Case-B wrong-close recall; pairwise kappas + judge-vs-majority vs mean−2σ bar"
+        "files": [
+          "tests/test_eval_metrics.py"
+        ],
+        "notes": "20 tests pass. Kappa on a hand-computed 2x2 table (=0.4) + edge cases; bootstrap CI contains point estimate and is seed-reproducible; slicing partitions rows preserving counts; raw AND final accuracy/macro-F1/confusion both reported; override counts; per-intent counts with normal-approx CIs; auto-handle precision at threshold; judge specificity (fail-recall); Case-B wrong-close recall; pairwise kappas + judge-vs-majority vs mean\u22122\u03c3 bar"
       },
       "subtasks": [
-        {"id": "F009-1", "name": "Classification + override + case-slice metrics", "status": "completed"},
-        {"id": "F009-2", "name": "Kappa + bootstrap CI + rater-spread bar", "status": "completed"}
+        {
+          "id": "F009-1",
+          "name": "Classification + override + case-slice metrics",
+          "status": "completed"
+        },
+        {
+          "id": "F009-2",
+          "name": "Kappa + bootstrap CI + rater-spread bar",
+          "status": "completed"
+        }
       ],
-      "notes": "Pure local math — no LLM, no keys. Buildable in parallel with F001-F003.",
+      "notes": "Pure local math \u2014 no LLM, no keys. Buildable in parallel with F001-F003.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     },
@@ -228,15 +328,25 @@
       "status": "completed",
       "priority": "high",
       "module": "data/golden/",
-      "design_doc": "docs/design.md §10, §11 rater protocol",
+      "design_doc": "docs/design.md \u00a710, \u00a711 rater protocol",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_golden.py"],
+        "files": [
+          "tests/test_golden.py"
+        ],
         "notes": "9 tests pass: stratum mix 60/20/20 within tol; 70/30 split counts + disjoint ids; DEV vs HOLDOUT paths distinct + LOCKED marker; zero unredacted PII in tmp + committed files; rationales on every escalate; reply chains rebuild via build_thread; blank blind rater sheets (15 + 50, no model outputs); no new LLM call site in src/golden.py"
       },
       "subtasks": [
-        {"id": "F010-1", "name": "Sampling script + stratum mix + 70/30 split", "status": "completed"},
-        {"id": "F010-2", "name": "Rater sheets (calibration + main) + guideline page", "status": "completed"}
+        {
+          "id": "F010-1",
+          "name": "Sampling script + stratum mix + 70/30 split",
+          "status": "completed"
+        },
+        {
+          "id": "F010-2",
+          "name": "Rater sheets (calibration + main) + guideline page",
+          "status": "completed"
+        }
       ],
       "notes": "Offline seed fixtures (src/golden.py, stdlib only); 200 threads (140 dev + 60 holdout) committed under data/golden/. Real Kaggle dump can later feed the same record path. Unblocks F002 Phase B.",
       "added": "2026-09-09",
@@ -249,15 +359,25 @@
       "status": "completed",
       "priority": "medium",
       "module": "data/cache/ + Makefile",
-      "design_doc": "docs/design.md §12",
+      "design_doc": "docs/design.md \u00a712",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_cache.py"],
+        "files": [
+          "tests/test_cache.py"
+        ],
         "notes": "6 tests pass: key deterministic + mismatch-sensitive; hit avoids client call; provider/model/prompt mismatch invalidates; tampered entry falls through; corrupt entry falls through + overwritten; extra fields stored. draft.py + judge.py migrated onto src/cache.py get_or_call (their suites still green: 7 + 9 tests). `make build` reproduces baselines on holdout from cache (majority acc 0.17/macro-F1 0.03, tfidf acc 0.57/macro-F1 0.53, n=60) with zero live calls by default; --live N fails loudly without keys."
       },
       "subtasks": [
-        {"id": "F011-1", "name": "Cache read/write keyed by (provider, model, prompt hash)", "status": "completed"},
-        {"id": "F011-2", "name": "make build: cache repro + smoke subset", "status": "completed"}
+        {
+          "id": "F011-1",
+          "name": "Cache read/write keyed by (provider, model, prompt hash)",
+          "status": "completed"
+        },
+        {
+          "id": "F011-2",
+          "name": "make build: cache repro + smoke subset",
+          "status": "completed"
+        }
       ],
       "notes": "Wires into F005/F006 clients.",
       "added": "2026-09-09",
@@ -266,19 +386,27 @@
     {
       "id": "F012",
       "name": "Report",
-      "description": "docs/report.md (≤6 pages): framing + non-goals, results vs both baselines, top-5 failures with real examples, 'misleading headline' section, next-week plan, decision log. Built from F009 outputs, not hand-written numbers.",
+      "description": "docs/report.md (\u22646 pages): framing + non-goals, results vs both baselines, top-5 failures with real examples, 'misleading headline' section, next-week plan, decision log. Built from F009 outputs, not hand-written numbers.",
       "status": "completed",
       "priority": "medium",
       "module": "docs/report.md",
-      "design_doc": "docs/design.md §10",
+      "design_doc": "docs/design.md \u00a710",
       "tests": {
         "status": "passing",
         "files": [],
         "notes": "Checklist verified by inspection: all 6 mandatory brief sections present (framing+non-goals, baselines, top-5 failures with thread IDs, misleading-headline, next-week plan, 15-entry decision log); every number cites source (B=make build stdout, G=golden counts, T=make test, L=local eval script); 111 lines (<200); unmeasured claims (kappa, judge-vs-golden, Case-B recall) labeled as such"
       },
       "subtasks": [
-        {"id": "F012-1", "name": "Report skeleton with mandatory sections", "status": "completed"},
-        {"id": "F012-2", "name": "Fill from eval artifacts + failure analysis", "status": "completed"}
+        {
+          "id": "F012-1",
+          "name": "Report skeleton with mandatory sections",
+          "status": "completed"
+        },
+        {
+          "id": "F012-2",
+          "name": "Fill from eval artifacts + failure analysis",
+          "status": "completed"
+        }
       ],
       "notes": "Last feature. Real-stratum accuracy 0.250 (9/36) is the honest headline; TF-IDF beats the trigram head; rater protocol unrun (sheets blank) so no kappa reported.",
       "added": "2026-09-09",
@@ -287,22 +415,69 @@
     {
       "id": "F013",
       "name": "Real-data training (Banking77 + Chase subsample)",
-      "description": "BANKING77_MAP label_text→ints 1-9 (7/8 empty, unlisted→9); _load_bankings77_csv prefers label_text with int fallback; src/subsample.py fixpoint Chase thread collection (turns only, unlabeled); train_phase_a on real train.csv + test ceiling; Phase-A numbers in docs/report.md §7.",
+      "description": "BANKING77_MAP label_text\u2192ints 1-9 (7/8 empty, unlisted\u21929); _load_bankings77_csv prefers label_text with int fallback; src/subsample.py fixpoint Chase thread collection (turns only, unlabeled); train_phase_a on real train.csv + test ceiling; Phase-A numbers in docs/report.md \u00a77.",
       "status": "completed",
       "priority": "high",
       "module": "src/intent.py + src/subsample.py",
-      "design_doc": "docs/design.md §7",
+      "design_doc": "docs/design.md \u00a77",
       "tests": {
         "status": "passing",
-        "files": ["tests/test_intent.py", "tests/test_subsample.py"],
-        "notes": "5 new tests pass: 17 label_text spot-checks + unlisted→9 + 7/8 zero-coverage; label_text-preferred/int-fallback reader; fixpoint collects 2-hop chain, ignores unrelated brand, turns-only threads, inbound-only weak-label counts. Ceiling (50 epochs, 77s): test acc 0.507/macro-F1 0.419 n=3080; Chase: 6887 threads/19110 rows, weak-label 49% other."
+        "files": [
+          "tests/test_intent.py",
+          "tests/test_subsample.py"
+        ],
+        "notes": "5 new tests pass: 17 label_text spot-checks + unlisted\u21929 + 7/8 zero-coverage; label_text-preferred/int-fallback reader; fixpoint collects 2-hop chain, ignores unrelated brand, turns-only threads, inbound-only weak-label counts. Ceiling (50 epochs, 77s): test acc 0.507/macro-F1 0.419 n=3080; Chase: 6887 threads/19110 rows, weak-label 49% other."
       },
       "subtasks": [
-        {"id": "F013-1", "name": "BANKING77_MAP + csv reader", "status": "completed"},
-        {"id": "F013-2", "name": "Chase subsample + weak-label distribution", "status": "completed"},
-        {"id": "F013-3", "name": "Phase-A train + ceiling + report §7", "status": "completed"}
+        {
+          "id": "F013-1",
+          "name": "BANKING77_MAP + csv reader",
+          "status": "completed"
+        },
+        {
+          "id": "F013-2",
+          "name": "Chase subsample + weak-label distribution",
+          "status": "completed"
+        },
+        {
+          "id": "F013-3",
+          "name": "Phase-A train + ceiling + report \u00a77",
+          "status": "completed"
+        }
       ],
-      "notes": "Phase A banking77 is exempt from the golden-dev-only guardrail (AGENTS.md). dev.csv is byte-identical to test.csv in the mirror dump; train∩test overlap 0/3080.",
+      "notes": "Phase A banking77 is exempt from the golden-dev-only guardrail (AGENTS.md). dev.csv is byte-identical to test.csv in the mirror dump; train\u2229test overlap 0/3080.",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F014",
+      "name": "Real embeddings + cross-brand social mining",
+      "description": "Frozen all-MiniLM-L6-v2 (384-dim) replaces hashing stand-in; mine_social() extracts veto-filtered cross-brand 7/8 rows; train_phase_a gains social_path. Ceiling 0.887/0.786; 7/8 probes 1.000.",
+      "status": "completed",
+      "priority": "high",
+      "module": "src/intent.py + src/subsample.py",
+      "design_doc": "docs/design.md \u00a77",
+      "tests": {
+        "status": "passing",
+        "files": [
+          "tests/test_intent.py",
+          "tests/test_subsample.py"
+        ],
+        "notes": "Encoder dim/norm/determinism; mining keeps clean thanks+greetings, excludes veto-hits and unattributed"
+      },
+      "subtasks": [
+        {
+          "id": "F014-1",
+          "name": "Frozen ST encoder + batched train",
+          "status": "completed"
+        },
+        {
+          "id": "F014-2",
+          "name": "mine_social + social_path + re-measure",
+          "status": "completed"
+        }
+      ],
+      "notes": "Refund F1 0.318->0.891, card-delivery 0.325->0.894. Retrain wall 218s. Mined 500+500 social rows.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }

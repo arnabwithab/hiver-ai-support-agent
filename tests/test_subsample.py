@@ -64,3 +64,39 @@ def test_weak_label_distribution_counts_inbound_only(tmp_path):
     dist = subsample.weak_label_distribution(threads)
     assert sum(dist.values()) == 2  # two inbound turns only
     assert set(dist) <= set(range(1, 10))
+
+
+def _write_social_fixture(path):
+    rows = [
+        ("b1", "Tesco", "False", "2020-01-01", "how can we help", "u1", ""),
+        ("u1", "user1", "True", "2020-01-02", "thanks so much, great service", "", "b1"),
+        ("b2", "Tesco", "False", "2020-01-01", "how can we help", "u2", ""),
+        # thanks + money term: veto-hit, must not pollute 7
+        ("u2", "user2", "True", "2020-01-02", "thanks, where is my refund", "", "b2"),
+        ("b3", "Tesco", "False", "2020-01-01", "how can we help", "u3", ""),
+        ("u3", "user3", "True", "2020-01-02", "good morning", "", "b3"),
+        # unattributed inbound (no brand parent): skipped
+        ("u9", "user9", "True", "2020-01-02", "thanks anyway", "", "ghost"),
+    ]
+    with open(path, "w", newline="") as fh:
+        writer = csv.writer(fh)
+        writer.writerow(HEADER)
+        writer.writerows(rows)
+
+
+def test_mine_social_keeps_clean_thanks_and_greetings(tmp_path):
+    csv_path = str(tmp_path / "twcs.csv")
+    out_path = str(tmp_path / "social.jsonl")
+    _write_social_fixture(csv_path)
+    counts = subsample.mine_social(csv_path, out_path, per_class=10, seed=7)
+    assert counts == {7: 1, 8: 1}
+    import json
+
+    with open(out_path) as fh:
+        mined = [json.loads(line) for line in fh if line.strip()]
+    assert {r["label"] for r in mined} == {7, 8}
+    texts = [r["text"] for r in mined]
+    assert "thanks so much, great service" in texts
+    assert "good morning" in texts
+    assert not any("refund" in t for t in texts)
+    assert not any("ghost" in t or "thanks anyway" in t for t in texts)

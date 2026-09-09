@@ -27,6 +27,14 @@ def _trained():
     return clf
 
 
+def test_embed_is_frozen_sentence_vector():
+    a = intent.embed("hello there")
+    assert len(a) == 384 == intent.DIM
+    assert abs(sum(v * v for v in a) - 1.0) < 1e-5
+    assert a == intent.embed("hello there")  # deterministic
+    assert intent.EMBEDDING_MODEL == "all-MiniLM-L6-v2"
+
+
 def test_predict_labels_are_ints_1_to_9():
     clf = _trained()
     for text in ["where is my refund", "thanks so much", "hello", "locked out"]:

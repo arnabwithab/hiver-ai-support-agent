@@ -110,17 +110,22 @@ ones. The number to quote is **real-stratum 9/36**, not 33/60.
 14. Cache-first repro keyed by (provider, model, prompt hash).
 15. Intent 4 rescoped to card_delivery on measured 0.6% volume.
 
-## 7. Phase A real-data ceiling (F013, run 2026-09-09)
+## 7. Phase A real-data ceiling (F013–F014, run 2026-09-09)
 
 `train_phase_a('data/raw/banking77/train.csv')`, label_text → 9-way map
-(`src/intent.BANKING77_MAP`, unlisted → 9), default **50 epochs** (timed
-1.6 s/epoch, 77 s wall — cheap enough that no reduction was needed).
+(`src/intent.BANKING77_MAP`, unlisted → 9), default **50 epochs**.
+F014 replaced the hashing-trigram stand-in with frozen
+`all-MiniLM-L6-v2` (384-dim, L2-normalised, never fine-tuned) and
+appended 500+500 mined cross-brand social rows (labels 7/8, veto-filtered,
+`src/subsample.mine_social`, seeded) — social needs no brand context.
+Full retrain wall 218 s.
 
 | split | n | accuracy | macro-F1 | source |
 |---|---|---|---|---|
-| train (in-sample) | 10003 | 0.486 | 0.402 | `R` (unweighted) |
-| test (ceiling, unweighted) | 3080 | 0.507 | 0.419 | `R` |
-| test (ceiling, class-weighted) | 3080 | **0.559** | **0.485** | `R2` |
+| train (in-sample) | 10003 | 0.486 | 0.402 | `R` (unweighted, hashing) |
+| test (hashing, unweighted) | 3080 | 0.507 | 0.419 | `R` |
+| test (hashing, class-weighted) | 3080 | 0.559 | 0.485 | `R2` |
+| test (embeddings + social) | 3080 | **0.887** | **0.786** | `R3` |
 
 `R` = run stdout 2026-09-09 (`train_phase_a` + `classification_metrics`
 on mapped test). Mapped test counts `R`: {1: 480, 2: 120, 3: 400,
@@ -147,13 +152,23 @@ error is class 5 as sink (true-2 → 83/120 predicted 5; true-4 →
 frozen hashing embedding can split — needs the real sentence embedding
 or a mapping rethink, not more balancing.
 
-Classes 7/8 (`R2` synthetic probes, `_SYNTHETIC` 3 texts each — Banking77
-has zero social rows so real prec/rec is uncomputable): probe-acc 0.000
-for both; the head never emits 7/8 (unseen classes keep ~zero bias while
-trained biases grow). Social coverage must come from Twitter threads —
-measured real prevalence `R2`: ChaseSupport 19.1% thanks / 6.2% greeting
-(n=1,974 attributed inbound), Tesco 23.6%/10.7%, Spotify 22.0%/3.6%;
-single-hop attribution leaves 64% unattributed, weak labels not gold.
+`R3` per-class prec/rec/F1 (embeddings + social, T=0.500): 1: 0.808/
+0.946/0.871, 2: 0.980/0.817/0.891, 3: 0.955/0.963/0.959,
+4: 0.844/0.950/0.894, 5: 0.941/0.864/0.901, 6: 0.900/0.900/0.900,
+9: 0.912/0.829/0.869. The class-5 sink is gone (refund recall
+0.200→0.817, card-delivery 0.204→0.950): the boundary confusion was a
+feature problem, not a weighting problem — real embeddings separated
+what reweighting hashed trigrams could not. Lesson recorded: the
+zero-dependency hashing stand-in cost 0.30 macro-F1 and should never
+have survived first contact with real data.
+
+Classes 7/8 (`R3` synthetic probes, 3 texts each): probe-acc 1.000 for
+both (was 0.000 — the head never emitted unseen classes). Banking77
+test carries no social rows, so real prec/rec for 7/8 remains
+unmeasurable there; prevalence measured on real threads instead:
+ChaseSupport 19.1% thanks / 6.2% greeting (n=1,974 attributed inbound),
+Tesco 23.6%/10.7%, Spotify 22.0%/3.6% (single-hop attribution, 64%
+unattributed, weak labels not gold).
 
 Chase subsample (`src/subsample.py`, fixpoint over `twcs.csv`, 5 passes
 to convergence, 33 s): **6887 threads / 19110 rows** written to

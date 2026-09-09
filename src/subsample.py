@@ -8,9 +8,11 @@ no intent labels; raw PII stays under gitignored data/raw/).
 
 import csv
 import json
+import random
 from collections import Counter
 from pathlib import Path
 
+from src import state as state_mod
 from src.intent import weak_label
 from src.utils.logger import logger
 
@@ -18,6 +20,9 @@ CHASE_BRAND = "ChaseSupport"
 MAX_PASSES = 8
 DEFAULT_CSV = "data/raw/twcs/twcs/twcs.csv"
 DEFAULT_OUT = "data/raw/chase/chase_threads.jsonl"
+SOCIAL_OUT = "data/raw/mined_social.jsonl"
+SOCIAL_PER_CLASS = 500
+SOCIAL_SEED = 7
 
 
 def _is_inbound(value):
@@ -129,6 +134,51 @@ def weak_label_distribution(threads):
     print(f"weak-label distribution (n={sum(dist.values())}): {dist}")
     logger.info("weak-label distribution n=%d %s", sum(dist.values()), dist)
     return dist
+
+
+def mine_social(
+    csv_path=DEFAULT_CSV, out_path=SOCIAL_OUT, per_class=SOCIAL_PER_CLASS, seed=SOCIAL_SEED
+):
+    """Cross-brand social rows for Phase A (Banking77 has no 7/8).
+
+    Social needs no brand context — thanks/greetings transfer across brands.
+    7 excludes veto-hits ('Thanks, where is my refund?') via the shared
+    Case-D rule in state (single source of truth, not a forked list).
+    Attribution is single-hop (in_response_to → brand tweet), like the
+    prevalence probe. Seeded sample, raw texts stay under gitignored data/.
+    """
+    brand_tweet = set()
+    with open(csv_path, newline="") as fh:
+        for row in csv.DictReader(fh):
+            author = (row.get("author_id") or "").strip()
+            if not _is_inbound(row.get("inbound")) and author not in ("", "115712"):
+                brand_tweet.add((row.get("tweet_id") or "").strip())
+    buckets = {7: [], 8: []}
+    with open(csv_path, newline="") as fh:
+        for row in csv.DictReader(fh):
+            if not _is_inbound(row.get("inbound")):
+                continue
+            if (row.get("in_response_to_tweet_id") or "").strip() not in brand_tweet:
+                continue
+            text = row.get("text") or ""
+            label = weak_label(text)
+            if label == 8:
+                buckets[8].append(text)
+            elif label == 7 and not state_mod._veto_hits(text):
+                buckets[7].append(text)
+    rng = random.Random(seed)
+    picked = []
+    for label, texts in buckets.items():
+        rng.shuffle(texts)
+        picked.extend({"text": text, "label": label} for text in texts[:per_class])
+    out = Path(out_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with open(out, "w") as fh:
+        for row in picked:
+            fh.write(json.dumps(row) + "\n")
+    counts = {label: sum(1 for r in picked if r["label"] == label) for label in buckets}
+    logger.info("mined social %s -> %s", counts, out)
+    return counts
 
 
 def main(csv_path=DEFAULT_CSV, out_path=DEFAULT_OUT):

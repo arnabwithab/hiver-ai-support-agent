@@ -1,15 +1,12 @@
-"""F002: intent classifier with calibration. Design §7. No LLM, stdlib only.
+"""F002: intent classifier with calibration. Design §7. No LLM, stdlib + ST.
 
-Frozen embedding is a portable stand-in: hashing char-trigram encoder
-(md5 → fixed dim, L2-normalised). Swap for a sentence-embedding model
-without touching the head. Linear head is hand-rolled softmax regression.
-
-Labels are ints 1-9 per src/state.py. train_adapt accepts a dev-slice
-path only and refuses anything hold-out/test-flavoured.
+Frozen sentence embedding (all-MiniLM-L6-v2, never fine-tuned) plus a
+hand-rolled softmax-regression head. Swap the model id without touching
+the head. Labels are ints 1-9 per src/state.py. train_adapt accepts a
+dev-slice path only and refuses anything hold-out/test-flavoured.
 """
 
 import csv
-import hashlib
 import json
 import math
 from collections import Counter
@@ -18,11 +15,12 @@ from pathlib import Path
 from src.eval.metrics import classification_metrics
 from src.utils.logger import logger
 
-DIM = 128
+DIM = 384
 N_INTENTS = 9
 EPOCHS = 50
 LR = 0.1
 N_BINS = 10
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 _TEMPS = (0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0)
 
 KEYWORD_SEEDS = {
@@ -50,15 +48,35 @@ _SYNTHETIC = {
 }
 
 
+_encoder = None
+
+
+def _model():
+    """Frozen sentence encoder, loaded once. Loud failure, never a fallback:
+    silently swapping features would invalidate every trained head."""
+    global _encoder
+    if _encoder is None:
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError:
+            raise SystemExit(
+                "sentence-transformers is required "
+                "(https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)"
+            )
+        _encoder = SentenceTransformer(EMBEDDING_MODEL)
+    return _encoder
+
+
 def embed(text):
-    """Hashing char-trigram embedding, L2-normalised. Deterministic."""
-    vec = [0.0] * DIM
-    text = f" {text.lower()} "
-    for i in range(max(len(text) - 2, 1)):
-        gram = text[i : i + 3]
-        vec[int(hashlib.md5(gram.encode()).hexdigest(), 16) % DIM] += 1.0
-    norm = math.sqrt(sum(v * v for v in vec)) or 1.0
-    return [v / norm for v in vec]
+    """Frozen sentence embedding (design §7), L2-normalised. Deterministic."""
+    return [float(v) for v in _model().encode(text, normalize_embeddings=True)]
+
+
+def embed_many(texts):
+    """Batch encode; one model call for a whole corpus."""
+    return [
+        [float(v) for v in row] for row in _model().encode(list(texts), normalize_embeddings=True)
+    ]
 
 
 def _softmax(logits, temperature=1.0):
@@ -105,10 +123,17 @@ def _train_head(rows, epochs=EPOCHS, lr=LR, balanced=True):
         weights = {label: len(rows) / (len(counts) * n) for label, n in counts.items()}
     else:
         weights = {}
+    uniq = list(dict.fromkeys(text for text, _ in rows))
+    vecs = dict(zip(uniq, embed_many(uniq)))
     for _ in range(epochs):
         for text, label in rows:
-            vec = embed(text)
-            proba = _softmax(clf._logits(text))
+            vec = vecs[text]
+            proba = _softmax(
+                [
+                    sum(w * v for w, v in zip(clf.weights[k], vec)) + clf.bias[k]
+                    for k in range(N_INTENTS)
+                ]
+            )
             step = lr * weights.get(label, 1.0)
             for k in range(N_INTENTS):
                 err = proba[k] - (1.0 if label == k + 1 else 0.0)
@@ -211,14 +236,24 @@ def _load_bankings77_csv(path):
     return rows
 
 
-def train_phase_a(csv_path=None):
+def train_phase_a(csv_path=None, social_path=None):
     """Phase A: Banking77-format CSV if present else synthetic fixtures.
 
-    Returns (classifier, ceiling metrics via metrics.classification_metrics)."""
+    social_path appends mined cross-brand social rows (labels 7/8, absent
+    from Banking77) — the ceiling is then measured on banking77 test for
+    1-6/9 plus probe accuracy for 7/8. Returns (classifier, ceiling metrics
+    via metrics.classification_metrics)."""
     if csv_path and Path(csv_path).exists():
         rows = _load_bankings77_csv(csv_path)
     else:
         rows = _synthetic_rows()
+    if social_path and Path(social_path).exists():
+        with open(social_path) as fh:
+            for line in fh:
+                line = line.strip()
+                if line:
+                    row = json.loads(line)
+                    rows.append((row["text"], int(row["label"])))
     clf = _train_head(rows)
     pred = [clf.predict(text) for text, _ in rows]
     metrics = classification_metrics([label for _, label in rows], pred)
