@@ -116,6 +116,24 @@ class IntentClassifier:
     def calibrated_confidence(self, text):
         return max(self.predict_proba(text))
 
+    def to_dict(self):
+        """Persistable head (embedding stays frozen upstream)."""
+        return {
+            "weights": self.weights,
+            "bias": self.bias,
+            "temperature": self.temperature,
+            "threshold": self.threshold,
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        clf = cls()
+        clf.weights = [list(row) for row in data["weights"]]
+        clf.bias = list(data["bias"])
+        clf.temperature = data.get("temperature", 1.0)
+        clf.threshold = data.get("threshold", 0.5)
+        return clf
+
 
 def _train_head(rows, epochs=EPOCHS, lr=LR, balanced=True):
     clf = IntentClassifier()
@@ -239,7 +257,7 @@ def _load_bankings77_csv(path):
     return rows
 
 
-def train_phase_a(csv_path=None, social_path=None):
+def train_phase_a(csv_path=None, social_path=None, social_rows=None):
     """Phase A: Banking77-format CSV if present else synthetic fixtures.
 
     social_path appends mined cross-brand social rows (labels 7/8, absent
@@ -250,7 +268,9 @@ def train_phase_a(csv_path=None, social_path=None):
         rows = _load_bankings77_csv(csv_path)
     else:
         rows = _synthetic_rows()
-    if social_path and Path(social_path).exists():
+    if social_rows is not None:
+        rows.extend((text, int(label)) for text, label in social_rows)
+    elif social_path and Path(social_path).exists():
         with open(social_path) as fh:
             for line in fh:
                 line = line.strip()

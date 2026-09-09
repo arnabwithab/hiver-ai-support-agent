@@ -84,6 +84,19 @@ def _write_social_fixture(path):
         writer.writerows(rows)
 
 
+def test_split_social_stratifies_and_disjoints():
+    rows = [{"text": f"t{i}", "label": 7} for i in range(10)] + [
+        {"text": f"g{i}", "label": 8} for i in range(10)
+    ]
+    train, eval_rows = subsample.split_social(rows, n_eval=3, seed=7)
+    assert len(train) == 14 and len(eval_rows) == 6
+    assert {r["label"] for r in eval_rows} == {7, 8}
+    assert not {r["text"] for r in train} & {r["text"] for r in eval_rows}
+    # seeded: same split twice
+    again = subsample.split_social(rows, n_eval=3, seed=7)
+    assert again == (train, eval_rows)
+
+
 def test_mine_social_keeps_clean_thanks_and_greetings(tmp_path):
     csv_path = str(tmp_path / "twcs.csv")
     out_path = str(tmp_path / "social.jsonl")

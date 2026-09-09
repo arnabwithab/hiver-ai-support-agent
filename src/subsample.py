@@ -180,6 +180,23 @@ def mine_social(
     return counts
 
 
+def split_social(rows, n_eval=100, seed=SOCIAL_SEED):
+    """Seeded train/eval split of mined social rows, stratified by label.
+
+    The eval side gives 7/8 real precision/recall (Banking77 has none).
+    Production trains on all rows; measurement trains on train-only."""
+    rng = random.Random(seed)
+    by_label = {}
+    for row in rows:
+        by_label.setdefault(int(row["label"]), []).append(row)
+    train, eval_rows = [], []
+    for label, items in sorted(by_label.items()):
+        rng.shuffle(items)
+        eval_rows.extend(items[:n_eval])
+        train.extend(items[n_eval:])
+    return train, eval_rows
+
+
 def main(csv_path=DEFAULT_CSV, out_path=DEFAULT_OUT):
     ids = collect_chase_ids(csv_path)
     threads = build_threads(csv_path, ids)

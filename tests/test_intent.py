@@ -35,6 +35,13 @@ def test_embed_is_frozen_sentence_vector():
     assert intent.EMBEDDING_MODEL == "all-MiniLM-L6-v2"
 
 
+def test_head_weights_round_trip():
+    clf = _trained()
+    clone = intent.IntentClassifier.from_dict(clf.to_dict())
+    assert clone.predict("where is my refund") == clf.predict("where is my refund")
+    assert clone.threshold == clf.threshold
+
+
 def test_predict_labels_are_ints_1_to_9():
     clf = _trained()
     for text in ["where is my refund", "thanks so much", "hello", "locked out"]:

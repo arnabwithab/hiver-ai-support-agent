@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 17,
-    "completed": 17,
+    "total": 18,
+    "completed": 18,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 17,
+    "tests_passing": 18,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -526,6 +526,33 @@
         }
       ],
       "notes": "Raters labeled SIMULATED proxy, not humans. Gemini 429 capped judging at 27/50; resume on quota reset.",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F017",
+      "name": "Social holdback eval + weight persistence + rater form",
+      "description": "split_social() 400/100 stratified split; real 7/8 heldback prec/rec (7: .969/.310, 8: .588/.970); IntentClassifier to_dict/from_dict; rater HTML form (65 threads, CSV export); v1 simulated panel deleted, 2-rater protocol (model r1 calibration done, human form pending).",
+      "status": "completed",
+      "priority": "high",
+      "module": "src/subsample.py + src/intent.py + data/golden/sheets/form.html",
+      "design_doc": "docs/design.md \u00a77, \u00a711",
+      "tests": {
+        "status": "passing",
+        "files": [
+          "tests/test_subsample.py",
+          "tests/test_intent.py"
+        ],
+        "notes": "split stratify/disjoint/seeded; weight round-trip preserves predictions"
+      },
+      "subtasks": [
+        {
+          "id": "F017-1",
+          "name": "Split + measure + form + panel reset",
+          "status": "completed"
+        }
+      ],
+      "notes": "Production trains on all 1000 social rows; split is measurement-only.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }

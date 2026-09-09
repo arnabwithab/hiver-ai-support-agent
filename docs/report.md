@@ -176,12 +176,16 @@ what reweighting hashed trigrams could not. Lesson recorded: the
 zero-dependency hashing stand-in cost 0.30 macro-F1 and should never
 have survived first contact with real data.
 
-Classes 7/8 (`R3` synthetic probes, 3 texts each): probe-acc 1.000 for
-both (was 0.000 — the head never emitted unseen classes). Banking77
-test carries no social rows, so real prec/rec for 7/8 remains
-unmeasurable there; prevalence measured on real threads instead:
-ChaseSupport 19.1% thanks / 6.2% greeting (n=1,974 attributed inbound),
-Tesco 23.6%/10.7%, Spotify 22.0%/3.6% (single-hop attribution, 64%
+Classes 7/8 (seeded 400-train/100-eval split of the 1,000 mined rows,
+`subsample.split_social`, eval texts never trained on): heldback
+prec/rec/F1 = 7: 0.969/0.310/0.470, 8: 0.588/0.970/0.732 (`R4`).
+Thanks is conservative (predicted rarely, right 97% of the time);
+greetings over-fire (catches 97%, precision 0.588 — mostly thanks
+misread as greeting plus leakage into 1/9). Synthetic probes agree
+(3/3 both). Banking77 carries no social rows, so this heldback is the
+only real 7/8 measurement. Prevalence on real threads: ChaseSupport
+19.1% thanks / 6.2% greeting (n=1,974 attributed inbound), Tesco
+23.6%/10.7%, Spotify 22.0%/3.6% (single-hop attribution, 64%
 unattributed, weak labels not gold).
 
 Chase subsample (`src/subsample.py`, fixpoint over `twcs.csv`, 5 passes
