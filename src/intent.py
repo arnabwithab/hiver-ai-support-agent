@@ -114,11 +114,90 @@ def _synthetic_rows():
     return [(text, label) for label, texts in _SYNTHETIC.items() for text in texts]
 
 
+# F013: Banking77 label_text → 9-way map. Intents 7/8 intentionally empty
+# (Banking77 has no social intents — reported gap, not a bug); unlisted → 9.
+_BANKING77_GROUPS = {
+    1: (
+        "transaction_charged_twice",
+        "extra_charge_on_statement",
+        "card_payment_fee_charged",
+        "cash_withdrawal_charge",
+        "exchange_charge",
+        "top_up_by_bank_transfer_charge",
+        "top_up_by_card_charge",
+        "transfer_fee_charged",
+        "card_payment_wrong_exchange_rate",
+        "wrong_exchange_rate_for_cash_withdrawal",
+        "wrong_amount_of_cash_received",
+        "reverted_card_payment?",
+    ),
+    2: ("request_refund", "Refund_not_showing_up", "top_up_reverted"),
+    3: (
+        "unable_to_verify_identity",
+        "verify_my_identity",
+        "verify_source_of_funds",
+        "verify_top_up",
+        "why_verify_identity",
+        "passcode_forgotten",
+        "pin_blocked",
+        "change_pin",
+        "lost_or_stolen_phone",
+        "edit_personal_details",
+    ),
+    4: (
+        "card_arrival",
+        "card_delivery_estimate",
+        "order_physical_card",
+        "get_physical_card",
+        "getting_spare_card",
+        "getting_virtual_card",
+        "get_disposable_virtual_card",
+    ),
+    5: (
+        "activate_my_card",
+        "apple_pay_or_google_pay",
+        "card_linking",
+        "disposable_card_limits",
+        "top_up_limits",
+        "exchange_rate",
+        "supported_cards_and_currencies",
+        "visa_or_mastercard",
+        "fiat_currency_support",
+        "country_support",
+        "card_acceptance",
+        "age_limit",
+        "automatic_top_up",
+        "exchange_via_app",
+        "top_up_by_cash_or_cheque",
+        "topping_up_by_card",
+        "transfer_into_account",
+        "transfer_timing",
+        "receiving_money",
+    ),
+    6: ("terminate_account", "compromised_card", "lost_or_stolen_card"),
+}
+
+BANKING77_MAP = {
+    label_text: label for label, texts in _BANKING77_GROUPS.items() for label_text in texts
+}
+
+
+def banking77_label(label_text):
+    """Banking77 label_text → intent 1-9; unlisted → 9 (other)."""
+    return BANKING77_MAP.get(label_text, 9)
+
+
 def _load_bankings77_csv(path):
     rows = []
     with open(path, newline="") as fh:
-        for row in csv.DictReader(fh):
-            if row.get("text") and row.get("label"):
+        reader = csv.DictReader(fh)
+        use_text = reader.fieldnames and "label_text" in reader.fieldnames
+        for row in reader:
+            if not row.get("text"):
+                continue
+            if use_text and row.get("label_text"):
+                rows.append((row["text"], banking77_label(row["label_text"])))
+            elif row.get("label"):
                 rows.append((row["text"], int(row["label"])))
     return rows
 

@@ -2,11 +2,11 @@
   "project": "hiver-chase-support-agent",
   "last_updated": "2026-09-09",
   "summary": {
-    "total": 13,
-    "completed": 13,
+    "total": 14,
+    "completed": 14,
     "in_progress": 0,
     "planned": 0,
-    "tests_passing": 13,
+    "tests_passing": 14,
     "tests_failing": 0,
     "tests_missing": 0
   },
@@ -281,6 +281,28 @@
         {"id": "F012-2", "name": "Fill from eval artifacts + failure analysis", "status": "completed"}
       ],
       "notes": "Last feature. Real-stratum accuracy 0.250 (9/36) is the honest headline; TF-IDF beats the trigram head; rater protocol unrun (sheets blank) so no kappa reported.",
+      "added": "2026-09-09",
+      "completed": "2026-09-09"
+    },
+    {
+      "id": "F013",
+      "name": "Real-data training (Banking77 + Chase subsample)",
+      "description": "BANKING77_MAP label_text→ints 1-9 (7/8 empty, unlisted→9); _load_bankings77_csv prefers label_text with int fallback; src/subsample.py fixpoint Chase thread collection (turns only, unlabeled); train_phase_a on real train.csv + test ceiling; Phase-A numbers in docs/report.md §7.",
+      "status": "completed",
+      "priority": "high",
+      "module": "src/intent.py + src/subsample.py",
+      "design_doc": "docs/design.md §7",
+      "tests": {
+        "status": "passing",
+        "files": ["tests/test_intent.py", "tests/test_subsample.py"],
+        "notes": "5 new tests pass: 17 label_text spot-checks + unlisted→9 + 7/8 zero-coverage; label_text-preferred/int-fallback reader; fixpoint collects 2-hop chain, ignores unrelated brand, turns-only threads, inbound-only weak-label counts. Ceiling (50 epochs, 77s): test acc 0.507/macro-F1 0.419 n=3080; Chase: 6887 threads/19110 rows, weak-label 49% other."
+      },
+      "subtasks": [
+        {"id": "F013-1", "name": "BANKING77_MAP + csv reader", "status": "completed"},
+        {"id": "F013-2", "name": "Chase subsample + weak-label distribution", "status": "completed"},
+        {"id": "F013-3", "name": "Phase-A train + ceiling + report §7", "status": "completed"}
+      ],
+      "notes": "Phase A banking77 is exempt from the golden-dev-only guardrail (AGENTS.md). dev.csv is byte-identical to test.csv in the mirror dump; train∩test overlap 0/3080.",
       "added": "2026-09-09",
       "completed": "2026-09-09"
     }

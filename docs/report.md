@@ -109,3 +109,33 @@ ones. The number to quote is **real-stratum 9/36**, not 33/60.
 13. Golden hygiene: adapt-dev-only training; 30% locked hold-out.
 14. Cache-first repro keyed by (provider, model, prompt hash).
 15. Intent 4 rescoped to card_delivery on measured 0.6% volume.
+
+## 7. Phase A real-data ceiling (F013, run 2026-09-09)
+
+`train_phase_a('data/raw/banking77/train.csv')`, label_text → 9-way map
+(`src/intent.BANKING77_MAP`, unlisted → 9), default **50 epochs** (timed
+1.6 s/epoch, 77 s wall — cheap enough that no reduction was needed).
+
+| split | n | accuracy | macro-F1 | source |
+|---|---|---|---|---|
+| train (in-sample) | 10003 | 0.486 | 0.402 | `R` |
+| test (ceiling) | 3080 | 0.507 | 0.419 | `R` |
+
+`R` = run stdout 2026-09-09 (`train_phase_a` + `classification_metrics`
+on mapped test). Mapped test counts `R`: {1: 480, 2: 120, 3: 400,
+4: 280, 5: 760, 6: 120, 9: 920}; train `R`: {1: 1894, 2: 477,
+3: 1150, 4: 815, 5: 2240, 6: 276, 9: 3151}. Intents 7/8 have
+**zero coverage in train and test** (Banking77 carries no social
+intents — asserted in `tests/test_intent.py`, reported gap not a bug).
+Per-class test F1 `R`: 1: 0.611, 2: 0.229, 3: 0.678, 4: 0.255,
+5: 0.543, 6: 0.239, 9: 0.374 — rare money intents (2/4/6) collapse
+under the hashing-trigram head. Mirror quirk: `dev.csv` is
+byte-identical to `test.csv`; train ∩ test overlap is 0/3080, so the
+ceiling stands.
+
+Chase subsample (`src/subsample.py`, fixpoint over `twcs.csv`, 5 passes
+to convergence, 33 s): **6887 threads / 19110 rows** written to
+gitignored `data/raw/chase/chase_threads.jsonl` (turns only, unlabeled).
+Weak-label distribution over 10059 inbound texts `R`:
+{1: 609, 2: 55, 3: 238, 4: 1299, 5: 561, 6: 463, 7: 898, 8: 1014,
+9: 4922} — 49% fall through to `other`, the Phase B gap in one number.

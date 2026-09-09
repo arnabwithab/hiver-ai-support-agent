@@ -117,3 +117,69 @@ def test_intent_names_cover_all_nine():
         "greeting_smalltalk",
         "other",
     ]
+
+
+# --- F013: Banking77 label_text → 9-way map ---
+
+
+def test_banking77_map_spot_check():
+    spot = {
+        "transaction_charged_twice": 1,
+        "extra_charge_on_statement": 1,
+        "reverted_card_payment?": 1,
+        "request_refund": 2,
+        "Refund_not_showing_up": 2,
+        "top_up_reverted": 2,
+        "unable_to_verify_identity": 3,
+        "change_pin": 3,
+        "card_arrival": 4,
+        "order_physical_card": 4,
+        "get_disposable_virtual_card": 4,
+        "activate_my_card": 5,
+        "exchange_rate": 5,
+        "receiving_money": 5,
+        "terminate_account": 6,
+        "compromised_card": 6,
+        "lost_or_stolen_card": 6,
+    }
+    assert len(spot) >= 10
+    for label_text, want in spot.items():
+        assert intent.banking77_label(label_text) == want, label_text
+
+
+def test_banking77_map_unlisted_is_other():
+    for label_text in (
+        "atm_support",
+        "balance_not_updated_after_bank_transfer",
+        "nope_not_a_label",
+    ):
+        assert intent.banking77_label(label_text) == 9
+
+
+def test_banking77_map_leaves_social_empty():
+    # Banking77 has no praise/greeting intents: reported gap, not a bug.
+    assert set(intent.BANKING77_MAP.values()) <= {1, 2, 3, 4, 5, 6, 9}
+    assert 7 not in intent.BANKING77_MAP.values()
+    assert 8 not in intent.BANKING77_MAP.values()
+
+
+def test_load_bankings77_prefers_label_text(tmp_path):
+    path = tmp_path / "b77.csv"
+    path.write_text(
+        "text,label,label_text\n"
+        "my card has not arrived,5,card_arrival\n"  # int 5 disagrees: label_text wins → 4
+        "thanks a lot,7,activate_my_card\n"  # label_text wins → 5
+    )
+    assert intent._load_bankings77_csv(str(path)) == [
+        ("my card has not arrived", 4),
+        ("thanks a lot", 5),
+    ]
+
+
+def test_load_bankings77_falls_back_to_int_label(tmp_path):
+    path = tmp_path / "b77.csv"
+    path.write_text("text,label\nwhere is my refund,2\nhello there,8\n")
+    assert intent._load_bankings77_csv(str(path)) == [
+        ("where is my refund", 2),
+        ("hello there", 8),
+    ]
