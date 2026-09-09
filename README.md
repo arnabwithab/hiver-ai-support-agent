@@ -4,8 +4,6 @@
   <img src="https://img.shields.io/badge/python-3.11-blue" alt="python 3.11" />
   <img src="https://img.shields.io/badge/black-24-blue" alt="black" />
   <img src="https://img.shields.io/badge/ruff-0.6-blue" alt="ruff" />
-  <img src="https://img.shields.io/badge/pytest-118_passed-green" alt="pytest 118 passed" />
-  <img src="https://img.shields.io/badge/llm-Groq_%2B_Gemini-orange" alt="Groq + Gemini" />
 </p>
 
 <p align="center">
