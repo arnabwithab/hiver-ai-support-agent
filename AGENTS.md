@@ -69,13 +69,26 @@ Makefile targets are thin wrappers over `python -m src...` / `pytest` — no bus
 ├── Makefile  .env.example  .gitignore  README.md  AGENTS.md
 ```
 
-## Parallel work
+## Multi-Agent Workflow
 
-If `docs/features.json` holds ≥3 independent features (different modules, no shared
-state), spawn up to 3 builder subagents via the Task tool (definitions live in
-`~/.config/opencode/agents/`); dependent features sharing files go sequentially in one
-agent. After builders finish, run ponytail-reviewer on the combined diff, then
-`make test && make style`. No frontend exists, so the E2E/browser step is skipped.
+When `docs/features.json` contains 3 or more independent features (different modules, no shared state), the Build agent parallelizes implementation using subagents.
+
+### Flow
+
+1. **Plan**: Identify independent features from `features.json`. Features touching the same files are dependent and batched sequentially.
+2. **Build**: Spawn up to 3 builder subagents at a time via the Task tool. When one completes, spawn the next pending feature.
+3. **E2E** (if applicable): When all builders complete, spawn the playwright-tester to run browser tests.
+4. **Review**: Spawn the ponytail-reviewer to audit the combined diff for over-engineering. Ponytail only works on the full picture — review the combined diff, not per-feature. It must be an adversarial agent.
+5. **Verify**: Run `make test && make style`.
+
+### Subagents
+
+Subagents are defined in `~/.config/opencode/agents/` and available globally. All three use `model: opencode-go/deepseek-v4-flash`.
+
+| Agent | File | Purpose | Permissions |
+|-------|------|---------|-------------|
+| builder | `builder.md` | TDD one feature, writes tests then implementation | edit: allow, bash: allow, task: { \*: deny, playwright-tester: allow } |
+| ponytail-reviewer | `ponytail-reviewer.md` | Bloat/over-engineering audit on combined diff | edit: deny, bash: allow |
 
 ## Project-Specific Notes
 
