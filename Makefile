@@ -5,12 +5,14 @@
 
 .PHONY: setup dev test style build clean data subsample train
 
-# uv sync (idempotent; also installs sentence-transformers for the encoder)
+# uv sync (idempotent; bootstraps uv itself when missing)
 setup:
-	uv sync
+	@command -v uv >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
+	@export PATH="$$HOME/.local/bin:$$HOME/.cargo/bin:$$PATH"; uv sync
 
-# raw Kaggle dumps (skipped when present; needs kaggle credentials)
+# raw Kaggle dumps (skipped when present; needs the kaggle CLI + credentials)
 data:
+	@command -v kaggle >/dev/null 2>&1 || (echo "install the kaggle CLI and configure ~/.kaggle/credentials.json first"; exit 1)
 	@test -f data/raw/banking77/train.csv || kaggle datasets download sssonnn/banking77 -p data/raw/banking77 --unzip
 	@test -f data/raw/twcs/twcs/twcs.csv || kaggle datasets download thoughtvector/customer-support-on-twitter -p data/raw/twcs --unzip
 
